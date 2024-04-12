@@ -2,7 +2,7 @@ init:
 	yarn install
 
 clean-dev:
-	yarn run clean
+	rm -rf .cache && rm -rf public && yarn run clean
 
 dev:
 	yarn run dev
