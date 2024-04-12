@@ -1,0 +1,49 @@
+{
+  "name": "puretime-property-purchasing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Looking to sell your house quickly? Puretime Property Purchasing offers a hassle-free solution for homeowners across the UK. Say goodbye to the lengthy process of traditional estate agents – with Puretime Property Purchasing, you can receive a quick offer and sell your house on your terms. Discover how we can help you unlock the cash from your home with our streamlined and transparent approach to selling property.",
+  "author": "Landify <hello@landify.design>",
+  "keywords": [
+    "home for sale uk",
+    "buy a house uk",
+    "spacious",
+    "property listing",
+    "house for sale",
+    "sell your house",
+    "property buying website",
+    "property selling website"
+  ],
+  "scripts": {
+    "dev": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "gatsby": "^4.10.3",
+    "gatsby-plugin-gatsby-cloud": "^4.10.1",
+    "gatsby-plugin-google-gtag": "^4.10.0",
+    "gatsby-plugin-image": "^2.10.1",
+    "gatsby-plugin-manifest": "^4.10.2",
+    "gatsby-plugin-offline": "^5.10.2",
+    "gatsby-plugin-react-helmet": "^5.10.0",
+    "gatsby-plugin-robots-txt": "^1.7.0",
+    "gatsby-plugin-sharp": "^4.10.2",
+    "gatsby-plugin-sitemap": "^5.10.2",
+    "gatsby-source-filesystem": "^4.10.1",
+    "gatsby-transformer-json": "^4.11.0",
+    "gatsby-transformer-sharp": "^4.10.0",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "gatsby-plugin-postcss": "^5.10.0",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
+  }
+}
