@@ -7,8 +7,8 @@ import Button from "./button";
 const Header = () => {
   const navigation = [
     { name: "About", href: "#" },
-    { name: "Services", href: "#" },
-    { name: "Our Work", href: "#" },
+    { name: "How It Works", href: "#" },
+    // { name: "Our Work", href: "#" },
   ];
   return (
     <header>
@@ -16,7 +16,7 @@ const Header = () => {
         <div className="flex py-5 justify-between items-center">
           <div className="flex flex-row gap-8 items-center">
             <Link to="/">
-              <img className="h-8 w-auto" src={Logo} alt="Logo" />
+              <img className="w-auto" src={Logo} alt="Logo" />
             </Link>
           </div>
           <div className="flex flex-row gap-6">
@@ -32,6 +32,9 @@ const Header = () => {
             </div>
             <Button label="CONTACT US" link="#" />
           </div>
+        </div>
+        <div>
+          <hr className="text-neutral-700"></hr>
         </div>
       </div>
     </header>
