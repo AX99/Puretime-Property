@@ -6,27 +6,36 @@ import WorkItem from "./workItem";
 import Eyebrow from "./eyebrow";
 import Button from "./button";
 
-const Works = () => {
+const Steps = () => {
   const data = useStaticQuery(graphql`
     {
-      allWorksJson {
+      allStepsJson {
         nodes {
-          id
-          title
-          description
-          image {
-            childImageSharp {
-              gatsbyImageData(
-                width: 592
-                placeholder: BLURRED
-                formats: [AUTO, WEBP, AVIF]
-              )
+          steps {
+            id
+            title
+            description
+            image {
+              childImageSharp {
+                gatsbyImageData(
+                  width: 592
+                  placeholder: BLURRED
+                  formats: [AUTO, WEBP, AVIF]
+                )
+              }
             }
+          }
+          page {
+            section
+            span
+            headline
           }
         }
       }
     }
   `);
+  const page = data.allStepsJson.nodes[0].page
+  const steps = data.allStepsJson.nodes[0].steps
   return (
     <div>
       <div className="container mx-auto">
@@ -34,13 +43,13 @@ const Works = () => {
           <div className="grid xl:grid-cols-12 grid-cols-1 xl:gap-8 gap-10 items-center">
             <div className="xl:col-span-6 lg:col-span-8 flex flex-col xl:gap-24 md:gap-20 gap-10">
               <div className="flex flex-col gap-6">
-                <Eyebrow label="RECENT WORKS" />
+
+                <Eyebrow label={page.section} />
                 <h3 className="font-display md:text-display-xl text-display-md font-normal pb-4">
-                  Some of <span className="italic">our crafts</span> made with
-                  love
+                  <span className="italic">{page.span}</span>{page.headline}
                 </h3>
               </div>
-              {data.allWorksJson.nodes.slice(0, 1).map((node) => (
+              {steps.slice(0, 1).map((node) => (
                 <WorkItem
                   key={node.id}
                   image={getImage(node.image)}
@@ -53,7 +62,7 @@ const Works = () => {
               </div>
             </div>
             <div className="xl:col-span-6 lg:col-span-8 flex flex-col xl:gap-24 md:gap-20 gap-10 xl:px-14">
-              {data.allWorksJson.nodes.slice(1, 3).map((node) => (
+              {steps.slice(1, 3).map((node) => (
                 <WorkItem
                   key={node.id}
                   image={getImage(node.image)}
@@ -72,4 +81,4 @@ const Works = () => {
   );
 };
 
-export default Works;
+export default Steps;

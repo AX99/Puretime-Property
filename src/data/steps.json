@@ -1,0 +1,29 @@
+[
+  {
+    "page": {
+      "section": "HOW IT WORKS",
+      "span": "3 Simple Steps",
+      "headline": " to sell your property with Puretime"
+    },
+    "steps": [
+      {
+        "id": 1,
+        "image": "../images/steps/work-1.png",
+        "title": "1. Tell Us About Your Property",
+        "description": "Contact us today, Fill out our form and send us details about your property."
+      },
+      {
+        "id": 2,
+        "image": "../images/steps/work-2.png",
+        "title": "2. Receive Your Offer",
+        "description": "We will make you an offer on your property."
+      },
+      {
+        "id": 3,
+        "image": "../images/steps/work-3.png",
+        "title": "3. Sell Your Property",
+        "description": "If you accept our offer, you can sit back, relax and we will sell your property for you!"
+      }
+    ]
+  }
+]
