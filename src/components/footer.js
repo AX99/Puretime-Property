@@ -1,17 +1,23 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import footerData from "../data/footer.json";
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
     {
-      allSocialJson {
+      allFooterJson {
         nodes {
-          id
-          name
-          href
-          icon {
-            publicURL
+          contact {
+            Address
+            Company
+            Email
+            Phone
+          }
+          social {
+            href
+            name
+            icon {
+              publicURL
+            }
           }
         }
       }
@@ -33,43 +39,43 @@ const Footer = () => {
               className="font-display md:text-display-lg text-display-sm italic text-primary-600 underline">
               Get in contact
             </a>
-          </div>{
-            footerData.map((footer) => (
-              <div className="lg:col-span-6 flex flex-col gap-8 xl:pl-80 lg:pl-48">
+          </div>
+          {data.allFooterJson.nodes[0].contact.map((detail) => (
+            <div className="lg:col-span-6 flex flex-col gap-8 xl:pl-80 lg:pl-48">
 
-                <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
 
-                  <p className="text-display-xs font-display font-normal">
-                    {data.Company}
-                  </p>
-                  <p className="text-body-sm font-light text-neutral-900">
-                    {data.Address}.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
+                <p className="text-display-xs font-display font-normal">
+                  {detail.Company}
+                </p>
+                <p className="text-body-sm font-light text-neutral-900">
+                  {detail.Address}.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
 
-                  <p className="text-body-sm font-light text-neutral-900">
-                    Email us at
-                  </p>
-                  <a
-                    className="text-display-xs font-display font-normal text-primary-600"
-                    href="mailto:{footer.Email}">
-                    {footer.Email}
-                  </a>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <p className="text-body-sm font-light text-neutral-900">
-                    To speak to someone, call us on
-                  </p>
-                  <a
-                    className="text-display-xs font-display font-normal text-primary-600"
-                    href="/">
-                    {footer.Phone}
-                  </a>
+                <p className="text-body-sm font-light text-neutral-900">
+                  Email us at
+                </p>
+                <a
+                  className="text-display-xs font-display font-normal text-primary-600"
+                  href={`mailto:${detail.Email}`}>
+                  {detail.Email}
+                </a>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-body-sm font-light text-neutral-900">
+                  To speak to someone, call us on
+                </p>
+                <a
+                  className="text-display-xs font-display font-normal text-primary-600"
+                  href="/">
+                  {detail.Phone}
+                </a>
 
-                </div>
+              </div>
 
-              </div>))}
+            </div>))}
         </div>
         <div className="md:my-20 my-10">
           <hr className="text-neutral-300"></hr>
@@ -92,7 +98,7 @@ const Footer = () => {
               <hr className="w-16 text-neutral-700"></hr>
             </div>
             <div className="flex flex-row  items-center gap-6">
-              {data.allSocialJson.nodes.map((node) => (
+              {data.allFooterJson.nodes[0].social?.map((node) => (
                 <a
                   href={node.href}
                   key={node.name}
