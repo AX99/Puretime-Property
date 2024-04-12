@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { GatsbyImage } from "gatsby-plugin-image";
 
-const WorkItem = ({ image, title, description }) => {
+const WorkItem = ({ image, title, description, ...props }) => {
   return (
-    <div className="flex basis-1/2 flex-col">
+    <div className="flex basis-1/2 flex-col" {...props}>
       <GatsbyImage image={image} alt={title} />
       <div className="flex flex-col self-stretch pt-6">
         <h3 className="font-display text-display-md pb-4">{title}</h3>

@@ -55,6 +55,7 @@ const Steps = () => {
                   image={getImage(node.image)}
                   title={node.title}
                   description={node.description}
+                  className="md:flex-row"
                 />
               ))}
               <div className="xl:flex hidden items-start">
