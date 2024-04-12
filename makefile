@@ -1,8 +1,11 @@
 init:
 	yarn install
 
-clean-dev:
+clean:
 	rm -rf .cache && rm -rf public && yarn run clean
+
+clean-dev:
+	rm -rf .cache && rm -rf public && yarn run clean && make dev
 
 dev:
 	yarn run dev

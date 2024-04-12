@@ -1,7 +1,10 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/pages/**/*.{js,jsx,ts,tsx}",
+    "./src/components/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -20,7 +23,7 @@ module.exports = {
       white: "#FFFFFF",
       black: "#000000",
       primary: {
-        600: "#996830",
+        600: "#BD8334",
         300: "#C4A386",
         100: "#E6D8CC",
       },
@@ -140,5 +143,9 @@ module.exports = {
         },
       });
     }),
+    // require('@tailwindcss/typography'),
+    // require('@tailwindcss/forms'),
+    // require('@tailwindcss/aspect-ratio'),
+    // require('@tailwindcss/container-queries'),
   ],
 };
