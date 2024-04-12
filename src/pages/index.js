@@ -5,7 +5,8 @@ import Layout from "../components/layout";
 import Hero from "../components/hero";
 // import Metrics from "../components/metrics";
 // import Services from "../components/services";
-import Awards from "../components/awards";
+// import Awards from "../components/awards";
+import Input from "../components/input";
 import About from "../components/about";
 import Steps from "../components/steps";
 
@@ -13,7 +14,8 @@ const IndexPage = () => (
   <Layout>
     <Seo />
     <Hero />
-    <Awards />
+    {/* <Awards /> */}
+    <Input />
     <About />
     {/* <Metrics /> */}
     {/* <Services /> */}
