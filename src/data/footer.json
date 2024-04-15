@@ -4,12 +4,17 @@
             {
                 "name": "Instagram",
                 "icon": "../images/social-icons/instagram.svg",
-                "href": "#"
+                "href": "https://www.instagram.com/puretimepropertypurchasing"
             },
             {
                 "name": "Facebook",
                 "icon": "../images/social-icons/facebook.svg",
                 "href": "https://www.facebook.com/people/Puretime-Property/61557521016590/"
+            },
+            {
+                "name": "Twitter",
+                "icon": "../images/social-icons/twitter.svg",
+                "href": "https://www.x.com/"
             }
         ],
         "contact": [

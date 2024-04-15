@@ -36,7 +36,7 @@ const Footer = () => {
             </h3>
             <a
               href="/"
-              className="font-display md:text-display-lg text-display-sm italic text-primary-600 underline">
+              className="font-display md:text-display-lg text-display-sm italic text-primary-600 underline decoration-black underline-offset-2">
               Get in contact
             </a>
           </div>
@@ -45,7 +45,7 @@ const Footer = () => {
 
               <div className="flex flex-col gap-2">
 
-                <p className="text-display-xs font-display font-normal">
+                <p className="text-display-xs font-display font-normal underline decoration-primary-600">
                   {detail.Company}
                 </p>
                 <p className="text-body-sm font-light text-neutral-900">
@@ -54,8 +54,8 @@ const Footer = () => {
               </div>
               <div className="flex flex-col gap-2">
 
-                <p className="text-body-sm font-light text-neutral-900">
-                  Email us at
+                <p className="text-body-sm font-light text-neutral-900 decoration-primary-600 underline">
+                  Email us at:
                 </p>
                 <a
                   className="text-display-xs text-wrap font-display font-normal text-primary-600"
@@ -64,7 +64,7 @@ const Footer = () => {
                 </a>
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-body-sm font-light text-neutral-900">
+                <p className="text-body-sm font-light text-neutral-900 decoration-primary-600 underline">
                   To speak to someone, call us on
                 </p>
                 <a
