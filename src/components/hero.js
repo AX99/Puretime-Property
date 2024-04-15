@@ -50,7 +50,7 @@ const Hero = () => {
           <img
             src={CtaButton}
             alt="Get an offer"
-            className="absolute rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 border- lg:left-[44%] md:left-[42%] left-[40%] -top-8"
+            className="absolute rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 lg:left-[44%] md:left-[42%] left-[40%] -top-8"
           />
         </a>
       </div>

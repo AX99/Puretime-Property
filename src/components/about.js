@@ -31,7 +31,7 @@ const About = () => {
           <div className="lg:col-span-6 flex flex-col gap-6">
             <Eyebrow label={page.section} />
             <h2 className="font-display md:text-display-xl text-display-md font-normal pb-4">
-              <span className="italic underline underline-offset-2 decoration">{page.headline}</span>
+              <span className="italic underline underline-offset-2 decoration-primary-600">{page.headline}</span>
             </h2>
             <p className="md:text-body-lg text-body-md font-light text-neutral-700">
               {page.paragraph1}
