@@ -5,13 +5,16 @@ clean:
 	rm -rf .cache && rm -rf public && yarn run clean
 
 clean-dev:
-	rm -rf .cache && rm -rf public && yarn run clean && make dev
+	make clean && make dev
 
 dev:
 	yarn run dev
 
 dev-m:
-	yarn astro dev --host
+	yarn run dev-net
+
+clean-dev-m:
+	make clean && make dev-m
 
 format:
 	yarn run format
