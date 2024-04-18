@@ -54,7 +54,7 @@ const Steps = () => {
                   image={getImage(node.image)}
                   title={node.title}
                   description={node.description}
-                  className="md:flex-row"
+                // className="md:flex-row"
                 />
               ))}
               <div className="xl:flex justify-center hidden items-start">
@@ -72,7 +72,7 @@ const Steps = () => {
               ))}
             </div>
           </div>
-          <div className="xl:hidden flex items-start">
+          <div className="xl:hidden flex items-start justify-center">
             <Button className="rounded-full" label="CONTACT US" link="/" size="lg" />
           </div>
         </div>

@@ -38,7 +38,7 @@ const Hero = () => {
             <h1 className="font-display md:text-display-2xl underline underline-offset-4 text-display-lg">
               {node.header}<span className="italic text-primary-600">{node.span}</span>
             </h1>
-            <p className="col-span-8 md:text-body-xl text-body-lg font-light text-neutral-700 max-w-[800px]">
+            <p className="col-span-8 md:text-body-xl text-body-lg font-light text-neutral-700 max-w-[850px] whitespace-pre-line">
               <span className="font-bold underline underline-offset-2 decoration-black text-primary-600">{spanWords}</span> {subheadingArray.slice(3).join(" ")}{" "}
             </p>
           </div>
@@ -50,7 +50,7 @@ const Hero = () => {
           <img
             src={CtaButton}
             alt="Get an offer"
-            className="absolute rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 lg:left-[44%] md:left-[42%] left-[40%] -top-8"
+            className="absolute rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 lg:left-[44%] md:left-[42%] left-[40%] -top-8 hidden md:block"
           />
         </a>
       </div>

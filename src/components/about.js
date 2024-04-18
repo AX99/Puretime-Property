@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
 import Eyebrow from "./eyebrow";
-import AwardBadge from "../images/award-badge.svg";
+// import AwardBadge from "../images/award-badge.svg";
 
 const About = () => {
   const data = useStaticQuery(graphql`
@@ -19,6 +19,7 @@ const About = () => {
           headline
           paragraph1
           paragraph2
+          paragraph3
         }
       }
     }
@@ -37,7 +38,7 @@ const About = () => {
               {page.paragraph1}
             </p>
             <p className="md:text-body-lg text-body-md font-light text-neutral-700">
-              {page.paragraph2}
+              {page.paragraph2}<br />{page.paragraph3}
             </p>
           </div>
           <div className="lg:col-span-6 flex flex-col gap-8 relative">
@@ -45,11 +46,11 @@ const About = () => {
               image={getImage(data.aboutimage)}
               alt="Interior Design"
             />
-            <img
+            {/* <img
               src={AwardBadge}
               alt="Award Badge"
               className="absolute left-[42%] -top-14"
-            />
+            /> */}
           </div>
         </div>
         <div>
