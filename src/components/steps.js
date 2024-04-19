@@ -54,7 +54,16 @@ const Steps = () => {
                   image={getImage(node.image)}
                   title={node.title}
                   description={node.description}
-                // className="md:flex-row"
+                  className="xl:hidden"
+                />
+              ))}
+              {steps.slice(1, 2).map((node) => (
+                <WorkItem
+                  key={node.id}
+                  image={getImage(node.image)}
+                  title={node.title}
+                  description={node.description}
+                  className="hidden xl:flex"
                 />
               ))}
               <div className="xl:flex justify-center hidden items-start">
@@ -62,19 +71,29 @@ const Steps = () => {
               </div>
             </div>
             <div className="xl:col-span-6 lg:col-span-8 flex flex-col xl:gap-24 md:gap-20 gap-10 xl:px-14">
+              {steps.filter((_, index) => index % 2 === 0).map((node) => ( // Selecting first and third items
+                <WorkItem
+                  key={node.id}
+                  image={getImage(node.image)}
+                  title={node.title}
+                  description={node.description}
+                  className="hidden xl:flex"
+                />
+              ))}
               {steps.slice(1, 3).map((node) => (
                 <WorkItem
                   key={node.id}
                   image={getImage(node.image)}
                   title={node.title}
                   description={node.description}
+                  className="xl:hidden"
                 />
               ))}
             </div>
           </div>
-          <div className="xl:hidden flex items-start justify-center">
-            <Button className="rounded-full" label="CONTACT US" link="/" size="lg" />
-          </div>
+        </div>
+        <div className="xl:hidden flex items-start justify-center">
+          <Button className="rounded-full" label="CONTACT US" link="/" size="lg" />
         </div>
       </div>
     </div>
