@@ -1,19 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Input = () => {
-    // const [formData, setFormData] = useState({
-    //     formPostcode: ''
-    // });
-
-    // const handleChange = (e) => {
-    //     console.log(e.target.name, e.target.value);
-    //     setFormData({
-    //         ...formData,
-    //         [e.target.name]: e.target.value
-    //     });
-    // };
-
-    // console.log(formData);
     return (
         <div id="banner_input" className="bg-neutral-900 relatve">
             <div className="container mx-auto">
@@ -26,13 +13,11 @@ const Input = () => {
                                     type="text"
                                     className="w-full bg-neutral-800 text-body-lg hidden md:inline-block font-light px-6 py-4"
                                     placeholder="Enter Your Postcode For A Free Valuation"
-                                // onChange={handleChange}
                                 />
                                 <input
                                     type="text"
                                     className="w-full bg-neutral-800 inline-block md:hidden text-body-md font-light px-6 py-4"
                                     placeholder="Enter Your Postcode"
-                                // onChange={handleChange}
                                 />
                                 <button
                                     className="absolute top-0 right-0

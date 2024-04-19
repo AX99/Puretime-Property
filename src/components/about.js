@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
 import Eyebrow from "./eyebrow";
-// import AwardBadge from "../images/award-badge.svg";
+// import Logo from "../images/logos/logo-ring.svg";
 
 const About = () => {
   const data = useStaticQuery(graphql`
@@ -47,8 +47,8 @@ const About = () => {
               alt="Interior Design"
             />
             {/* <img
-              src={AwardBadge}
-              alt="Award Badge"
+              src={Logo}
+              alt="Logo Ring"
               className="absolute left-[42%] -top-14"
             /> */}
           </div>

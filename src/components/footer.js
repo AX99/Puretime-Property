@@ -70,7 +70,7 @@ const Footer = () => {
                   </p>
                   <a
                     className="text-display-xs font-display font-normal text-primary-600"
-                    href="/">
+                    href={`tel:${detail.Phone}`}>
                     {detail.Phone}
                   </a>
 
