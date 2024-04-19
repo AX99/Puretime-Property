@@ -41,8 +41,8 @@ const Footer = () => {
                 Get in contact
               </a>
             </div>
-            {data.allFooterJson.nodes[0].contact.map((detail) => (
-              <div className="lg:col-span-6 flex flex-col gap-8 xl:pl-30 lg:pl-48">
+            {data.allFooterJson.nodes[0].contact.map((detail, i) => (
+              <div key={i} className="lg:col-span-6 flex flex-col gap-8 xl:pl-30 lg:pl-48">
 
                 <div className="flex flex-col gap-2">
 

@@ -17,7 +17,7 @@ const WorkItem = ({ image, title, description, ...props }) => {
 };
 
 WorkItem.propTypes = {
-  image: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
 };
