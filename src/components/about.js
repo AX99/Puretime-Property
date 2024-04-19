@@ -27,7 +27,7 @@ const About = () => {
   const page = data.allAboutJson.nodes[0];
   return (
     <div>
-      <div className="container mx-auto">
+      <div id="about" className="container mx-auto">
         <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-8 gap-20 lg:py-32 py-12 items-center">
           <div className="lg:col-span-6 flex flex-col gap-6">
             <Eyebrow label={page.section} />
