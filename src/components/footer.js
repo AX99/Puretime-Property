@@ -46,7 +46,7 @@ const Footer = () => {
               </a>
             </div>
             {data.allFooterJson.nodes[0].contact.map((detail, i) => (
-              <div key={i} className="lg:col-span-6 flex flex-col gap-8 xl:pl-30 lg:pl-48">
+              <div key={i} className="lg:col-span-6 flex flex-col gap-8 xl:pl-30 lg:pl-14">
 
                 <div className="flex flex-col gap-2">
 
@@ -59,7 +59,7 @@ const Footer = () => {
                 </div>
                 <div className="flex flex-col gap-2">
 
-                  <p className="text-body-sm font-light text-neutral-900 decoration-primary-600 underline">
+                  <p className="sm:text-body-xs font-light text-neutral-900 decoration-primary-600 underline">
                     Email us at:
                   </p>
                   <a
