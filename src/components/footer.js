@@ -59,7 +59,7 @@ const Footer = () => {
                 </div>
                 <div className="flex flex-col gap-2">
 
-                  <p className="sm:text-body-xs font-light text-neutral-900 decoration-primary-600 underline">
+                  <p className="text-body-sm font-light text-neutral-900 decoration-primary-600 underline">
                     Email us at:
                   </p>
                   <a
