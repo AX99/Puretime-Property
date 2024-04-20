@@ -16,7 +16,7 @@ const Modal = () => {
                 (<div id="contact_modal" onClick={handleCloseModal} className="fixed z-[10000] inset-0 bg-black bg-opacity-30 backdrop-blur-sm items-center flex flex-col justify-center overflow-hidden mx-auto ">
                     <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
                         <div>
-                            <span onClick={closeModal} className="inline-block p-2 overflow-hidden text-center relative top-0 right-0 float-right text-body-lg text-primary-600 cursor-pointer whitespace-nowrap align-middle m-0">&times;</span>
+                            <span onClick={closeModal} className="inline-block p-2 overflow-hidden text-center relative top-0 right-0 float-right text-display-md text-primary-600 cursor-pointer whitespace-nowrap align-middle m-0">&times;</span>
                         </div>
                         <div
                             className="container mx-auto bg-white px-9 pt-1 pb-4 shadow rounded-4"
