@@ -27,53 +27,55 @@ const Hero = () => {
       }
     }
   `);
+  if (window !== "undefined") {
+    // your document or window manipulation
+    function highlightElement(elementId) {
+      const element = document.getElementById(elementId);
 
-  function highlightElement(elementId) {
-    const element = document.getElementById(elementId);
-
-    if (!element) {
-      console.error('Element not found');
-      return;
-    }
-
-
-    // Apply darker overlay
-    const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    overlay.style.zIndex = '9999';
-    overlay.style.transition = 'background-color 0.2s';
-    document.body.appendChild(overlay);
-
-    setTimeout(() => {
-      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    });
-
-    // Increase z-index of the element with fade-in effect
-    const originalZIndex = 'auto';
-
-    element.style.transition = 'z-index 0.2s';
-    element.style.zIndex = '100000';
+      if (!element) {
+        console.error('Element not found');
+        return;
+      }
 
 
-    // Focus on the input inside the element
-    const inputElement = element.querySelector('input');
-    if (inputElement) {
-      inputElement.focus();
-    }
-
-    // Revert changes with fade-out effect after 3 seconds
-    setTimeout(() => {
+      // Apply darker overlay
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
       overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-      element.style.zIndex = originalZIndex;
+      overlay.style.zIndex = '9999';
+      overlay.style.transition = 'background-color 0.2s';
+      document.body.appendChild(overlay);
+
       setTimeout(() => {
-        document.body.removeChild(overlay);
-      }, 1000);
-    }, 2000);
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      });
+
+      // Increase z-index of the element with fade-in effect
+      const originalZIndex = 'auto';
+
+      element.style.transition = 'z-index 0.2s';
+      element.style.zIndex = '100000';
+
+
+      // Focus on the input inside the element
+      const inputElement = element.querySelector('input');
+      if (inputElement) {
+        inputElement.focus();
+      }
+
+      // Revert changes with fade-out effect after 3 seconds
+      setTimeout(() => {
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        element.style.zIndex = originalZIndex;
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+        }, 1000);
+      }, 2000);
+    }
   }
 
   const nodes = data.allHeroJson.nodes;
