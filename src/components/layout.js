@@ -8,9 +8,7 @@ import Modal from "./modal";
 
 const Layout = ({ children }) => (
   <>
-    <Helmet>
-      <script src="https://gumroad.com/js/gumroad.js" />
-    </Helmet>
+    <Helmet />
     <Header />
     <div>
       <main>{children}</main>

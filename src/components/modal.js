@@ -27,11 +27,15 @@ const Modal = () => {
                                     <form
                                         id="contact_form"
                                         name="contact"
-                                        method="post"
+                                        method="POST"
                                         data-netlify="true"
                                         data-netlify-honeypot="bot-field" className="mt-6">
-                                        {/* You still need to add the hidden input with the form name to your JSX form */}
-                                        <input type="hidden" name="form-name" value="contact" />
+                                        <div className="hidden">
+                                            <label>
+                                                Don’t fill this out if you’re human: <input name="bot-field" />
+                                            </label>
+
+                                        </div>
                                         <div className="mb-2">
                                             <label
                                                 htmlFor="firstName"
