@@ -63,7 +63,7 @@ const Footer = () => {
                     Email us at:
                   </p>
                   <a
-                    className="sm:text-display-xs text-wrap font-display font-normal text-primary-600"
+                    className="xl:text-display-xs text-wrap font-display font-normal text-primary-600"
                     href={`mailto:${detail.Email}?subject=Request%20a%20Home%20Valuation`}>
                     {detail.Email}
                   </a>
