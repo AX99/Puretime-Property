@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "gatsby";
 
 import Logo from "../images/logos/logo.svg";
-import Button from "./button";
 import ScrollIntoView from 'react-scroll-into-view'
+import { useModal } from "../context/modalContext";
 
 
 const Header = () => {
@@ -11,6 +11,8 @@ const Header = () => {
     { name: "About", href: "about" },
     { name: "How It Works", href: "steps" },
   ];
+
+  const { openModal } = useModal();
   return (
     <>
       <header>
@@ -27,13 +29,14 @@ const Header = () => {
                   <ScrollIntoView
                     key={item.name} selector={`#${item.href}`}>
                     <a
+                      href={"/#"}
                       className="cursor-pointer text-body-lg font-medium text-neutral-700 hover:text-primary-600 px-4">
                       {item.name}
                     </a>
                   </ScrollIntoView>
                 ))}
               </div>
-              <Button label="CONTACT US" link="#" />
+              <button className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 text-white font-semibold cursor-pointer px-5 py-3 text-body-xs" onClick={openModal}>CONTACT US</button>
             </div>
           </div>
           <div>

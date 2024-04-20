@@ -96,13 +96,11 @@ const Hero = () => {
       <div className="relative">
         <GatsbyImage image={getImage(data.heroimage)} alt="Interior Design" />
         <ScrollIntoView selector="#banner_input" onClick={() => highlightElement('div_input')}>
-          <a>
-            <img
-              src={CtaButton}
-              alt="Get an offer"
-              className="absolute cursor-pointer rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 hidden md:block"
-            />
-          </a>
+          <img
+            src={CtaButton}
+            alt="Get an offer"
+            className="absolute cursor-pointer rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 hidden md:block"
+          />
         </ScrollIntoView>
       </div>
     </div>

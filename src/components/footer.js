@@ -1,6 +1,8 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 
+import { useModal } from "../context/modalContext";
+
 const Footer = () => {
   const data = useStaticQuery(graphql`
     {
@@ -23,6 +25,7 @@ const Footer = () => {
       }
     }
   `);
+  const { openModal } = useModal();
   return (
     <>
       <footer>
@@ -36,8 +39,9 @@ const Footer = () => {
                 Kick-start your dream home with us
               </h3>
               <a
-                href="/"
-                className="font-display md:text-display-lg text-display-sm italic text-primary-600 underline decoration-black underline-offset-2">
+                href="/#"
+                onClick={openModal}
+                className="cursor-pointer font-display md:text-display-lg text-display-sm italic text-primary-600 underline decoration-black underline-offset-2">
                 Get in contact
               </a>
             </div>
@@ -60,7 +64,7 @@ const Footer = () => {
                   </p>
                   <a
                     className="md:text-display-xs text-wrap font-display font-normal text-primary-600"
-                    href={`mailto:${detail.Email}`}>
+                    href={`mailto:${detail.Email}?subject=Request%20a%20Home%20Valuation`}>
                     {detail.Email}
                   </a>
                 </div>
@@ -84,9 +88,9 @@ const Footer = () => {
           <div className="flex lg:flex-row flex-col gap-8 lg:items-center justify-between mb-10">
             <div className="text-body-md font-light order-2 lg:order-1">
               © {new Date().getFullYear()} Puretime Property Purchasing Ltd. All Rights Reserved.{" "}
-              <a href="#" className="hover:text-primary-600">Privacy Policy</a>
+              <a href="/#" className="hover:text-primary-600">Privacy Policy</a>
               <span className="mx-2">|</span>
-              <a href="#" className="hover:text-primary-600">Terms & Conditions</a>
+              <a href="/#" className="hover:text-primary-600">Terms & Conditions</a>
             </div>
             <div className="flex lg:flex-row flex-col lg:items-center md:gap-6 gap-4 order-1 lg:order-2">
               <div className="flex flex-row items-center opacity-70">

@@ -2,9 +2,9 @@ import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
 
+import { useModal } from "../context/modalContext";
 import WorkItem from "./workItem";
 import Eyebrow from "./eyebrow";
-import Button from "./button";
 
 const Steps = () => {
   const data = useStaticQuery(graphql`
@@ -34,6 +34,8 @@ const Steps = () => {
       }
     }
   `);
+
+  const { openModal } = useModal();
   const page = data.allStepsJson.nodes[0].page
   const steps = data.allStepsJson.nodes[0].steps
   return (
@@ -67,7 +69,7 @@ const Steps = () => {
                 />
               ))}
               <div className="xl:flex justify-center hidden items-start">
-                <Button className="rounded-full" label="CONTACT US" link="/" size="lg" />
+                <button className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 text-white font-semibold cursor-pointer px-6 py-4 text-body-sm" onClick={openModal}>CONTACT US</button>
               </div>
             </div>
             <div className="xl:col-span-6 lg:col-span-8 flex flex-col xl:gap-24 md:gap-20 gap-10 xl:px-14">
@@ -93,7 +95,7 @@ const Steps = () => {
           </div>
         </div>
         <div className="xl:hidden flex items-start justify-center">
-          <Button className="rounded-full" label="CONTACT US" link="/" size="lg" />
+          <button className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 text-white font-semibold cursor-pointer px-6 py-4 text-body-sm" onClick={openModal}>CONTACT US</button>
         </div>
       </div>
     </div>

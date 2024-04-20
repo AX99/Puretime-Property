@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 
 import Header from "./header";
 import Footer from "./footer";
+import Modal from "./modal";
 
 const Layout = ({ children }) => (
   <>
@@ -15,6 +16,7 @@ const Layout = ({ children }) => (
       <main>{children}</main>
     </div>
     <Footer />
+    <Modal />
   </>
 );
 
