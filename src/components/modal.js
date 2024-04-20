@@ -27,14 +27,13 @@ const Modal = () => {
                                     <form
                                         id="contact_form"
                                         name="contact"
-                                        method="POST"
+                                        method="post"
                                         data-netlify="true"
                                         data-netlify-honeypot="bot-field" className="mt-6">
                                         <div className="hidden">
                                             <label>
                                                 Don’t fill this out if you’re human: <input name="bot-field" />
                                             </label>
-
                                         </div>
                                         <div className="mb-2">
                                             <label
