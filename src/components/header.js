@@ -18,9 +18,9 @@ const Header = () => {
       <header>
         <div className="container mx-auto">
           <div className="flex pt-5 justify-between items-center">
-            <div className="flex flex-row gap-8 items-center">
+            <div className="flex flex-row gap-8 items-center pb-2">
               <Link to="/">
-                <img className="w-auto" src={Logo} alt="Logo" />
+                <img className="w-[130px]" src={Logo} alt="Logo" />
               </Link>
             </div>
             <div className="flex flex-row gap-6">
