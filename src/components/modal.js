@@ -27,7 +27,7 @@ const Modal = () => {
                                     <form
                                         id="contact_form"
                                         name="contact"
-                                        method="post"
+                                        method="POST"
                                         data-netlify="true"
                                         data-netlify-honeypot="bot-field" className="mt-6">
                                         <input type="hidden" name="form-name" value="contact" />

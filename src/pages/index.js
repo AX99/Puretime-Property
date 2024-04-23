@@ -10,15 +10,11 @@ import { ModalProvider } from "../context/modalContext";
 
 const IndexPage = () => (
   <>
-    <ModalProvider >
-      <Layout>
-        <Seo />
-        <Hero />
-        <Input />
-        <About />
-        <Steps />
-      </Layout>
-    </ModalProvider>
+    <Seo />
+    <Hero />
+    <Input />
+    <About />
+    <Steps />
   </>
 );
 
