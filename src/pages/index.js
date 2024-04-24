@@ -7,11 +7,13 @@ import Input from "../components/input";
 import About from "../components/about";
 import Steps from "../components/steps";
 import { ModalProvider } from "../context/modalContext";
+import HiddenForm from "../components/hidden_form";
 
 const IndexPage = () => (
   <>
     <ModalProvider >
       <Layout>
+      <HiddenForm />
         <Seo />
         <Hero />
         <Input />
