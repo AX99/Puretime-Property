@@ -1,0 +1,6 @@
+[build]
+  command = "make build"
+  publish = "public"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
