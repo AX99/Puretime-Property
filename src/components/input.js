@@ -32,6 +32,7 @@ const Input = () => {
                         <div className="rounded-full overflow-hidden relative">
                             <div id="div_input" className="w-full relative">
                                 <input
+                                    name="postcode_input"
                                     type="text"
                                     className="w-full bg-neutral-800 text-body-lg hidden md:inline-block font-light px-6 py-4"
                                     placeholder="Enter Your Postcode For A Free Valuation"
@@ -39,6 +40,7 @@ const Input = () => {
                                     onKeyPress={handleKeyPress}
                                 />
                                 <input
+                                    name="postcode_input"
                                     type="text"
                                     className="w-full bg-neutral-800 inline-block md:hidden text-body-md font-light px-6 py-4"
                                     placeholder="Enter Your Postcode"
