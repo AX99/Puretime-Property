@@ -141,23 +141,14 @@ const Modal = () => {
                                             />
                                         </div>
                                         <div className="mt-8 justify-center">
-                                            {/* <input
+                                            <input
                                                 type="submit"
                                                 className={`cursor-pointer mx-auto rounded-full flex items-center justify-center bg-primary-600 text-white font-semibold px-5 py-3 text-body-xs uppercase w-100 form-control text-center `}
                                                 form="contact"
                                                 name="submit"
                                                 value="Submit"
                                                 required
-                                            /> */}
-                                            <button
-                                                className={`cursor-pointer mx-auto rounded-full flex items-center justify-center bg-primary-600 text-white font-semibold px-5 py-3 text-body-xs uppercase w-100 form-control text-center `}
-                                                type="submit"
-                                                form="contact"
-                                                required
-                                                aria-required
-                                            >
-                                                SUBMIT
-                                            </button>
+                                            />
                                         </div>
                                     </form>
                                 </div>

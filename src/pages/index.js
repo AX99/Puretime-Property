@@ -5,6 +5,7 @@ import Hero from "../components/hero";
 import Input from "../components/input";
 import About from "../components/about";
 import Steps from "../components/steps";
+import HiddenForm from "../components/hidden_form";
 
 const IndexPage = () => (
   <>
@@ -13,6 +14,7 @@ const IndexPage = () => (
     <Input />
     <About />
     <Steps />
+    <HiddenForm />
   </>
 );
 
