@@ -85,7 +85,7 @@ const Hero = () => {
         {nodes.map((node, i) => (
           <div key={i} className="flex flex-col xl:px-32 items-center text-center gap-6 py-10">
             <h1 className="font-display md:text-display-2xl underline underline-offset-4 text-display-lg">
-              {node.header}<span className="italic text-primary-600">{node.span}</span>
+              {node.header}<span className="text-primary-600">{node.span}</span>
             </h1>
             <p className="col-span-8 md:text-body-xl text-body-lg font-light text-neutral-700 max-w-[850px] whitespace-pre-line">
               <span className="font-bold underline underline-offset-2 decoration-black text-primary-600">{spanWords}</span> {subheadingArray.slice(3).join(" ")}{" "}
