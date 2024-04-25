@@ -1,11 +1,10 @@
-
 import React from 'react';
-import { ModalProvider } from './src/context/modalContext';
+import RootElement from './src/components/root-element';
+import Layout from './src/components/layout';
 
-export const wrapRootElement = ({ element }) => {
-    return <ModalProvider>{element}</ModalProvider>;
+export const wrapPageElement = ({ element, props }) => {
+    return <Layout {...props}>{element}</Layout>;
 };
-
-export const onRenderBody = ({ setHtmlAttributes }) => {
-    setHtmlAttributes({ lang: "en-GB" });
+export const wrapRootElement = ({ element }) => {
+    return <RootElement>{element}</RootElement>;
 };
