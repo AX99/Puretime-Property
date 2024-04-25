@@ -19,6 +19,7 @@
     "dev-net": "gatsby develop -H 0.0.0.0 -p 8000",
     "build": "gatsby build",
     "serve": "gatsby serve",
+    "serve-net": "gatsby serve -H 0.0.0.0 -p 9000",
     "clean": "gatsby clean"
   },
   "dependencies": {

@@ -8,14 +8,14 @@ import Steps from "../components/steps";
 import HiddenForm from "../components/hidden_form";
 
 const IndexPage = () => (
-  <>
-    <Seo />
-    <Hero />
-    <Input />
-    <About />
-    <Steps />
-    <HiddenForm />
-  </>
+    <>
+        <HiddenForm/>
+        <Seo/>
+        <Hero/>
+        <Input/>
+        <About/>
+        <Steps/>
+    </>
 );
 
 export default IndexPage;

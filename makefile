@@ -25,5 +25,7 @@ build:
 serve:
 	yarn run serve
 
+serve-m:
+	yarn run serve-net
 # deploy-live:
 # 	git pull upstream master && git push origin master
