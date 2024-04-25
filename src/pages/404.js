@@ -2,7 +2,6 @@ import React from "react";
 
 import Seo from "../components/seo";
 import Button from "../components/button";
-import {ModalProvider} from "../context/modalContext";
 
 const NotFoundPage = () => {
     return (
