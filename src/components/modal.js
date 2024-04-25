@@ -7,10 +7,6 @@ import Eyebrow from "./eyebrow";
 const Modal = () => {
   const { isModalOpen, closeModal, modalData } = useModal();
 
-  const handleCloseModal = (e) => {
-    if (e.target.id === "contact_modal") closeModal();
-  };
-
   const [state, setState] = useState({
     email: "",
     firstName: "",
@@ -42,24 +38,34 @@ const Modal = () => {
       POSTCODE: state.postcode,
     });
 
-    const newMessage = response.success
-      ? "Thank you for submitting your details, we will get back to you shortly."
-      : "There's been an error submitting this form. Please try again.";
+    const newMessage =
+      response.result === "success"
+        ? response.msg +
+          "\n Keep an eye on your inbox and spam folder. We'll get back to you shortly. "
+        : "Error: " + response.msg;
 
     setState((prevState) => ({
       ...prevState,
       message: newMessage,
-      showForm: response.success ? false : true,
+      showForm: response.result === "success" ? false : true,
     }));
 
     // Hide the message after 6 seconds if the response is not successful
-    if (!response.success) {
+    if (!response.result === "success") {
       setTimeout(() => {
         setState((prevState) => ({
           ...prevState,
           message: "",
         }));
       }, 6000);
+    }
+  };
+
+  const handleCloseModal = (e) => {
+    if (e.target.id === "contact_modal") closeModal();
+    if (!state.showForm) {
+      setState({ ...state, showForm: true });
+      setState({ ...state, message: "" });
     }
   };
 
@@ -70,7 +76,6 @@ const Modal = () => {
         <div
           id="contact_modal"
           onClick={handleCloseModal}
-          onK
           className="fixed z-[10000] inset-0 bg-black bg-opacity-30 backdrop-blur-sm items-center flex flex-col justify-center overflow-hidden mx-auto "
         >
           <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
@@ -208,7 +213,7 @@ const Modal = () => {
                         <input
                           type="text"
                           name="b_d0281388fbca39d6d0711dcea_4cd2acada4"
-                          tabindex="-1"
+                          tabIndex="-1"
                           value=""
                         />
                       </div>
