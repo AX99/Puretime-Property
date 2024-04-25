@@ -28,10 +28,11 @@ const Header = () => {
                 {navigation.map((item) => (
                   <ScrollIntoView
                     key={item.name} selector={`#${item.href}`}>
-                    <p
+                    <a
+                      href={"/#"}
                       className="cursor-pointer text-body-lg font-medium text-neutral-700 hover:text-primary-600 px-4">
                       {item.name}
-                    </p>
+                    </a>
                   </ScrollIntoView>
                 ))}
               </div>
