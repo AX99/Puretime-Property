@@ -40,9 +40,8 @@ const Modal = () => {
 
     const newMessage =
       response.result === "success"
-        ? response.msg +
-          "\n Keep an eye on your inbox and spam folder. We'll get back to you shortly. "
-        : "Error: " + response.msg;
+        ? `${response.msg}\n Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
+        : `Error: ${response.msg}`;
 
     setState((prevState) => ({
       ...prevState,
