@@ -14,6 +14,7 @@ const Modal = () => {
     phonenumber: "",
     address: "",
     postcode: modalData ? modalData.postcode : "",
+    valuation: "",
     message: "",
     showForm: true,
   });
@@ -145,7 +146,7 @@ const Modal = () => {
                           Phone Number:<span className="text-red-600"> *</span>
                         </label>
                         <input
-                          type="phonenumber"
+                          type="tel"
                           value={state.phonenumber}
                           onChange={handleInputChange}
                           className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -215,15 +216,15 @@ const Modal = () => {
                           htmlFor="valuation"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          Estimated Property Valuation:
+                          Estimated Property Valuation (£):
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           onChange={handleInputChange}
                           className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                           id="valuation"
                           name="valuation"
-                          placeholder="£..."
+                          placeholder="500,000"
                           value={state.valuation}
                         />
                       </div>
