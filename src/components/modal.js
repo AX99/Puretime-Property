@@ -36,6 +36,7 @@ const Modal = () => {
       PHONE: state.phonenumber,
       ADDRESS: state.address,
       POSTCODE: state.postcode,
+      VALUATION: state.valuation,
     });
 
     const newMessage =
@@ -77,7 +78,7 @@ const Modal = () => {
           onClick={handleCloseModal}
           className="fixed z-[10000] inset-0 bg-black bg-opacity-30 backdrop-blur-sm items-center flex flex-col justify-center overflow-hidden mx-auto "
         >
-          <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
+          <div className="w-full max-h-[90%] overflow-scroll p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
             <div>
               <span
                 onClick={closeModal}
@@ -107,7 +108,7 @@ const Modal = () => {
                           htmlFor="firstName"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          First Name:
+                          First Name:<span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="text"
@@ -124,7 +125,7 @@ const Modal = () => {
                           htmlFor="lastName"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          Last Name:
+                          Last Name:<span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="text"
@@ -141,7 +142,7 @@ const Modal = () => {
                           htmlFor="phonenumber"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          Phone Number:
+                          Phone Number:<span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="phonenumber"
@@ -158,7 +159,7 @@ const Modal = () => {
                           htmlFor="email"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          Email:
+                          Email:<span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="email"
@@ -176,6 +177,7 @@ const Modal = () => {
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
                           First Line of Address:
+                          <span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="text"
@@ -193,7 +195,7 @@ const Modal = () => {
                           htmlFor="postcode"
                           className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
                         >
-                          Postcode:
+                          Postcode:<span className="text-red-600"> *</span>
                         </label>
                         <input
                           type="text"
@@ -208,13 +210,37 @@ const Modal = () => {
                           required
                         />
                       </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="valuation"
+                          className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
+                        >
+                          Estimated Property Valuation:
+                        </label>
+                        <input
+                          type="text"
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                          id="valuation"
+                          name="valuation"
+                          placeholder="£..."
+                          value={state.valuation}
+                        />
+                      </div>
                       <div aria-hidden="true" className="hidden" hidden>
                         <input
                           type="text"
                           name="b_d0281388fbca39d6d0711dcea_4cd2acada4"
                           tabIndex="-1"
-                          value=""
+                          defaultValue=""
                         />
+                      </div>
+                      <div className="m-2 text-primary-600">
+                        <p>
+                          {" "}
+                          <span className="text-red-600"> * </span> - Required
+                          Fields
+                        </p>
                       </div>
                       <div className="mt-8 justify-center">
                         <input
