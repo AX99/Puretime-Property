@@ -8,19 +8,19 @@
     "steps": [
       {
         "id": 1,
-        "image": "../images/steps/work-1.png",
+        "image": "../images/steps/work-1.jpeg",
         "title": "1. Tell Us About Your Property",
         "description": "Contact us today, Fill out our form and send us details about your property."
       },
       {
         "id": 2,
-        "image": "../images/steps/work-2.png",
+        "image": "../images/steps/work-2.jpeg",
         "title": "2. Receive Your Offer",
         "description": "One of our dedicated agents will get in touch with you and make you an offer on your property."
       },
       {
         "id": 3,
-        "image": "../images/steps/work-3.png",
+        "image": "../images/steps/work-3.jpeg",
         "title": "3. Sell Your Property",
         "description": "If you accept our offer, you can sit back, relax and we will sell your property for you!"
       }
