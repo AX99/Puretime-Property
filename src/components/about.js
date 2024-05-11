@@ -1,16 +1,21 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import { motion } from "framer-motion";
 
 import Eyebrow from "./eyebrow";
-// import Logo from "../images/logos/logo-ring.svg";
+// import Logo from "../images/logos/logo.svg";
 
 const About = () => {
   const data = useStaticQuery(graphql`
     {
-      aboutimage: file(relativePath: {eq: "about-creative.png"}) {
+      aboutimage: file(relativePath: { eq: "about-creative.png" }) {
         childImageSharp {
-          gatsbyImageData(width: 592, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          gatsbyImageData(
+            width: 592
+            placeholder: BLURRED
+            formats: [AUTO, WEBP, AVIF]
+          )
         }
       }
       allAboutJson {
@@ -29,29 +34,45 @@ const About = () => {
     <div>
       <div id="about" className="container mx-auto">
         <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-8 gap-20 lg:py-32 py-12 items-center">
-          <div className="lg:col-span-6 flex flex-col gap-6">
+          <motion.div
+            initial={{ x: -1000 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 1 }}
+            whileInView={{ x: 0 }}
+            className="lg:col-span-6 flex flex-col gap-6"
+          >
             <Eyebrow label={page.section} />
             <h2 className="font-display md:text-display-xl text-display-md font-normal pb-4">
-              <span className="italic underline underline-offset-2 decoration-primary-600">{page.headline}</span>
+              <span className="italic underline underline-offset-2 decoration-primary-600">
+                {page.headline}
+              </span>
             </h2>
             <p className="md:text-body-lg text-body-md font-light text-neutral-700">
               {page.paragraph1}
             </p>
             <p className="md:text-body-lg text-body-md font-light text-neutral-700">
-              {page.paragraph2}<br />{page.paragraph3}
+              {page.paragraph2}
+              <br />
+              {page.paragraph3}
             </p>
-          </div>
-          <div className="lg:col-span-6 flex flex-col gap-8 relative">
+          </motion.div>
+          <motion.div
+            initial={{ x: 1000 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            whileInView={{ x: 0 }}
+            className="lg:col-span-6 flex flex-col gap-8 relative"
+          >
             <GatsbyImage
               image={getImage(data.aboutimage)}
-              alt="Interior Design"
+              alt="Interior Design Images"
             />
             {/* <img
               src={Logo}
               alt="Logo Ring"
               className="absolute left-[42%] -top-14"
             /> */}
-          </div>
+          </motion.div>
         </div>
         <div>
           <hr className="text-neutral-500"></hr>
