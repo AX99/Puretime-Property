@@ -91,11 +91,21 @@ const Footer = () => {
             <div className="text-body-md font-light order-2 lg:order-1">
               © {new Date().getFullYear()} Puretime Property Purchasing Ltd. All
               Rights Reserved.{" "}
-              <a href="/#" className="hover:text-primary-600">
+              <a
+                href="https://www.termsfeed.com/live/4616b0ab-2778-4f40-8748-da90b0f5fdd1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline decoration-primary-600"
+              >
                 Privacy Policy
               </a>
               <span className="mx-2">|</span>
-              <a href="/#" className="hover:text-primary-600">
+              <a
+                href="https://www.termsfeed.com/live/3288219f-0446-4f5b-a96d-715e41f260c1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline decoration-primary-600"
+              >
                 Terms & Conditions
               </a>
             </div>
