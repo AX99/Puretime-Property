@@ -17,7 +17,7 @@ const Header = () => {
     },
   ];
 
-  const { openModal } = useModal();
+  const { toggleModal } = useModal();
   return (
     <>
       <header>
@@ -46,14 +46,11 @@ const Header = () => {
               </div>
               <button
                 className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 text-white font-semibold cursor-pointer px-5 py-3 text-body-xs"
-                onClick={openModal}
+                onClick={toggleModal}
               >
                 CONTACT US
               </button>
             </div>
-          </div>
-          <div>
-            <hr className="text-neutral-700"></hr>
           </div>
         </div>
       </header>
