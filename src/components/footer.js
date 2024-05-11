@@ -25,7 +25,7 @@ const Footer = () => {
       }
     }
   `);
-  const { openModal } = useModal();
+  const { toggleModal } = useModal();
   return (
     <>
       <footer>
@@ -40,7 +40,7 @@ const Footer = () => {
               </h3>
               <a
                 href="/#"
-                onClick={openModal}
+                onClick={toggleModal}
                 className="cursor-pointer font-display md:text-display-lg text-display-sm italic text-primary-600 underline decoration-black underline-offset-2"
               >
                 Get In Contact

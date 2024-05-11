@@ -5,8 +5,7 @@ import { useModal } from "../context/modalContext";
 import Eyebrow from "./eyebrow";
 
 const Modal = () => {
-  const { isModalOpen, closeModal, modalData } = useModal();
-
+  const { isModalOpen, toggleModal, modalData } = useModal();
   const [state, setState] = useState({
     email: "",
     firstName: "",
@@ -63,7 +62,7 @@ const Modal = () => {
   };
 
   const handleCloseModal = (e) => {
-    if (e.target.id === "contact_modal") closeModal();
+    if (e.target.id === "contact_modal") toggleModal();
     if (!state.showForm) {
       setState({ ...state, showForm: true });
       setState({ ...state, message: "" });
@@ -82,7 +81,7 @@ const Modal = () => {
           <div className="w-full max-h-[90%] overflow-scroll p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
             <div>
               <span
-                onClick={closeModal}
+                onClick={toggleModal}
                 className="inline-block p-2 overflow-hidden text-center relative top-0 right-0 float-right text-display-md text-primary-600 cursor-pointer whitespace-nowrap align-middle m-0"
               >
                 &times;
