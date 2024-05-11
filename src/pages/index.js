@@ -5,7 +5,7 @@ import Hero from "../components/hero";
 import Input from "../components/input";
 import About from "../components/about";
 import Steps from "../components/steps";
-import ModalHashTrigger from "../components/ModalHashTrigger";
+import ModalHashTrigger from "../components/modalHashTrigger";
 
 const IndexPage = () => (
   <>
