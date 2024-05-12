@@ -99,7 +99,7 @@ const Hero = () => {
             {nodes.map((node, i) => (
               <div
                 key={i}
-                className="flex flex-col bg-opacity-30 bg-neutral-900 px-8 xl:px-32 items-center text-center gap-6 py-10 rounded-xl"
+                className="flex flex-col bg-opacity-30 bg-neutral-900 px-4 lg:px-8 xl:px-32 items-center text-center gap-6 py-10 rounded-xl"
               >
                 <h1 className="font-display md:text-display-2xl underline underline-offset-4 text-display-lg drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.8)]">
                   {node.header}
@@ -114,12 +114,12 @@ const Hero = () => {
                 <ScrollIntoView
                   selector="#banner_input"
                   onClick={() => highlightElement("div_input")}
-                  className="py-8"
+                  className="pt-8"
                 >
                   <img
                     src={CtaButton}
                     alt="Get an offer"
-                    className="cursor-pointer rotate-[134deg] transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 hidden md:block"
+                    className="cursor-pointer transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 hidden md:block"
                   />
                 </ScrollIntoView>
               </div>
