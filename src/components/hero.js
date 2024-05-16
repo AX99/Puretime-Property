@@ -81,12 +81,11 @@ const Hero = () => {
     <div>
       <div
         // Dark mode - bg-black instead of bg-white
-        className="relative bg-white bg-opacity-40 bg-blend-overlay p-[50px]"
+        className="relative content-center bg-white bg-opacity-40 h-dvh bg-blend-overlay py-8"
         style={{
           backgroundImage: `url(${backgroundImage.images.fallback.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "100%",
         }}
       >
         <div>
@@ -113,13 +112,19 @@ const Hero = () => {
                 </p>
                 <ScrollIntoView
                   selector="#banner_input"
+                  smooth={true}
+                  scrollOptions={{
+                    block: "center",
+                    inline: "center",
+                    behavior: "smooth",
+                  }}
                   onClick={() => highlightElement("div_input")}
                   className="pt-8"
                 >
                   <img
                     src={CtaButton}
                     alt="Get an offer"
-                    className="cursor-pointer transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 hidden md:block"
+                    className="cursor-pointer transition-color rounded-full border-2 hover:border-primary-600 m-auto left-0 right-0 -top-8 sm:scale-75 md:scale-100 hidden sm:block"
                   />
                 </ScrollIntoView>
               </div>
