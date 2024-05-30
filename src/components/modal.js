@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import addtoMailchimp from "gatsby-plugin-mailchimp";
 
 import { useModal } from "../context/modalContext";
-import Eyebrow from "./eyebrow";
 
 const Modal = () => {
   const { isModalOpen, toggleModal, modalData } = useModal();
@@ -90,10 +89,9 @@ const Modal = () => {
             <div className="container mx-auto bg-white px-9 pt-1 pb-4 shadow rounded-4">
               <div className="relative flex flex-col justify-center overflow-hidden">
                 <div className="w-full pt-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 lg:max-w-xl">
-                  <Eyebrow
-                    className="underline opacity-100"
-                    label="Complete the form to receive your offer."
-                  />
+                  <h4 className="font-semibold text-display-sm tracking-widest font-display text-center underline underline-offset-2 text-primary-600">
+                    Complete The Form To Receive Your Offer
+                  </h4>
 
                   {state.showForm && (
                     <form
@@ -242,7 +240,24 @@ const Modal = () => {
                           Fields
                         </p>
                       </div>
-                      <div className="mt-8 justify-center">
+                      <div className="mt-4">
+                        <p className="text-body-xs">
+                          We use Mailchimp as our marketing platform. By
+                          clicking submit below, you acknowledge being added to
+                          our mailing list and your information will be
+                          transferred to Mailchimp for processing.{" "}
+                          <a
+                            href="https://mailchimp.com/legal/terms"
+                            className="text-primary-600 hover:underline"
+                          >
+                            Learn more
+                          </a>{" "}
+                          about Mailchimp's privacy practices. You can
+                          unsubscribe from our messages at any time by clicking
+                          the link in the footer of our emails.
+                        </p>
+                      </div>
+                      <div className="mt-6 justify-center">
                         <input
                           type="submit"
                           className="cursor-pointer mx-auto rounded-full flex items-center justify-center bg-primary-600 text-white font-semibold px-5 py-3 text-body-xs uppercase w-100 form-control text-center"
