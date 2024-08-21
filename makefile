@@ -8,10 +8,10 @@ clean-dev:
 	make clean && make dev
 
 dev:
-	yarn run dev
+	yarn run develop
 
 dev-m:
-	yarn run dev-net
+	yarn run develop-net
 
 clean-dev-m:
 	make clean && make dev-m
@@ -27,5 +27,11 @@ serve:
 
 serve-m:
 	yarn run serve-net
+
+docker-buildup:
+	docker-compose build && docker-compose up
+
+docker-up:
+	docker-compose up
 # deploy-live:
 # 	git pull upstream master && git push origin master
