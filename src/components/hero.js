@@ -14,7 +14,7 @@ const Hero = () => {
           gatsbyImageData(
             width: 5120
             placeholder: BLURRED
-            formats: [AUTO, WEBP, AVIF]
+            formats: [WEBP, AVIF]
           )
         }
       }

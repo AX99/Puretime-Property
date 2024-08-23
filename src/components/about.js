@@ -14,7 +14,7 @@ const About = () => {
           gatsbyImageData(
             width: 592
             placeholder: BLURRED
-            formats: [AUTO, WEBP, AVIF]
+            formats: [WEBP, AVIF]
           )
         }
       }
