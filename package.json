@@ -15,12 +15,13 @@
     "property selling website"
   ],
   "scripts": {
-    "dev": "gatsby develop",
-    "dev-net": "gatsby develop -H 0.0.0.0 -p 8000",
+    "develop": "gatsby develop -H 0.0.0.0",
+    "develop-net": "gatsby develop -H 0.0.0.0 -p 8000",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "serve-net": "gatsby serve -H 0.0.0.0 -p 9000",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\""
   },
   "dependencies": {
     "dotenv": "^16.4.5",
