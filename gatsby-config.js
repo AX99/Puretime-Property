@@ -51,6 +51,19 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `${process.env.CONTENTFUL_SPACE_ID}`,
+        accessToken:
+          process.env.NODE_ENV === "development"
+            ? process.env.CONTENTFUL_PREVIEW_ACCESS
+            : process.env.CONTENTFUL_DELIVERY_ACCESS,
+        ...(process.env.NODE_ENV === "development" && {
+          host: `preview.contentful.com`,
+        }),
+      },
+    },
+    {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
         // You can add multiple tracking ids and a pageview event will be fired for all of them.

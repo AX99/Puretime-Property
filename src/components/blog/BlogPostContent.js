@@ -1,13 +1,15 @@
-import React from 'react';
-import AuthorCard from './AuthorCard';
+import React from 'react'
+import AuthorCard from './AuthorCard'
 
 const BlogPostContent = ({ post }) => {
-    return (
-        <div>
-            {post.content.raw}
-            <AuthorCard author={post.author} />
-        </div>
-    );
-};
+  return (
+    <div>
+      <p className="hover:underline pb-4">{post.category[0].categoryName}</p>
+      {post.bodyContent.raw}
+      <AuthorCard author={post.author} />
+      <p>{post.createdAt}</p>
+    </div>
+  )
+}
 
-export default BlogPostContent;
+export default BlogPostContent

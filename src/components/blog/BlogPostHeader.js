@@ -1,26 +1,24 @@
-import React from "react";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import React from 'react'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-import Breadcrumb from "../Breadcrumb";
+import Breadcrumb from '../Breadcrumb'
 
 const BlogPostHeader = ({ post }) => {
-  const items=[
-          { label: 'Home', href: '/' },
-          { label: 'Blog', href: '/blog' },
-          { label: post.title, href: `/blog/${post.slug}` },
-        ]
-  const image = getImage(post.featuredImage);
+  const items = [
+    { label: 'Home', href: '/' },
+    { label: 'Blog', href: '/blog' },
+    { label: post.title, href: `/blog/${post.slug}` },
+  ]
+  const image = getImage(post.featuredImage)
   return (
     <div>
-      <h1>{post.title}</h1>
-      <p>Category: {post.category[0].categoryName}</p>
-      <p>Author: {post.author.name}</p>
-      <p>Created: {post.createdAt}</p>
-      <p>Updated: {post.updatedAt}</p>
-      <Breadcrumb const items={items} />
+      <h1 className="italic underline underline-offset-2 decoration-primary-600 text-center py-7 font-display text-display-xl">
+        {post.title}
+      </h1>
+      <Breadcrumb items={items} />
       <GatsbyImage image={image} alt={post.featuredImage.description} />
     </div>
-  );
-};
+  )
+}
 
-export default BlogPostHeader;
+export default BlogPostHeader
