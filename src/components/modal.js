@@ -1,34 +1,34 @@
-import React, { useState } from "react";
-import addtoMailchimp from "gatsby-plugin-mailchimp";
+import React, { useState } from 'react'
+import addtoMailchimp from 'gatsby-plugin-mailchimp'
 
-import { useModal } from "../context/modalContext";
+import { useModal } from '../context/modalContext'
 
 const Modal = () => {
-  const { isModalOpen, toggleModal, modalData } = useModal();
+  const { isModalOpen, toggleModal, modalData } = useModal()
   const [state, setState] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    phonenumber: "",
-    address: "",
-    postcode: modalData ? modalData.postcode : "",
-    valuation: "",
-    message: "",
+    email: '',
+    firstName: '',
+    lastName: '',
+    phonenumber: '',
+    address: '',
+    postcode: modalData ? modalData.postcode : '',
+    valuation: '',
+    message: '',
     showForm: true,
-  });
+  })
 
   const handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.value
+    const name = target.name
     setState((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const response = await addtoMailchimp(state.email, {
       FNAME: state.firstName,
       LNAME: state.lastName,
@@ -36,52 +36,55 @@ const Modal = () => {
       ADDRESS: state.address,
       POSTCODE: state.postcode,
       VALUATION: state.valuation,
-    });
+    })
 
     const newMessage =
-      response.result === "success"
+      response.result === 'success'
         ? `${response.msg}\n Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
-        : `Error: ${response.msg}`;
+        : `Error: ${response.msg}`
 
     setState((prevState) => ({
       ...prevState,
       message: newMessage,
-      showForm: response.result === "success" ? false : true,
-    }));
+      showForm: response.result === 'success' ? false : true,
+    }))
 
     // Hide the message after 6 seconds if the response is not successful
-    if (!response.result === "success") {
+    if (!response.result === 'success') {
       setTimeout(() => {
         setState((prevState) => ({
           ...prevState,
-          message: "",
-        }));
-      }, 6000);
+          message: '',
+        }))
+      }, 6000)
     }
-  };
+  }
 
   const handleCloseModal = (e) => {
-    if (e.target.id === "contact_modal") toggleModal();
+    if (e.target.id === 'contact_modal') toggleModal()
     if (!state.showForm) {
-      setState({ ...state, showForm: true });
-      setState({ ...state, message: "" });
+      setState({ ...state, showForm: true })
+      setState({ ...state, message: '' })
     }
-  };
+  }
 
   return (
     <>
-      {" "}
+      {' '}
       {isModalOpen && (
         <div
           id="contact_modal"
           onClick={handleCloseModal}
+          onKeyDown={handleCloseModal}
           className="fixed z-[10000] inset-0 bg-black bg-opacity-30 backdrop-blur-sm items-center flex flex-col justify-center overflow-hidden mx-auto "
         >
           <div className="w-full max-h-[90%] overflow-scroll p-6 m-auto bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl">
             <div>
               <span
                 onClick={toggleModal}
+                onKeyDown={toggleModal}
                 className="inline-block p-2 overflow-hidden text-center relative top-0 right-0 float-right text-display-md text-primary-600 cursor-pointer whitespace-nowrap align-middle m-0"
+                role="presentation"
               >
                 &times;
               </span>
@@ -235,7 +238,7 @@ const Modal = () => {
                       </div>
                       <div className="m-2 text-primary-600">
                         <p>
-                          {" "}
+                          {' '}
                           <span className="text-red-600"> * </span> - Required
                           Fields
                         </p>
@@ -245,13 +248,13 @@ const Modal = () => {
                           We use Mailchimp as our marketing platform. By
                           clicking submit below, you acknowledge being added to
                           our mailing list and your information will be
-                          transferred to Mailchimp for processing.{" "}
+                          transferred to Mailchimp for processing.{' '}
                           <a
                             href="https://mailchimp.com/legal/terms"
                             className="text-primary-600 hover:underline"
                           >
                             Learn more
-                          </a>{" "}
+                          </a>{' '}
                           about Mailchimp's privacy practices. You can
                           unsubscribe from our messages at any time by clicking
                           the link in the footer of our emails.
@@ -274,8 +277,8 @@ const Modal = () => {
             </div>
           </div>
         </div>
-      )}{" "}
+      )}{' '}
     </>
-  );
-};
-export default Modal;
+  )
+}
+export default Modal

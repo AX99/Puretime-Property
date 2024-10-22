@@ -1,10 +1,10 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { getImage } from "gatsby-plugin-image";
+import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 
-import { useModal } from "../context/modalContext";
-import WorkItem from "./workItem";
-import Eyebrow from "./eyebrow";
+import { useModal } from '../context/modalContext'
+import WorkItem from './workItem'
+import Eyebrow from './eyebrow'
 
 const Steps = () => {
   const data = useStaticQuery(graphql`
@@ -33,11 +33,11 @@ const Steps = () => {
         }
       }
     }
-  `);
+  `)
 
-  const { toggleModal } = useModal();
-  const page = data.allStepsJson.nodes[0].page;
-  const steps = data.allStepsJson.nodes[0].steps;
+  const { toggleModal } = useModal()
+  const page = data.allStepsJson.nodes[0].page
+  const steps = data.allStepsJson.nodes[0].steps
   return (
     <div>
       <div id="steps" className="container mx-auto">
@@ -118,7 +118,7 @@ const Steps = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Steps;
+export default Steps

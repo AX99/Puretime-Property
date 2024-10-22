@@ -1,30 +1,30 @@
-import React from "react";
-import { Link } from "gatsby";
+import React from 'react'
+import { Link } from 'gatsby'
 
-import Logo from "../images/logos/logo.svg";
-import ScrollIntoView from "react-scroll-into-view";
-import { useModal } from "../context/modalContext";
+import Logo from '../images/logos/logo.svg'
+import ScrollIntoView from 'react-scroll-into-view'
+import { useModal } from '../context/modalContext'
 
 const Header = ({ menu }) => {
   const navigation = menu ?? [
     {
-      name: "About",
-      href: "about",
+      name: 'About',
+      href: 'about',
       scroll: true,
     },
     {
-      name: "How It Works",
-      href: "steps",
+      name: 'How It Works',
+      href: 'steps',
       scroll: true,
     },
     {
-      name: "Blog",
-      href: "/blog",
+      name: 'Blog',
+      href: '/blog',
       scroll: false,
-    }
-  ];
+    },
+  ]
 
-  const { toggleModal } = useModal();
+  const { toggleModal } = useModal()
   return (
     <>
       <header>
@@ -45,7 +45,7 @@ const Header = ({ menu }) => {
               {menu ? (
                 <div className="md:flex hidden flex-row gap-4 items-center">
                   {menu.map((item) => (
-                    <Link key={item.name} to={ `${item.href}` }>
+                    <Link key={item.name} to={`${item.href}`}>
                       <p className="cursor-pointer text-body-lg font-medium text-neutral-700 hover:text-primary-600 px-4">
                         {item.name}
                       </p>
@@ -54,9 +54,12 @@ const Header = ({ menu }) => {
                 </div>
               ) : (
                 <div className="md:flex hidden flex-row gap-4 items-center">
-                  {navigation.map((item) => (
+                  {navigation.map((item) =>
                     item.scroll ? (
-                      <ScrollIntoView key={item.name} selector={`#${item.href}`}>
+                      <ScrollIntoView
+                        key={item.name}
+                        selector={`#${item.href}`}
+                      >
                         <p className="cursor-pointer text-body-lg font-medium text-neutral-700 hover:text-primary-600 px-4">
                           {item.name}
                         </p>
@@ -68,7 +71,7 @@ const Header = ({ menu }) => {
                         </p>
                       </Link>
                     )
-                  ))}
+                  )}
                 </div>
               )}
               <button
@@ -82,7 +85,7 @@ const Header = ({ menu }) => {
         </div>
       </header>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

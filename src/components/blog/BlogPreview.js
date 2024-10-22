@@ -1,9 +1,7 @@
-import React from "react";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import React from 'react'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 const BlogPreview = ({ post }) => {
-  // console.log(post);
-
   return (
     <div>
       <div className="relative">
@@ -13,8 +11,8 @@ const BlogPreview = ({ post }) => {
           alt={post.title}
         />
         <p className="absolute -bottom-2 left-3 block p-4 rounded bg-primary-600 text-center text-white">
-          <h3>{post.createdAt.split("/")[0]}</h3>
-          <p>{post.createdAt.split("/")[1]}</p>
+          <h3>{post.createdAt.split('/')[0]}</h3>
+          <p>{post.createdAt.split('/')[1]}</p>
         </p>
       </div>
       <div className="md:pl-16 md:pt-8 md:pr-8 md:pb-6 p-4 shadow-neutral-500 shadow-md rounded-b-md">
@@ -27,7 +25,7 @@ const BlogPreview = ({ post }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogPreview;
+export default BlogPreview
