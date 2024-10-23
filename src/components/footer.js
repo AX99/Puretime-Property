@@ -99,7 +99,7 @@ const Footer = () => {
                 >
                   Privacy Policy
                 </a>
-                <span class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
               </span>
               <span className="mx-2">|</span>
               <span className="inline-block relative cursor-pointer group">
@@ -110,7 +110,7 @@ const Footer = () => {
                 >
                   Terms & Conditions
                 </a>
-                <span class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
               </span>
             </div>
             <div className="flex lg:flex-row flex-col lg:items-center md:gap-6 gap-4 order-1 lg:order-2">
