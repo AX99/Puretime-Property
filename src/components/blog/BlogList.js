@@ -1,7 +1,7 @@
-import React from 'react'
-import { graphql, useStaticQuery, Link } from 'gatsby'
+import React from "react";
+import { graphql, useStaticQuery, Link } from "gatsby";
 
-import BlogPreview from './BlogPreview'
+import BlogPreview from "./BlogPreview";
 
 const BlogList = () => {
   const data = useStaticQuery(graphql`
@@ -37,12 +37,10 @@ const BlogList = () => {
         }
       }
     }
-  `)
+  `);
 
-  const posts = data.allContentfulBlogPost.nodes
-  const totalCount = data.allContentfulBlogPost.totalCount
-
-  console.log(posts)
+  const posts = data.allContentfulBlogPost.nodes;
+  const totalCount = data.allContentfulBlogPost.totalCount;
 
   return (
     <div>
@@ -52,17 +50,17 @@ const BlogList = () => {
         </h1>
         <div className="grid lg:grid-cols-3 center grid-cols-1 lg:gap-8 gap-20 lg:py-30 py-12 items-center">
           {posts.map((post) => (
-            <Link to={`/blog/${post.slug}`} key={post.slug}>
+            <Link to={`/blog/${post.slug}`} key={post.id}>
               <BlogPreview key={post.id} post={post} />
             </Link>
           ))}
         </div>
         <p>
-          {totalCount} {totalCount > 1 ? 'posts' : 'post'}
+          {totalCount} {totalCount > 1 ? "posts" : "post"}
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BlogList
+export default BlogList;

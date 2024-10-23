@@ -1,7 +1,7 @@
-import React from 'react'
-import BlogLayout from '../components/blog/BlogLayout'
-import BlogList from '../components/blog/BlogList'
-import Footer from '../components/footer'
+import React from "react";
+import BlogLayout from "../components/blog/BlogLayout";
+import BlogList from "../components/blog/BlogList";
+import Footer from "../components/footer";
 
 const BlogPage = () => (
   <>
@@ -10,6 +10,6 @@ const BlogPage = () => (
       <Footer />
     </BlogLayout>
   </>
-)
+);
 
-export default BlogPage
+export default BlogPage;

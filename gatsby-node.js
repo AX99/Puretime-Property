@@ -23,7 +23,9 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
 
-  const blogPostTemplate = require.resolve(`./src/components/blog/BlogPost.js`);
+  const blogPostTemplate = require.resolve(
+    `./src/templates/{ContentfulBlogPost.slug}.js`
+  );
 
   // Create a page for each blog post
   result.data.allContentfulBlogPost.edges.forEach(({ node }) => {
