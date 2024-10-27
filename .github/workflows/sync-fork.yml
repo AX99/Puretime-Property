@@ -3,8 +3,8 @@ name: Sync Fork
 on:
   push:
     branches:
-      - '**'  # Triggers on any branch push
-
+      #- '**'  # Triggers on any branch push
+       - staging
 jobs:
   sync:
     runs-on: ubuntu-latest
