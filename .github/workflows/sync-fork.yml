@@ -18,5 +18,5 @@ jobs:
       - name: Sync to forked repository
         run: |
           git remote add fork https://${{ secrets.PURETIME_GITHUB_USER }}:${{ secrets.FORKED_REPO_TOKEN }}@github.com/${{ secrets.PURETIME_GITHUB_USER }}/Puretime-Property.git
+          git fetch fork
           git push fork --all
-          git push fork --tags
