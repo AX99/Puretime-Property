@@ -12,6 +12,14 @@ Property agency website built with **Gatsby** and **TailwindCSS**.
 
 Check the live site here 👉️ [https://puretimepropertypurchasing.com](https://puretimepropertypurchasing.com)
 
+## Additional tools
+
+I've used these tools to build this site. You can set up accounts for them and use their access keys in the environment variables.
+- [Google Analytics](https://analytics.google.com/) (Analytics)
+- [Google Adsense](https://ads.google.com/) (Ad Management)
+- [Mailchimp](https://mailchimp.com/) (Form Management & Newsletter)
+- [Contentful](https://www.contentful.com/) (Blog content)
+
 ## Getting started
 
 1.  **Get the source code**
@@ -43,7 +51,34 @@ Check the live site here 👉️ [https://puretimepropertypurchasing.com](https:
     yarn install
     ```
 
-3.  **Start developing.**
+
+3. **Set up environment variables**
+
+    Environment variables are required for the site to work.
+    
+    Copy the `.env.example-dev` & `.env.example-prod` below to `.env.development` and `.env.production` files and fill in the values.
+    
+    `.env.example-dev`: 
+    ```
+    CONTENTFUL_SPACE_ID=
+    CONTENTFUL_PREVIEW_ACCESS=
+    MAILCHIMP_KEY=
+    GA_TRACKING_ID=
+    ADSENSE_PUBLISHER_ID=
+    ```
+
+    `.env.example-prod`: 
+    ```
+    CONTENTFUL_SPACE_ID=
+    CONTENTFUL_DELIVERY_ACCESS=
+    MAILCHIMP_KEY=
+    GA_TRACKING_ID=
+    ADSENSE_PUBLISHER_ID=
+    ``` 
+
+
+
+4.  **Start developing.**
 
     Navigate into your new site’s directory and start it up
 
@@ -61,7 +96,7 @@ Check the live site here 👉️ [https://puretimepropertypurchasing.com](https:
     yarn run develop
     ```
 
-4.  **Open the code and start customizing!**
+5.  **Open the code and start customizing!**
 
     Your site is now running at http://localhost:8000
 
