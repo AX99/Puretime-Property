@@ -1,14 +1,14 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react'
 
-const ModalContext = createContext();
-ModalContext.displayName = "ModalContext";
+const ModalContext = createContext()
+ModalContext.displayName = 'ModalContext'
 
 export const ModalProvider = ({ children }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalData, setModalData] = useState({ postcode: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalData, setModalData] = useState({ postcode: '' })
 
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
-  const openModal = () => setIsModalOpen(true);
+  const toggleModal = () => setIsModalOpen(!isModalOpen)
+  const openModal = () => setIsModalOpen(true)
 
   return (
     <ModalContext.Provider
@@ -16,7 +16,7 @@ export const ModalProvider = ({ children }) => {
     >
       {children}
     </ModalContext.Provider>
-  );
-};
+  )
+}
 
-export const useModal = () => useContext(ModalContext);
+export const useModal = () => useContext(ModalContext)

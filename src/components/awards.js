@@ -1,7 +1,7 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
+import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 
-import AwardItem from "./awardItem";
+import AwardItem from './awardItem'
 
 const Awards = () => {
   const data = useStaticQuery(graphql`
@@ -17,7 +17,7 @@ const Awards = () => {
         }
       }
     }
-  `);
+  `)
   return (
     <div className="bg-neutral-900">
       <div className="container mx-auto">
@@ -41,6 +41,6 @@ const Awards = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default Awards;
+  )
+}
+export default Awards

@@ -1,9 +1,9 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { motion } from "framer-motion";
+import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { motion } from 'framer-motion'
 
-import Eyebrow from "./eyebrow";
+import Eyebrow from './eyebrow'
 // import Logo from "../images/logos/logo.svg";
 
 const About = () => {
@@ -28,8 +28,8 @@ const About = () => {
         }
       }
     }
-  `);
-  const page = data.allAboutJson.nodes[0];
+  `)
+  const page = data.allAboutJson.nodes[0]
   const motionVariants = {
     text: {
       visible: {
@@ -45,7 +45,7 @@ const About = () => {
       },
       hidden: { opacity: 0 },
     },
-  };
+  }
   return (
     <div>
       <div id="about" className="container mx-auto">
@@ -93,6 +93,6 @@ const About = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default About;
+  )
+}
+export default About

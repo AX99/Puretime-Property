@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const AwardItem = ({ logo, title, year }) => {
   return (
@@ -10,13 +10,13 @@ const AwardItem = ({ logo, title, year }) => {
         <p className="text-body-sm font-normal text-neutral-300">{year}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 AwardItem.propTypes = {
   logo: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-};
+}
 
-export default AwardItem;
+export default AwardItem

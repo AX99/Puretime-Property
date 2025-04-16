@@ -1,10 +1,10 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { getImage } from "gatsby-plugin-image";
-import { motion } from "framer-motion";
+import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
+import { motion } from 'framer-motion'
 
-import ScrollIntoView from "react-scroll-into-view";
-import CtaButton from "../images/cta-button.svg";
+import ScrollIntoView from 'react-scroll-into-view'
+import CtaButton from '../images/cta-button.svg'
 
 const Hero = () => {
   const data = useStaticQuery(graphql`
@@ -26,57 +26,57 @@ const Hero = () => {
         }
       }
     }
-  `);
+  `)
   function highlightElement(elementId) {
-    const element = document.getElementById(elementId);
+    const element = document.getElementById(elementId)
 
     if (!element) {
-      console.error("Element not found");
-      return;
+      console.error('Element not found')
+      return
     }
 
     // Apply darker overlay
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.backgroundColor = "rgba(0, 0, 0, 0)";
-    overlay.style.zIndex = "9999";
-    overlay.style.transition = "background-color 0.2s";
-    document.body.appendChild(overlay);
+    const overlay = document.createElement('div')
+    overlay.style.position = 'fixed'
+    overlay.style.top = '0'
+    overlay.style.left = '0'
+    overlay.style.width = '100%'
+    overlay.style.height = '100%'
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+    overlay.style.zIndex = '9999'
+    overlay.style.transition = 'background-color 0.2s'
+    document.body.appendChild(overlay)
 
     setTimeout(() => {
-      overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    });
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+    })
 
     // Increase z-index of the element with fade-in effect
-    const originalZIndex = "auto";
+    const originalZIndex = 'auto'
 
-    element.style.transition = "z-index 0.2s";
-    element.style.zIndex = "100000";
+    element.style.transition = 'z-index 0.2s'
+    element.style.zIndex = '100000'
 
     // Focus on the input inside the element
-    const inputElement = element.querySelector("input");
+    const inputElement = element.querySelector('input')
     if (inputElement) {
-      inputElement.focus();
+      inputElement.focus()
     }
 
     // Revert changes with fade-out effect after 3 seconds
     setTimeout(() => {
-      overlay.style.backgroundColor = "rgba(0, 0, 0, 0)";
-      element.style.zIndex = originalZIndex;
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+      element.style.zIndex = originalZIndex
       setTimeout(() => {
-        document.body.removeChild(overlay);
-      }, 1000);
-    }, 2000);
+        document.body.removeChild(overlay)
+      }, 1000)
+    }, 2000)
   }
 
-  const nodes = data.allHeroJson.nodes;
-  const subheadingArray = nodes[0].subheading.split(" ");
-  const spanWords = subheadingArray.slice(0, 3).join(" ");
-  const backgroundImage = getImage(data.heroimage);
+  const nodes = data.allHeroJson.nodes
+  const subheadingArray = nodes[0].subheading.split(' ')
+  const spanWords = subheadingArray.slice(0, 3).join(' ')
+  const backgroundImage = getImage(data.heroimage)
   return (
     <div>
       <div
@@ -84,8 +84,8 @@ const Hero = () => {
         className="relative content-center bg-white bg-opacity-40 h-dvh bg-blend-overlay py-8"
         style={{
           backgroundImage: `url(${backgroundImage.images.fallback.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         <div>
@@ -107,18 +107,18 @@ const Hero = () => {
                 <p className="col-span-8 md:text-body-xl text-body-lg font-normal max-w-[850px] whitespace-pre-line drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.8)]">
                   <span className="font-bold underline underline-offset-2 decoration-black text-primary-600 drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.8)]">
                     {spanWords}
-                  </span>{" "}
-                  {subheadingArray.slice(3).join(" ")}{" "}
+                  </span>{' '}
+                  {subheadingArray.slice(3).join(' ')}{' '}
                 </p>
                 <ScrollIntoView
                   selector="#banner_input"
                   smooth={true}
                   scrollOptions={{
-                    block: "center",
-                    inline: "center",
-                    behavior: "smooth",
+                    block: 'center',
+                    inline: 'center',
+                    behavior: 'smooth',
                   }}
-                  onClick={() => highlightElement("div_input")}
+                  onClick={() => highlightElement('div_input')}
                   className="pt-8"
                 >
                   <img
@@ -133,7 +133,7 @@ const Hero = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

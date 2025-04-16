@@ -1,0 +1,22 @@
+name: Sync Fork
+
+on:
+  push:
+    branches:
+      #- '**'  # Triggers on any branch push
+       - staging
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout original repository
+        uses: actions/checkout@v2
+        with:
+          repository: AX99/Puretime-Property
+          token: ${{ secrets.PURETIME_REPO_TOKEN }}
+
+      - name: Sync to forked repository
+        run: |
+          git remote add fork https://${{ secrets.PURETIME_GITHUB_USER }}:${{ secrets.FORKED_REPO_TOKEN }}@github.com/${{ secrets.PURETIME_GITHUB_USER }}/Puretime-Property.git
+          git fetch fork
+          git push fork --all

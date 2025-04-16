@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { useModal } from "../context/modalContext";
+import { useModal } from '../context/modalContext'
 
 const Input = () => {
-  const { toggleModal, setModalData } = useModal();
-  const [postcode, setPostcode] = useState("");
+  const { toggleModal, setModalData } = useModal()
+  const [postcode, setPostcode] = useState('')
 
   const handleInputChange = (e) => {
-    setPostcode(e.target.value);
-  };
+    setPostcode(e.target.value)
+  }
 
   const handleButtonClick = () => {
     // Set postcode data to be passed to modal
-    setModalData({ postcode });
-    toggleModal();
-  };
+    setModalData({ postcode })
+    toggleModal()
+  }
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleButtonClick();
+    if (e.key === 'Enter') {
+      handleButtonClick()
     }
-  };
+  }
 
   return (
     <div id="banner_input" className="bg-neutral-900 relatve">
@@ -59,6 +59,6 @@ const Input = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default Input;
+  )
+}
+export default Input

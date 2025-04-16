@@ -1,7 +1,7 @@
-import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
+import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 
-import { useModal } from "../context/modalContext";
+import { useModal } from '../context/modalContext'
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -24,8 +24,8 @@ const Footer = () => {
         }
       }
     }
-  `);
-  const { toggleModal } = useModal();
+  `)
+  const { toggleModal } = useModal()
   return (
     <>
       <footer>
@@ -89,8 +89,8 @@ const Footer = () => {
           </div>
           <div className="flex lg:flex-row flex-col gap-8 lg:items-center justify-between mb-10">
             <div className="text-body-md font-light order-2 lg:order-1">
-              © {new Date().getFullYear()} Puretime Property Purchasing Ltd. All
-              Rights Reserved.{" "}
+              © {new Date().getFullYear()} Puretime Property Purchasing Ltd.
+              All Rights Reserved.{' '}
               <span className="inline-block relative cursor-pointer group">
                 <a
                   href="https://www.termsfeed.com/live/4616b0ab-2778-4f40-8748-da90b0f5fdd1"
@@ -99,7 +99,7 @@ const Footer = () => {
                 >
                   Privacy Policy
                 </a>
-                <span class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
               </span>
               <span className="mx-2">|</span>
               <span className="inline-block relative cursor-pointer group">
@@ -110,7 +110,7 @@ const Footer = () => {
                 >
                   Terms & Conditions
                 </a>
-                <span class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600 origin-left duration-700 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
               </span>
             </div>
             <div className="flex lg:flex-row flex-col lg:items-center md:gap-6 gap-4 order-1 lg:order-2">
@@ -143,7 +143,7 @@ const Footer = () => {
       <div className="bg-black text-white">
         <div className="container mx-auto py-2 pl-4 text-right footer-text">
           <p>
-            Website developed by{" "}
+            Website developed by{' '}
             <a
               href="https://github.com/ax99"
               className="text-primary-600 hover:text-primary-300  "
@@ -154,6 +154,6 @@ const Footer = () => {
         </div>
       </div>
     </>
-  );
-};
-export default Footer;
+  )
+}
+export default Footer

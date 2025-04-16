@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { GatsbyImage } from "gatsby-plugin-image";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { GatsbyImage } from 'gatsby-plugin-image'
 
 const WorkItem = ({ image, title, description, ...props }) => {
   return (
@@ -13,14 +13,14 @@ const WorkItem = ({ image, title, description, ...props }) => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 WorkItem.propTypes = {
   image: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   className: PropTypes.string,
-};
+}
 
-export default WorkItem;
+export default WorkItem

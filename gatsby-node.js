@@ -1,7 +1,41 @@
-exports.onCreatePage = ({page, actions}) => {
-    const {createPage} = actions;
+exports.createPages = async ({ actions, graphql, reporter }) => {
+  const { createPage } = actions;
 
-    if (page.path.match(/404/)) {
-        createPage(page);
+  // Query all blog posts
+  const result = await graphql(`
+    {
+      allContentfulBlogPost {
+        edges {
+          node {
+            id
+            slug
+          }
+        }
+      }
     }
-}
+  `);
+
+  // Handle errors
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `Error while running GraphQL query: ${result.errors}`
+    );
+    return;
+  }
+
+  const blogPostTemplate = require.resolve(
+    `./src/templates/{ContentfulBlogPost.slug}.js`
+  );
+
+  // Create a page for each blog post
+  result.data.allContentfulBlogPost.edges.forEach(({ node }) => {
+    createPage({
+      path: `/blog/${node.slug}/`,
+      component: blogPostTemplate,
+      context: {
+        id: node.id,
+        slug: node.slug,
+      },
+    });
+  });
+};
