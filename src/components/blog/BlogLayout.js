@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from '../header'
-import Footer from '../footer'
 
 const BlogLayout = ({ children }) => {
   const menu = [
@@ -18,7 +17,6 @@ const BlogLayout = ({ children }) => {
     <div>
       <Header menu={menu} />
       {children}
-      <Footer />
     </div>
   )
 }

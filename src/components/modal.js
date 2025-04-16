@@ -15,11 +15,14 @@ const Modal = () => {
     valuation: '',
     message: '',
     showForm: true,
+    gdprPhone: false,
+    gdprPost: false,
+    formSuccess: false,
   })
 
   const handleInputChange = (event) => {
     const target = event.target
-    const value = target.value
+    const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
     setState((prevState) => ({
       ...prevState,
@@ -29,28 +32,55 @@ const Modal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await addtoMailchimp(state.email, {
-      FNAME: state.firstName,
-      LNAME: state.lastName,
-      PHONE: state.phonenumber,
-      ADDRESS: state.address,
-      POSTCODE: state.postcode,
-      VALUATION: state.valuation,
-    })
-
-    const newMessage =
-      response.result === 'success'
-        ? `${response.msg}\n Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
-        : `Error: ${response.msg}`
-
-    setState((prevState) => ({
+    
+    setState(prevState => ({
       ...prevState,
-      message: newMessage,
-      showForm: response.result === 'success' ? false : true,
+      message: "Submitting your information..."
     }))
+    
+    try {
+      const response = await addtoMailchimp(state.email, {
+        FNAME: state.firstName,
+        LNAME: state.lastName,
+        PHONE: state.phonenumber,
+        ADDRESS: state.address,
+        POSTCODE: state.postcode,
+        VALUATION: state.valuation,
+        'gdpr[282]': state.gdprPhone ? 'Y' : '',
+        'gdpr[283]': state.gdprPost ? 'Y' : '',
+      })
 
-    // Hide the message after 6 seconds if the response is not successful
-    if (!response.result === 'success') {
+      const newMessage =
+        response.result === 'success'
+          ? `${response.msg}\n Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
+          : `Error: ${response.msg}`
+
+      setState((prevState) => ({
+        ...prevState,
+        message: newMessage,
+        showForm: response.result === 'success' ? false : true,
+        formSuccess: response.result === 'success',
+      }))
+
+      // Hide the message after 6 seconds if the response is not successful
+      if (response.result !== 'success') {
+        setTimeout(() => {
+          setState((prevState) => ({
+            ...prevState,
+            message: '',
+          }))
+        }, 6000)
+      }
+    } catch (error) {
+      console.error("Mailchimp submission error:", error)
+      setState((prevState) => ({
+        ...prevState,
+        message: error.message === "Timeout" 
+          ? "Request timed out. Please try again later." 
+          : `Error: ${error.message}`,
+      }))
+      
+      // Hide error message after 6 seconds
       setTimeout(() => {
         setState((prevState) => ({
           ...prevState,
@@ -62,9 +92,22 @@ const Modal = () => {
 
   const handleCloseModal = (e) => {
     if (e.target.id === 'contact_modal') toggleModal()
-    if (!state.showForm) {
-      setState({ ...state, showForm: true })
-      setState({ ...state, message: '' })
+    // Only reset form data if it was successfully submitted
+    if (state.formSuccess) {
+      setState({
+        email: '',
+        firstName: '',
+        lastName: '',
+        phonenumber: '',
+        address: '',
+        postcode: modalData ? modalData.postcode : '',
+        valuation: '',
+        message: '',
+        showForm: true,
+        gdprPhone: false,
+        gdprPost: false,
+        formSuccess: false,
+      })
     }
   }
 
@@ -93,7 +136,7 @@ const Modal = () => {
               <div className="relative flex flex-col justify-center overflow-hidden">
                 <div className="w-full pt-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 lg:max-w-xl">
                   <h4 className="font-semibold text-display-sm tracking-widest font-display text-center underline underline-offset-2 text-primary-600">
-                    Complete The Form To Receive Your Offer
+                    {state.formSuccess ? "Thanks for contacting us!" : "Complete The Form To Receive Your Offer"}
                   </h4>
 
                   {state.showForm && (
@@ -227,6 +270,39 @@ const Modal = () => {
                           placeholder="500,000"
                           value={state.valuation}
                         />
+                      </div>
+                      <div className="mb-4 mt-6">
+                        <div className="text-sm font-weight-semibold mb-2">Marketing Permissions</div>
+                        <p className="text-body-xs mb-3">
+                          By using this form you are agreeing to hear from us by email. Please select all the 
+                          additional ways you would like to hear from Puretime Property Purchasing Ltd:
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="gdprPhone"
+                              checked={state.gdprPhone}
+                              onChange={handleInputChange}
+                              className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-500"
+                            />
+                            <span className="text-sm">Phone</span>
+                          </label>
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="gdprPost"
+                              checked={state.gdprPost}
+                              onChange={handleInputChange}
+                              className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-500"
+                            />
+                            <span className="text-sm">Post</span>
+                          </label>
+                        </div>
+                        {/* <p className="text-body-xs mt-2">
+                          You can unsubscribe from our messages at any time by clicking the link in the footer of our emails.
+                          For information about our privacy practices, please visit our website.
+                        </p> */}
                       </div>
                       <div aria-hidden="true" className="hidden" hidden>
                         <input
