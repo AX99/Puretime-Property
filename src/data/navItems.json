@@ -1,7 +1,22 @@
 [
   {
     "name": "Home",
-    "href": "/",
-    "homepage_section": false
+    "href": "/"
+  },
+  {
+    "name": "About",
+    "href": "/about"
+  },
+  {
+    "name": "Services",
+    "href": "/services"
+  },
+  {
+    "name": "FAQ",
+    "href": "/faq"
+  },
+  {
+    "name": "Blog",
+    "href": "/blog"
   }
 ]
