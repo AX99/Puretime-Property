@@ -5,6 +5,7 @@ on:
     branches:
       #- '**'  # Triggers on any branch push
        - main
+       - staging
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -19,4 +20,5 @@ jobs:
         run: |
           git remote add fork https://${{ secrets.PURETIME_GITHUB_USER }}:${{ secrets.FORKED_REPO_TOKEN }}@github.com/${{ secrets.PURETIME_GITHUB_USER }}/Puretime-Property.git
           git fetch fork
-          git push -f fork --all
+          git push -f fork main:main
+          git push -f fork staging:staging
