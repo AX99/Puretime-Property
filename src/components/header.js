@@ -45,16 +45,21 @@ const Header = ({ menu }) => {
         <div className="container mx-auto h-full">
           <div className="flex justify-between items-center h-full">
             <div className="flex flex-row gap-8 items-center">
-              <Link to="/" aria-label="Home">
-                <motion.img
-                  className="max-w-[120px]"
-                  width={100}
-                  height={40}
-                  src={Logo}
-                  alt="Puretime Property Logo"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
-                />
+              <Link to="/" aria-label="Home" className="flex justify-center items-center">
+                <motion.div
+                  className="flex justify-center items-center"
+                  initial={{ width: 100 }}
+                  animate={{ width: scrolled ? 90 : 100 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.img
+                    src={Logo}
+                    alt="Puretime Property Logo"
+                    className="w-full h-auto"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  />
+                </motion.div>
               </Link>
             </div>
             <div className="flex flex-row gap-4 items-center">
