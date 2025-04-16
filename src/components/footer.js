@@ -142,7 +142,7 @@ const Footer = () => {
       </footer>
       <div className="bg-black text-white">
         <div className="container mx-auto py-2 pl-4 text-right footer-text">
-          <p>
+          <p className="text-body-xs">
             Website developed by{' '}
             <a
               href="https://github.com/ax99"
