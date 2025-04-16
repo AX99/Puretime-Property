@@ -2,14 +2,30 @@ import React from "react";
 import BlogPost from "../components/blog/BlogPost";
 import BlogLayout from "../components/blog/BlogLayout";
 import { graphql } from "gatsby";
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { renderRichText } from "gatsby-source-contentful/rich-text";
+import { BLOCKS } from "@contentful/rich-text-types";
 
 const BlogPostPage = ({ data }) => {
   // Fetch blog post data using the slug
   const post = data.contentfulBlogPost;
 
+  const options = {
+    renderNode: {
+      [BLOCKS.EMBEDDED_ASSET]: (node) => {
+        const { gatsbyImage, description } = node.data.target;
+        return <GatsbyImage image={getImage(gatsbyImage)} alt={description} />;
+      },
+    },
+  };
+
   return (
     <BlogLayout>
       <BlogPost post={post} />
+      <div>
+        {post.bodyContent?.raw && renderRichText(post.bodyContent, options)}
+      </div>
     </BlogLayout>
   );
 };
