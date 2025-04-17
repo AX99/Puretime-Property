@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql, useStaticQuery, Link } from "gatsby";
-
+import { motion } from "framer-motion";
 import BlogPreview from "./BlogPreview";
 
 const BlogList = () => {
@@ -43,23 +43,48 @@ const BlogList = () => {
   const totalCount = data.allContentfulBlogPost.totalCount;
 
   return (
-    <div>
-      <div className="container mx-auto pt-14">
-        <h1 className="italic underline underline-offset-2 decoration-primary-600 text-center py-7 font-display text-display-xl">
-          Blog
-        </h1>
-        <div className="grid lg:grid-cols-3 center grid-cols-1 lg:gap-8 gap-20 lg:py-30 py-12 items-center">
-          {posts.map((post) => (
-            <Link to={`/blog/${post.slug}`} key={post.id}>
-              <BlogPreview key={post.id} post={post} />
-            </Link>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container mx-auto pt-14 px-4 sm:px-6 lg:px-8">
+        <motion.h1 
+          className="text-center py-8 font-display text-display-xl font-bold"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          Our <span className="text-primary-600">Blog</span>
+        </motion.h1>
+        
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 py-12">
+          {posts.map((post, index) => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="h-full"
+            >
+              <Link to={`/blog/${post.slug}`} className="h-full block">
+                <BlogPreview post={post} />
+              </Link>
+            </motion.div>
           ))}
         </div>
-        <p>
-          {totalCount} {totalCount > 1 ? "posts" : "post"}
-        </p>
+        
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-neutral-600 text-body-md text-center pb-10 italic"
+        >
+          {totalCount} {totalCount > 1 ? "articles" : "article"}
+        </motion.p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
