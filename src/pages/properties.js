@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import { GatsbyImage, getImage, StaticImage } from 'gatsby-plugin-image'
 import { graphql, useStaticQuery } from 'gatsby'
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 import Seo from '../components/seo'
 import { useModal } from '../context/modalContext'
@@ -27,7 +27,111 @@ const staggerChildren = {
   }
 }
 
+/* 
+ * CONTENTFUL TRANSITION NOTES:
+ * 
+ * When transitioning to Contentful, update the GraphQL query to fetch from Contentful:
+ * 
+ * query {
+ *   allContentfulProperty {
+ *     nodes {
+ *       id
+ *       title
+ *       location
+ *       price
+ *       bedrooms
+ *       bathrooms
+ *       area
+ *       description
+ *       features
+ *       featuredImage {
+ *         gatsbyImageData(width: 600, height: 400, placeholder: BLURRED, formats: [AUTO, WEBP])
+ *       }
+ *     }
+ *   }
+ * }
+ * 
+ * Then update the PropertyCard component to use GatsbyImage:
+ * <GatsbyImage 
+ *   image={getImage(property.featuredImage)} 
+ *   alt={property.title}
+ *   className="h-full w-full"
+ * />
+ */
+
+// Simple PropertyCard using StaticImage for property images
 const PropertyCard = ({ property, onInquire }) => {
+  // Determine which image to show
+  const renderPropertyImage = () => {
+    // Use a simple switch statement to match image paths
+    switch(property.image) {
+      case 'property1.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property1.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      case 'property2.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property2.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      case 'property3.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property3.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      case 'property4.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property4.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      case 'property5.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property5.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      case 'property6.jpg':
+        return (
+          <StaticImage
+            src="../images/properties/property6.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+      default:
+        // Fallback image
+        return (
+          <StaticImage
+            src="../images/properties/property1.jpg"
+            alt={property.title}
+            className="h-full w-full"
+            objectFit="cover"
+          />
+        );
+    }
+  };
+
   return (
     <motion.div 
       className="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col"
@@ -35,10 +139,7 @@ const PropertyCard = ({ property, onInquire }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="relative h-52 bg-neutral-200">
-        {property.image && (
-          <div className="h-full w-full bg-cover bg-center" 
-               style={{ backgroundImage: `url('/images/properties/${property.image}')` }} />
-        )}
+        {renderPropertyImage()}
         <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
           {property.price}
         </div>
@@ -91,8 +192,96 @@ const PropertyCard = ({ property, onInquire }) => {
   );
 };
 
+// Pagination component
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const pageNumbers = [];
+  
+  // Generate page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+  
+  // Generate visible page numbers with ellipsis
+  const getVisiblePageNumbers = () => {
+    if (totalPages <= 7) {
+      return pageNumbers;
+    }
+    
+    if (currentPage <= 3) {
+      return [...pageNumbers.slice(0, 5), '...', totalPages];
+    }
+    
+    if (currentPage >= totalPages - 2) {
+      return [1, '...', ...pageNumbers.slice(totalPages - 5)];
+    }
+    
+    return [
+      1,
+      '...',
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      '...',
+      totalPages
+    ];
+  };
+  
+  const visiblePageNumbers = getVisiblePageNumbers();
+  
+  return (
+    <div className="flex justify-center items-center mt-12 space-x-2">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={`flex items-center justify-center w-10 h-10 rounded-md border ${
+          currentPage === 1
+            ? 'border-neutral-200 text-neutral-400 cursor-not-allowed'
+            : 'border-primary-600 text-primary-600 hover:bg-primary-50'
+        }`}
+        aria-label="Previous page"
+      >
+        <FaChevronLeft className="w-4 h-4" />
+      </button>
+      
+      {visiblePageNumbers.map((pageNumber, index) => (
+        <button
+          key={index}
+          onClick={() => pageNumber !== '...' ? onPageChange(pageNumber) : null}
+          className={`flex items-center justify-center w-10 h-10 rounded-md border ${
+            pageNumber === '...'
+              ? 'border-transparent cursor-default'
+              : pageNumber === currentPage
+              ? 'bg-primary-600 text-white border-primary-600'
+              : 'border-neutral-300 hover:border-primary-600 hover:text-primary-600'
+          }`}
+          aria-label={pageNumber === '...' ? 'More pages' : `Page ${pageNumber}`}
+          aria-current={pageNumber === currentPage ? 'page' : undefined}
+        >
+          {pageNumber}
+        </button>
+      ))}
+      
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={`flex items-center justify-center w-10 h-10 rounded-md border ${
+          currentPage === totalPages
+            ? 'border-neutral-200 text-neutral-400 cursor-not-allowed'
+            : 'border-primary-600 text-primary-600 hover:bg-primary-50'
+        }`}
+        aria-label="Next page"
+      >
+        <FaChevronRight className="w-4 h-4" />
+      </button>
+    </div>
+  );
+};
+
 const PropertiesPage = () => {
   const { openModal, setModalData } = useModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const propertiesPerPage = 6;
+  
   const [filters, setFilters] = useState({
     minBedrooms: '',
     maxPrice: '',
@@ -102,6 +291,16 @@ const PropertiesPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+  
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of properties section
+    const element = document.getElementById('properties-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
   
   const handleInquire = (property) => {
@@ -150,6 +349,12 @@ const PropertiesPage = () => {
     }
     return true;
   });
+  
+  // Calculate pagination
+  const totalPages = Math.max(1, Math.ceil(filteredProperties.length / propertiesPerPage));
+  const indexOfLastProperty = currentPage * propertiesPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
 
   return (
     <>
@@ -234,28 +439,48 @@ const PropertiesPage = () => {
       </section>
       
       {/* Properties Grid */}
-      <section className="py-16 md:py-24">
+      <section id="properties-section" className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           {filteredProperties.length > 0 ? (
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={staggerChildren}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {filteredProperties.map((property) => (
-                <motion.div key={property.id} variants={fadeIn}>
-                  <PropertyCard property={property} onInquire={handleInquire} />
-                </motion.div>
-              ))}
-            </motion.div>
+            <>
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={staggerChildren}
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {currentProperties.map((property) => (
+                  <motion.div key={property.id} variants={fadeIn}>
+                    <PropertyCard property={property} onInquire={handleInquire} />
+                  </motion.div>
+                ))}
+              </motion.div>
+              
+              {/* Results count and pagination */}
+              <div className="mt-12">
+                <div className="text-center text-neutral-600 mb-6">
+                  Showing {indexOfFirstProperty + 1}-{Math.min(indexOfLastProperty, filteredProperties.length)} of {filteredProperties.length} properties
+                </div>
+                
+                {totalPages > 1 && (
+                  <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+              </div>
+            </>
           ) : (
             <div className="text-center py-16">
               <h3 className="text-2xl font-semibold text-neutral-800 mb-4">No properties match your filters</h3>
               <p className="text-neutral-600 mb-8">Try adjusting your search criteria to see more results.</p>
               <button 
-                onClick={() => setFilters({ minBedrooms: '', maxPrice: '', location: '' })}
+                onClick={() => {
+                  setFilters({ minBedrooms: '', maxPrice: '', location: '' });
+                  setCurrentPage(1);
+                }}
                 className="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-6 rounded-md transition-colors"
               >
                 Reset Filters
