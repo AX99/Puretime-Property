@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { getImage } from 'gatsby-plugin-image'
-import { easeOut, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import CtaButton from '../images/cta-button.svg'
 
 // Enhanced animations
