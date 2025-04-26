@@ -41,6 +41,7 @@
     "gatsby-plugin-sitemap": "~6.13.1",
     "gatsby-source-contentful": "^8.13.2",
     "gatsby-source-filesystem": "~5.13.1",
+    "gatsby-source-sanity": "^7.9.1",
     "gatsby-transformer-json": "~5.13.1",
     "gatsby-transformer-sharp": "~5.13.1",
     "prop-types": "^15.8.1",
