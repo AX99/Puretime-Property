@@ -1,14 +1,30 @@
-# create a dockerfile to run this gatsby project# Use an official Node runtime as a parent image
-FROM node:18
-# Set the working directory in the container
+# Build stage
+FROM node:18-alpine AS build
+
+# Set working directory
 WORKDIR /app
-# Copy package.json and package-lock.json (or yarn.lock) to the working directory
-COPY package*.json ./
+
 # Install dependencies
-RUN yarn install
-# Bundle app source inside the Docker image
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+# Copy source code
 COPY . .
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
-# Run gatsby develop on container start
-CMD ["yarn", "run", "develop"]
+
+# Build the Gatsby site
+RUN yarn build
+
+# Runtime stage
+FROM nginx:alpine
+
+# Copy built assets from build stage
+COPY --from=build /app/public /usr/share/nginx/html
+
+# Copy nginx configuration (if you have a custom one)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Command to run
+CMD ["nginx", "-g", "daemon off;"]

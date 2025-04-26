@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Seo from '../components/seo'
+import { StaticImage } from 'gatsby-plugin-image'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -27,8 +28,24 @@ const ServicesPage = () => {
       <Seo title="Our Services - Puretime Property Purchasing" />
       
       {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        {/* Add a background image here */}
+        <div className="absolute inset-0 z-0 opacity-20">
+          <StaticImage 
+            src="../images/assets/services-hero.jpg" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+            objectPosition="center 50%" 
+            /* 
+              You can adjust the objectPosition value to control which part of the image is visible:
+              - "center top" shows the top center of the image
+              - "center 30%" shows 30% from the top (useful for faces/key elements)
+              - "left bottom" shows the bottom left corner
+              - "50% 70%" numerically positions from left and top
+            */
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -60,7 +77,7 @@ const ServicesPage = () => {
             </motion.h2>
             
             <div className="space-y-12">
-              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center">
+              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="md:w-1/3 flex justify-center">
                   <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
@@ -71,13 +88,13 @@ const ServicesPage = () => {
                 </div>
                 <div className="md:w-2/3">
                   <h3 className="text-2xl font-semibold mb-3">Quick Property Purchases</h3>
-                  <p className="text-neutral-700">
+                  <p className="text-neutral-600 leading-relaxed">
                     Our core service is purchasing properties quickly for cash. We can complete transactions in as little as 7 days, compared to the average 3-6 months with traditional sales. This service is ideal for those who need to sell quickly due to relocation, financial concerns, or other time-sensitive situations.
                   </p>
                 </div>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center">
+              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="md:w-1/3 md:order-2 flex justify-center">
                   <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
@@ -87,13 +104,13 @@ const ServicesPage = () => {
                 </div>
                 <div className="md:w-2/3 md:order-1">
                   <h3 className="text-2xl font-semibold mb-3">Flexible Completion Dates</h3>
-                  <p className="text-neutral-700">
+                  <p className="text-neutral-600 leading-relaxed">
                     Unlike traditional property sales, we can work around your schedule. Need to complete within weeks or prefer a few months? We can accommodate your timeline, giving you the flexibility to plan your move or next steps without added pressure.
                   </p>
                 </div>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center">
+              <motion.div variants={fadeIn} className="flex flex-col md:flex-row gap-8 items-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="md:w-1/3 flex justify-center">
                   <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
@@ -103,7 +120,7 @@ const ServicesPage = () => {
                 </div>
                 <div className="md:w-2/3">
                   <h3 className="text-2xl font-semibold mb-3">Property Consultations</h3>
-                  <p className="text-neutral-700">
+                  <p className="text-neutral-600 leading-relaxed">
                     Our team offers free, no-obligation property consultations to understand your unique situation and provide tailored solutions. We can help you weigh your options between a quick cash sale and traditional methods, providing honest advice on what's best for your circumstances.
                   </p>
                 </div>
@@ -114,8 +131,16 @@ const ServicesPage = () => {
       </section>
       
       {/* Specialized Services */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        {/* Add decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
+          <StaticImage 
+            src="../images/pattern.png" 
+            alt="Decorative pattern" 
+          />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -128,30 +153,50 @@ const ServicesPage = () => {
             </motion.h2>
             
             <div className="grid md:grid-cols-2 gap-8">
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold mb-3 text-primary-600">Inherited Properties</h3>
-                <p className="text-neutral-700 mb-4">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Inherited Properties</h3>
+                <p className="text-neutral-600 mb-4">
                   Dealing with inherited property can be emotionally challenging. We offer sensitive, efficient solutions for selling inherited properties, helping to manage the financial and logistical aspects during a difficult time.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold mb-3 text-primary-600">Properties in Disrepair</h3>
-                <p className="text-neutral-700 mb-4">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Properties in Disrepair</h3>
+                <p className="text-neutral-600 mb-4">
                   Traditional buyers often shy away from properties needing significant work. We purchase properties in any condition, saving you the cost and hassle of renovations or repairs before selling.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold mb-3 text-primary-600">Chain Break Solutions</h3>
-                <p className="text-neutral-700 mb-4">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Chain Break Solutions</h3>
+                <p className="text-neutral-600 mb-4">
                   If you're caught in a property chain that's at risk of collapsing, we can step in as cash buyers to keep your onward purchase on track, preventing delays and potential financial losses.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold mb-3 text-primary-600">Relocation Assistance</h3>
-                <p className="text-neutral-700 mb-4">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Relocation Assistance</h3>
+                <p className="text-neutral-600 mb-4">
                   When job relocation demands a quick move, our expedited purchase process ensures you can focus on your new position without the stress of a prolonged property sale hanging over you.
                 </p>
               </motion.div>
@@ -161,8 +206,11 @@ const ServicesPage = () => {
       </section>
       
       {/* Process */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="py-16 md:py-24 relative">
+        {/* Add a subtle background pattern */}
+        <div className="absolute inset-0 bg-neutral-50 opacity-50 z-0"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -174,43 +222,43 @@ const ServicesPage = () => {
               Our Process
             </motion.h2>
             
-            <div className="space-y-12">
-              <motion.div variants={fadeIn} className="flex flex-col items-center">
+            <div className="grid md:grid-cols-2 gap-8">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
                   1
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-center">Initial Consultation</h3>
-                <p className="text-neutral-700 text-center max-w-md">
+                <h3 className="text-2xl font-semibold mb-2">Initial Consultation</h3>
+                <p className="text-neutral-600 leading-relaxed">
                   Contact us to discuss your property and situation. We'll explain our process and answer any questions you have.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="flex flex-col items-center">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
                   2
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-center">Property Valuation</h3>
-                <p className="text-neutral-700 text-center max-w-md">
+                <h3 className="text-2xl font-semibold mb-2">Property Valuation</h3>
+                <p className="text-neutral-600 leading-relaxed">
                   We'll conduct a thorough market analysis and provide you with a fair, no-obligation cash offer within 24 hours.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="flex flex-col items-center">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
                   3
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-center">Formal Offer & Legal Process</h3>
-                <p className="text-neutral-700 text-center max-w-md">
+                <h3 className="text-2xl font-semibold mb-2">Formal Offer & Legal Process</h3>
+                <p className="text-neutral-600 leading-relaxed">
                   Once you accept our offer, we handle all the legal paperwork and coordinate with solicitors to ensure a smooth transaction.
                 </p>
               </motion.div>
               
-              <motion.div variants={fadeIn} className="flex flex-col items-center">
+              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
                   4
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-center">Completion & Payment</h3>
-                <p className="text-neutral-700 text-center max-w-md">
+                <h3 className="text-2xl font-semibold mb-2">Completion & Payment</h3>
+                <p className="text-neutral-600 leading-relaxed">
                   We complete the purchase on your preferred date, and you receive the funds directly to your account.
                 </p>
               </motion.div>

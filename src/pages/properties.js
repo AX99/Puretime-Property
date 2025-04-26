@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { GatsbyImage, getImage, StaticImage } from 'gatsby-plugin-image'
+import { StaticImage, getImage } from 'gatsby-plugin-image'
 import { graphql, useStaticQuery } from 'gatsby'
 import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 import Seo from '../components/seo'
 import { useModal } from '../context/modalContext'
+
+import property1 from "../images/properties/property1.jpg"
+import property2 from "../images/properties/property2.jpg"
+import property3 from "../images/properties/property3.jpg"
+import property4 from "../images/properties/property4.jpg"
+import property5 from "../images/properties/property5.jpg"
+import property6 from "../images/properties/property6.jpg"
+
 
 // Animation variants
 const fadeIn = {
@@ -59,79 +67,19 @@ const staggerChildren = {
  * />
  */
 
-// Simple PropertyCard using StaticImage for property images
+// Simple PropertyCard using image paths from properties.json
 const PropertyCard = ({ property, onInquire }) => {
-  // Determine which image to show
-  const renderPropertyImage = () => {
-    // Use a simple switch statement to match image paths
-    switch(property.image) {
-      case 'property1.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property1.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      case 'property2.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property2.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      case 'property3.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property3.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      case 'property4.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property4.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      case 'property5.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property5.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      case 'property6.jpg':
-        return (
-          <StaticImage
-            src="../images/properties/property6.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-      default:
-        // Fallback image
-        return (
-          <StaticImage
-            src="../images/properties/property1.jpg"
-            alt={property.title}
-            className="h-full w-full"
-            objectFit="cover"
-          />
-        );
-    }
-  };
 
+
+  const propertyMap = {
+    "property1.jpg": property1,
+    "property2.jpg": property2,
+    "property3.jpg": property3,
+    "property4.jpg": property4,
+    "property5.jpg": property5,
+    "property6.jpg": property6
+  } 
+  
   return (
     <motion.div 
       className="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col"
@@ -139,7 +87,12 @@ const PropertyCard = ({ property, onInquire }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="relative h-52 bg-neutral-200">
-        {renderPropertyImage()}
+        {console.log(propertyMap[property.image])}  
+        <StaticImage 
+          src={`../images/properties/property1.jpg`} 
+          alt={property.title}
+          className="h-full w-full object-cover"
+        />
         <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
           {property.price}
         </div>
