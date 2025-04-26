@@ -1,5 +1,6 @@
 # Logs
 logs
+/logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -16,6 +17,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+/coverage
 
 # nyc test coverage
 .nyc_output
@@ -34,10 +36,14 @@ build/Release
 
 # Dependency directories
 node_modules/
+/node_modules
 jspm_packages/
+/.pnp
+.pnp.js
 
-# Typescript v1 declaration files
+# Typescript
 typings/
+*.tsbuildinfo
 
 # Optional npm cache directory
 .npm
@@ -51,27 +57,45 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# dotenv environment variable files
-.env*
-
-# gatsby files
-.cache/
-public
-
-# Mac files
-.DS_Store
-
 # Yarn
 yarn-error.log
 .pnp/
-.pnp.js
-# Yarn Integrity file
 .yarn-integrity
 
-.now
-# Local Netlify folder
-.netlify
-.vercel
+# Environment variables
+.env*
+*.local
+.env.development
+.env.production
+
+# Gatsby specific
+.cache/
+public
+
+# Sanity Studio
+/dist
+/.sanity
+.sanity/
+cms/dist/
+cms/node_modules/
+studio/dist/
+studio/node_modules/
+sanity-build/
+sanity.json
+sanity.cli.js
+static/studio
+static/cms
+
+# Mac files
+.DS_Store
 src/images/logos/.DS_Store
 src/images/.DS_Store
 src/.DS_Store
+*.pem
+
+# Deployment
+.now
+.netlify
+.vercel
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
