@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { motion } from 'framer-motion'
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaPoundSign, FaRegBuilding, FaRegMoneyBillAlt } from 'react-icons/fa'
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaPoundSign, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
 import Seo from '../components/seo'
 import { useModal } from '../context/modalContext'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
@@ -137,9 +137,9 @@ const PropertyDetailTemplate = ({ data }) => {
       
       <section className="bg-neutral-50 pt-8 pb-16 md:py-16">
         <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="mb-6">
-            <nav className="flex" aria-label="Breadcrumb">
+          {/* Breadcrumb and Back Button */}
+          <div className="flex flex-wrap items-center justify-between mb-6">
+            <nav className="flex mb-2 md:mb-0" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-3">
                 <li className="inline-flex items-center">
                   <Link to="/" className="inline-flex items-center text-sm font-medium text-neutral-700 hover:text-primary-600">
@@ -164,6 +164,14 @@ const PropertyDetailTemplate = ({ data }) => {
                 </li>
               </ol>
             </nav>
+            
+            <Link 
+              to="/properties" 
+              className="inline-flex items-center text-neutral-700 hover:text-primary-600"
+            >
+              <FaArrowLeft className="mr-2" />
+              Back to all properties
+            </Link>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -208,27 +216,65 @@ const PropertyDetailTemplate = ({ data }) => {
                     )}
                   </div>
                   
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                    <div className="flex flex-col items-center justify-center p-4 bg-neutral-50 rounded-lg">
-                      <FaBed className="text-xl text-primary-600 mb-2" />
-                      <span className="text-sm text-neutral-500">Bedrooms</span>
-                      <span className="font-semibold">{bedrooms || 'N/A'}</span>
+                  {/* Key Property Features - Horizontal Layout */}
+                  <div className="flex flex-wrap mb-8">
+                    <div className="flex items-center mr-6 mb-3">
+                      <FaBed className="text-xl text-primary-600 mr-2" />
+                      <div>
+                        <div className="text-sm text-neutral-500">Bedrooms</div>
+                        <div className="font-semibold">{bedrooms || 'N/A'}</div>
+                      </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-4 bg-neutral-50 rounded-lg">
-                      <FaBath className="text-xl text-primary-600 mb-2" />
-                      <span className="text-sm text-neutral-500">Bathrooms</span>
-                      <span className="font-semibold">{bathrooms || 'N/A'}</span>
+                    <div className="flex items-center mr-6 mb-3">
+                      <FaBath className="text-xl text-primary-600 mr-2" />
+                      <div>
+                        <div className="text-sm text-neutral-500">Bathrooms</div>
+                        <div className="font-semibold">{bathrooms || 'N/A'}</div>
+                      </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-4 bg-neutral-50 rounded-lg">
-                      <FaRuler className="text-xl text-primary-600 mb-2" />
-                      <span className="text-sm text-neutral-500">Area</span>
-                      <span className="font-semibold">{area ? `${area} ${areaUnit}` : 'N/A'}</span>
+                    <div className="flex items-center mr-6 mb-3">
+                      <FaRuler className="text-xl text-primary-600 mr-2" />
+                      <div>
+                        <div className="text-sm text-neutral-500">Area</div>
+                        <div className="font-semibold">{area ? `${area} ${areaUnit}` : 'N/A'}</div>
+                      </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-4 bg-neutral-50 rounded-lg">
-                      <FaHome className="text-xl text-primary-600 mb-2" />
-                      <span className="text-sm text-neutral-500">Type</span>
-                      <span className="font-semibold capitalize">{propertyType || 'N/A'}</span>
+                    <div className="flex items-center mb-3">
+                      <FaHome className="text-xl text-primary-600 mr-2" />
+                      <div>
+                        <div className="text-sm text-neutral-500">Type</div>
+                        <div className="font-semibold capitalize">{propertyType || 'N/A'}</div>
+                      </div>
                     </div>
+                  </div>
+                  
+                  {/* Quick Property Details - Horizontal Layout */}
+                  <div className="flex flex-wrap gap-3 mb-8">
+                    {tenure && (
+                      <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                        <FaRegBuilding className="text-primary-600 mr-2" />
+                        <span><span className="text-neutral-500 mr-1">Tenure:</span> {tenure}</span>
+                      </div>
+                    )}
+                    
+                    {councilTaxBand && (
+                      <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                        <FaRegMoneyBillAlt className="text-primary-600 mr-2" />
+                        <span><span className="text-neutral-500 mr-1">Council Tax:</span> Band {councilTaxBand}</span>
+                      </div>
+                    )}
+                    
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                      <FaTag className="text-primary-600 mr-2" />
+                      <span><span className="text-neutral-500 mr-1">Status:</span> {statusDetails.text}</span>
+                    </div>
+                    
+                    {publishedAt && (
+                      <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                        <FaCalendarAlt className="text-primary-600 mr-2" />
+                        <span><span className="text-neutral-500 mr-1">Listed:</span> {formattedDate}</span>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="mb-8">
@@ -259,59 +305,24 @@ const PropertyDetailTemplate = ({ data }) => {
                       </div>
                     </div>
                   )}
-                  
-                  {/* UK Specific Property Details */}
-                  <div className="mb-8">
-                    <h2 className="text-xl font-semibold mb-4">Property Details</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Tenure */}
-                      {tenure && (
-                        <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                          <FaRegBuilding className="text-primary-600 mr-3 mt-1" />
-                          <div>
-                            <h3 className="font-medium">Tenure</h3>
-                            <p>{tenure}</p>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Council Tax Band */}
-                      {councilTaxBand && (
-                        <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                          <FaRegMoneyBillAlt className="text-primary-600 mr-3 mt-1" />
-                          <div>
-                            <h3 className="font-medium">Council Tax Band</h3>
-                            <p>Band {councilTaxBand}</p>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Status */}
-                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                        <FaTag className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Status</h3>
-                          <p>{statusDetails.text}</p>
-                        </div>
-                      </div>
-                      
-                      {/* Date Listed */}
-                      {publishedAt && (
-                        <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                          <FaCalendarAlt className="text-primary-600 mr-3 mt-1" />
-                          <div>
-                            <h3 className="font-medium">Date Listed</h3>
-                            <p>{formattedDate}</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Address */}
-                  {location && (
-                    <div className="mb-8">
-                      <h2 className="text-xl font-semibold mb-4">Location</h2>
+                </div>
+              </motion.div>
+              
+              {/* Location Section with Map */}
+              {location && (
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeIn}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden mb-8"
+                >
+                  <div className="p-6 md:p-8">
+                    <h2 className="text-xl font-semibold mb-4 flex items-center">
+                      <FaMapMarked className="mr-2 text-primary-600" />
+                      Location
+                    </h2>
+                    
+                    <div className="mb-4">
                       <address className="not-italic">
                         {location.street && <div>{location.street}</div>}
                         {location.city && <div>{location.city}</div>}
@@ -320,17 +331,87 @@ const PropertyDetailTemplate = ({ data }) => {
                         {location.country && <div>{location.country}</div>}
                       </address>
                     </div>
-                  )}
+                    
+                    {/* Map container - To be populated by map component */}
+                    <div className="aspect-[16/9] bg-neutral-100 rounded-lg flex items-center justify-center">
+                      <p className="text-neutral-500">Map will be displayed here</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              
+              {/* Property Details Section */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                className="bg-white rounded-lg shadow-lg overflow-hidden mb-8"
+              >
+                <div className="p-6 md:p-8">
+                  <h2 className="text-xl font-semibold mb-4">Additional Property Details</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Property Type */}
+                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                      <FaHome className="text-primary-600 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-medium">Property Type</h3>
+                        <p className="capitalize">{propertyType || 'N/A'}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Tenure */}
+                    {tenure && (
+                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                        <FaRegBuilding className="text-primary-600 mr-3 mt-1" />
+                        <div>
+                          <h3 className="font-medium">Tenure</h3>
+                          <p>{tenure}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Council Tax Band */}
+                    {councilTaxBand && (
+                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                        <FaRegMoneyBillAlt className="text-primary-600 mr-3 mt-1" />
+                        <div>
+                          <h3 className="font-medium">Council Tax Band</h3>
+                          <p>Band {councilTaxBand}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Status */}
+                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                      <FaTag className="text-primary-600 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-medium">Status</h3>
+                        <p>{statusDetails.text}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Date Listed */}
+                    {publishedAt && (
+                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                        <FaCalendarAlt className="text-primary-600 mr-3 mt-1" />
+                        <div>
+                          <h3 className="font-medium">Date Listed</h3>
+                          <p>{formattedDate}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Price */}
+                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
+                      <FaPoundSign className="text-primary-600 mr-3 mt-1" />
+                      <div>
+                        <h3 className="font-medium">Price</h3>
+                        <p>{formattedPrice}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
-              
-              <Link 
-                to="/properties" 
-                className="inline-flex items-center text-neutral-700 hover:text-primary-600 mb-8"
-              >
-                <FaArrowLeft className="mr-2" />
-                Back to all properties
-              </Link>
             </div>
             
             {/* Sidebar - 1/3 width on desktop */}
@@ -359,54 +440,27 @@ const PropertyDetailTemplate = ({ data }) => {
                 </div>
               </div>
               
-              {/* Property Highlights Card */}
+              {/* Key Features Card */}
               <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
                 <div className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Property Highlights</h2>
+                  <h2 className="text-xl font-semibold mb-4">Key Features</h2>
                   
-                  <div className="space-y-4">
-                    {/* Property Type */}
-                    {propertyType && (
-                      <div className="flex items-start">
-                        <FaHome className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Property Type</h3>
-                          <p className="capitalize">{propertyType}</p>
-                        </div>
-                      </div>
+                  <ul className="space-y-3">
+                    {amenities && amenities.length > 0 && amenities.slice(0, 5).map((amenity, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="text-primary-600 mr-2">•</span>
+                        <span>{amenity}</span>
+                      </li>
+                    ))}
+                    {amenities && amenities.length > 5 && (
+                      <li className="text-primary-600 font-medium">
+                        +{amenities.length - 5} more features
+                      </li>
                     )}
-                    
-                    {/* Price */}
-                    <div className="flex items-start">
-                      <FaPoundSign className="text-primary-600 mr-3 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Price</h3>
-                        <p>{formattedPrice}</p>
-                      </div>
-                    </div>
-                    
-                    {/* Tenure */}
-                    {tenure && (
-                      <div className="flex items-start">
-                        <FaRegBuilding className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Tenure</h3>
-                          <p>{tenure}</p>
-                        </div>
-                      </div>
+                    {(!amenities || amenities.length === 0) && (
+                      <li className="text-neutral-500">No features listed</li>
                     )}
-                    
-                    {/* Date Listed */}
-                    {publishedAt && (
-                      <div className="flex items-start">
-                        <FaCalendarAlt className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Date Listed</h3>
-                          <p>{formattedDate}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  </ul>
                 </div>
               </div>
             </motion.div>
