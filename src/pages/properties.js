@@ -6,6 +6,7 @@ import { useModal } from '../context/modalContext'
 import PropertyCard from '../components/PropertyCard'
 import Pagination from '../components/Pagination'
 import PropertyFilter from '../components/PropertyFilter'
+import { StaticImage } from 'gatsby-plugin-image'
 
 // Animation variants
 const fadeIn = {
@@ -40,7 +41,8 @@ const PropertiesPage = ({ data }) => {
     maxPrice: '',
     location: '',
     propertyType: '',
-    status: ''
+    status: '',
+    sortBy: 'newest'
   });
   
   const handleInputChange = (e) => {
@@ -57,9 +59,9 @@ const PropertiesPage = ({ data }) => {
     });
   };
   
-  const handleInquire = (property) => {
+  const handleEnquiry = (property) => {
     setModalData({ 
-      title: 'Property Inquiry',
+      title: 'Property Enquiry',
       subtitle: `About: ${property.title}`,
       content: `
         <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
@@ -117,11 +119,31 @@ const PropertiesPage = ({ data }) => {
     return true;
   });
   
+  // Sort properties based on user selection
+  const sortedProperties = [...filteredProperties].sort((a, b) => {
+    switch(filters.sortBy) {
+      case 'newest':
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      case 'oldest':
+        return new Date(a.publishedAt) - new Date(b.publishedAt);
+      case 'price-low':
+        return a.price - b.price;
+      case 'price-high':
+        return b.price - a.price;
+      case 'beds-high':
+        return (b.bedrooms || 0) - (a.bedrooms || 0);
+      case 'beds-low':
+        return (a.bedrooms || 0) - (b.bedrooms || 0);
+      default:
+        return 0;
+    }
+  });
+  
   // Calculate pagination
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
-  const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+  const currentProperties = sortedProperties.slice(indexOfFirstProperty, indexOfLastProperty);
+  const totalPages = Math.ceil(sortedProperties.length / propertiesPerPage);
   
   // Get unique property types for filter
   const propertyTypes = [...new Set(allProperties.map(p => p.propertyType).filter(Boolean))];
@@ -140,20 +162,36 @@ const PropertiesPage = ({ data }) => {
         description="Browse our selection of available and past properties for sale across the UK."
       />
       
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      {/* Hero Section */}
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <StaticImage 
+            src="../images/assets/properties-hero.jpg" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+            objectPosition="center 50%"
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
-            className="text-center mb-16"
             initial="hidden"
             animate="visible"
-            variants={fadeIn}
+            variants={staggerChildren}
+            className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-neutral-900">Our Properties</h1>
-            <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
+            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 mb-6">
+              Our Properties
+            </motion.h1>
+            <motion.p variants={fadeIn} className="text-lg md:text-xl text-neutral-700 mb-8">
               Browse our selection of available and past properties. Filter by your preferences to find your perfect home.
-            </p>
+            </motion.p>
           </motion.div>
+        </div>
+      </section>
       
+      {/* Properties Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
           <PropertyFilter 
             filters={filters}
             handleInputChange={handleInputChange}
@@ -162,7 +200,7 @@ const PropertiesPage = ({ data }) => {
             locations={locations}
           />
           
-          {filteredProperties.length === 0 ? (
+          {sortedProperties.length === 0 ? (
             <motion.div 
               className="text-center py-16"
               initial="hidden"
@@ -174,7 +212,7 @@ const PropertiesPage = ({ data }) => {
             </motion.div>
           ) : (
             <>
-              <p className="text-neutral-600 mb-6">{filteredProperties.length} properties found</p>
+              <p className="text-neutral-600 mb-6">{sortedProperties.length} properties found</p>
               
               <motion.div 
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -187,7 +225,7 @@ const PropertiesPage = ({ data }) => {
                     key={property._id} 
                     variants={fadeIn}
                   >
-                    <PropertyCard property={property} onInquire={handleInquire} />
+                    <PropertyCard property={property} onEnquire={handleEnquiry} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -201,6 +239,39 @@ const PropertiesPage = ({ data }) => {
               )}
             </>
           )}
+        </div>
+      </section>
+      
+      {/* Call to Action */}
+      <section className="bg-primary-600 py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
+              Can't find what you're looking for?
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
+              Contact us to discuss your property requirements. We're here to help find your perfect property.
+            </motion.p>
+            <motion.button 
+              variants={fadeIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              onClick={() => {
+                if (window !== undefined && window.openContactModal) {
+                  window.openContactModal();
+                }
+              }}
+            >
+              Contact Us
+            </motion.button>
+          </motion.div>
         </div>
       </section>
     </>
