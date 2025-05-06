@@ -5,6 +5,7 @@ import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLe
 import Seo from '../components/seo'
 import { useModal } from '../context/modalContext'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
+import PropertyMap from '../components/PropertyMap'
 
 // Animation variants
 const fadeIn = {
@@ -59,6 +60,20 @@ const PropertyDetailTemplate = ({ data }) => {
     tenure
   } = property
   
+  // Safely access location fields with fallbacks
+  const {
+    city = '',
+    state = '',
+    street = '',
+    postalCode = '',
+    country = '',
+    coordinates = {}
+  } = location || {}
+  
+  // Safely access coordinates
+  const lat = coordinates?.lat
+  const lng = coordinates?.lng
+  
   // Format price with currency symbol
   const formattedPrice = new Intl.NumberFormat('en-GB', {
     style: 'currency',
@@ -72,12 +87,12 @@ const PropertyDetailTemplate = ({ data }) => {
     year: 'numeric'
   }) : 'Date not available'
   
-  const locationString = location?.city ? 
-    `${location.city}${location.state ? `, ${location.state}` : ''}` : 
+  const locationString = city ? 
+    `${city}${state ? `, ${state}` : ''}` : 
     'Location not specified'
     
   const fullAddress = location ? 
-    `${location.street || ''} ${location.city || ''} ${location.state || ''} ${location.postalCode || ''} ${location.country || ''}`.trim() : 
+    `${street || ''} ${city || ''} ${state || ''} ${postalCode || ''} ${country || ''}`.trim() : 
     'Address not available'
   
   // Status badge styling and text
@@ -116,7 +131,7 @@ const PropertyDetailTemplate = ({ data }) => {
       content: `
         <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
         <p class="mb-4"><strong>Property:</strong> ${title}</p>
-        <p class="mb-4"><strong>Location:</strong> ${location?.city || 'N/A'}</p>
+        <p class="mb-4"><strong>Location:</strong> ${city || 'N/A'}</p>
         <p class="mb-4"><strong>Price:</strong> ${formattedPrice}</p>
       `,
       formType: 'property',
@@ -324,18 +339,30 @@ const PropertyDetailTemplate = ({ data }) => {
                     
                     <div className="mb-4">
                       <address className="not-italic">
-                        {location.street && <div>{location.street}</div>}
-                        {location.city && <div>{location.city}</div>}
-                        {location.state && <div>{location.state}</div>}
-                        {location.postalCode && <div>{location.postalCode}</div>}
-                        {location.country && <div>{location.country}</div>}
+                        {street && <div>{street}</div>}
+                        {city && <div>{city}</div>}
+                        {state && <div>{state}</div>}
+                        {postalCode && <div>{postalCode}</div>}
+                        {country && <div>{country}</div>}
                       </address>
                     </div>
                     
-                    {/* Map container - To be populated by map component */}
-                    <div className="aspect-[16/9] bg-neutral-100 rounded-lg flex items-center justify-center">
-                      <p className="text-neutral-500">Map will be displayed here</p>
-                    </div>
+                    {/* Property Map Component */}
+                    <PropertyMap
+                      latitude={lat}
+                      longitude={lng}
+                      title={title}
+                      address={fullAddress}
+                      mapHeight="400px"
+                      zoom={15}
+                      propertyData={{
+                        bedrooms,
+                        bathrooms,
+                        price,
+                        priceUnit,
+                        propertyType
+                      }}
+                    />
                   </div>
                 </motion.div>
               )}
@@ -500,6 +527,10 @@ export const query = graphql`
         street
         postalCode
         country
+        coordinates {
+          lat
+          lng
+        }
       }
       mainImage {
         asset {

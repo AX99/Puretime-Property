@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import GeocodingInput from '../components/GeocodingInput'
 
 export default defineType({
   name: 'property',

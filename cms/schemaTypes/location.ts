@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import GeocodingInput from '../components/GeocodingInput'
 
 export default defineType({
   name: 'location',
@@ -33,7 +34,11 @@ export default defineType({
     defineField({
       name: 'coordinates',
       title: 'Coordinates',
-      type: 'geopoint'
+      description: 'Set the property location by geocoding the address above or clicking on the map',
+      type: 'geopoint',
+      components: {
+        input: GeocodingInput
+      }
     })
   ]
 }) 
