@@ -86,7 +86,7 @@ const FaqPage = () => {
     },
     {
       question: "Are there any fees to pay?",
-      answer: <p>No. We cover all costs associated with the sale, including legal fees, valuation costs, and any other expenses typically associated with selling a property. The price we offer is exactly what you'll receive – there are no hidden charges or deductions.</p>
+      answer: <p>No. We cover legal fees associated with the sale of your property. The price we offer is exactly what you'll receive – there are no hidden charges or deductions.</p>
     },
     {
       question: "Is there any obligation when I request an offer?",
