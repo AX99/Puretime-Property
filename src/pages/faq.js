@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Seo from '../components/seo'
+import { StaticImage } from 'gatsby-plugin-image'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -28,7 +29,7 @@ const FaqItem = ({ question, answer }) => {
   return (
     <motion.div 
       variants={fadeIn}
-      className="border-b border-neutral-200 py-6"
+      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -73,7 +74,7 @@ const FaqPage = () => {
     },
     {
       question: "How does the process work?",
-      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 24 hours. If you accept, we handle all the legal paperwork and can complete the purchase on your preferred date. There are no fees, no chain to worry about, and no risk of last-minute fall-throughs.</p>
+      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 48 hours. If you accept, we handle all the legal paperwork and can complete the purchase with you paying no fees, no chain to worry about, and no risk of last-minute fall-throughs.</p>
     },
     {
       question: "Will you buy any property?",
@@ -106,8 +107,17 @@ const FaqPage = () => {
       <Seo title="FAQ - Puretime Property Purchasing" />
       
       {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        {/* Add a background image here for consistency */}
+        <div className="absolute inset-0 z-0 opacity-20">
+          <StaticImage 
+            src="../images/assets/faq-hero.jpg"
+            alt="FAQ background" 
+            className="w-full h-full object-cover" 
+            objectPosition="center 50%" 
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -125,14 +135,16 @@ const FaqPage = () => {
       </section>
       
       {/* FAQ Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="py-16 md:py-24 relative">
+        {/* Add a subtle background pattern for consistency */}
+        <div className="absolute inset-0 bg-neutral-50 opacity-50 z-0"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="max-w-3xl mx-auto"
+            className="max-w-3xl mx-auto space-y-8"
           >
             {faqItems.map((item, index) => (
               <FaqItem 
