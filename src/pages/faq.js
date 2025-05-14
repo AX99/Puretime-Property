@@ -70,15 +70,15 @@ const FaqPage = () => {
   const faqItems = [
     {
       question: "How quickly can you buy my property?",
-      answer: <p>We can complete the purchase in as little as 7 days from initial contact. However, we can also work to your preferred timeline if you need more time. Our flexible approach means we can accommodate your needs, whether you're looking for a quick sale or need a specific completion date.</p>
+      answer: <p>We can complete the purchase in as little as 30 days from initial contact. However, we can also work to your preferred timeline if you need more time. Our flexible approach means we can accommodate your needs, whether you're looking for a quick sale or need a specific completion date.</p>
     },
     {
       question: "How does the process work?",
-      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 48 hours. If you accept, we handle all the legal paperwork and can complete the purchase with you paying no fees, no chain to worry about, and no risk of last-minute fall-throughs.</p>
+      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 48 hours. If you accept, we handle all the legal paperwork and can complete the purchase with you paying no legal fees and no risk of last-minute fall-throughs.</p>
     },
     {
       question: "Will you buy any property?",
-      answer: <p>Yes, we consider properties in any condition and in any location across the UK. Whether your property is in pristine condition or requires significant renovation, we can make you a fair offer. We've bought everything from studio apartments to large family homes, including properties with structural issues, short leases, or non-standard construction types.</p>
+      answer: <p>Yes, we consider properties in any condition and in any location across Mainland UK (Except Scotland and Northern Ireland). Whether your property is in pristine condition or requires significant renovation, we can make you a fair offer. We've bought everything from studio apartments to large family homes, including properties with structural issues, short leases, or non-standard construction types.</p>
     },
     {
       question: "How much will you offer for my property?",
