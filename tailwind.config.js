@@ -28,6 +28,7 @@ module.exports = {
       },
       black: "#000000",
       primary: {
+        700: "#96692D", 
         600: "#BD8334",
         300: "#C4A386",
         100: "#E6D8CC",
@@ -38,6 +39,7 @@ module.exports = {
         500: "#7C7C7C",
         300: "#D9D9D6",
         100: "#E5E5E5",
+        50: "#F5F5F5",
       },
     },
     fontFamily: {

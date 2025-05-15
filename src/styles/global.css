@@ -10,4 +10,38 @@
       @apply font-body font-light text-neutral-900 lining-nums;
     }
   }
+
+  /* Smoother scrolling */
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Remove scrollbar from elements with the class scrollbar-hide */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Common component patterns */
+@layer components {
+  .section-title {
+    @apply font-display text-display-md md:text-display-lg font-semibold text-neutral-900 mb-4 leading-tight;
+  }
+  
+  .section-divider {
+    @apply w-20 h-1 bg-primary-600 mx-auto mb-6;
+  }
+  
+  .primary-btn {
+    @apply bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md;
+  }
+  
+  .secondary-btn {
+    @apply bg-white hover:bg-neutral-100 text-primary-600 px-6 py-3 rounded-full font-semibold transition-colors shadow-md;
+  }
 }

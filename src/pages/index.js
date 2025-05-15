@@ -3,10 +3,10 @@ import React from 'react'
 import Seo from '../components/seo'
 import Hero from '../components/hero'
 import Input from '../components/input'
-import About from '../components/about'
 import Steps from '../components/steps'
 import Reviews from '../components/Reviews'
 import ProblemProperties from '../components/ProblemProperties'
+import LendingOpportunities from '../components/LendingOpportunities'
 import ModalHashTrigger from '../components/modalHashTrigger'
 import CookieConsent from 'react-cookie-consent'
 
@@ -19,6 +19,7 @@ const IndexPage = () => (
     <Steps />
     <ProblemProperties />
     <Reviews />
+    <LendingOpportunities />
     <CookieConsent
       location="bottom"
       buttonText="I Agree"
