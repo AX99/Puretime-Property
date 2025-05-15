@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
-import { StaticImage } from 'gatsby-plugin-image'
+import PageHero from '../components/PageHero'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -65,7 +67,9 @@ const FaqItem = ({ question, answer }) => {
   )
 }
 
-const FaqPage = () => {
+const FaqPage = ({ data }) => {
+  const heroImage = getImage(data.faqHero)
+
   // FAQ data with questions and answers
   const faqItems = [
     {
@@ -105,39 +109,19 @@ const FaqPage = () => {
   return (
     <>
       <Seo title="FAQ - Puretime Property Purchasing" />
-      
-      {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24 relative">
-        {/* Add a background image here for consistency */}
-        <div className="absolute inset-0 z-0 opacity-20">
-          <StaticImage 
-            src="../images/assets/faq-hero.jpg"
-            alt="FAQ background" 
-            className="w-full h-full object-cover" 
-            objectPosition="center 50%" 
-          />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={staggerChildren}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 mb-6">
-              Frequently Asked Questions
-            </motion.h1>
-            <motion.p variants={fadeIn} className="text-lg md:text-xl text-neutral-700 mb-8">
-              Everything you need to know about our property purchasing service
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
-      
+      <PageHero 
+        title="Frequently Asked <span class='italic text-primary-600'>Questions</span>"
+        subtitle="Everything you need to know about our property purchasing service"
+        eyebrowText="FAQ"
+        heroImage={heroImage}
+      />
+
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 relative">
-        {/* Add a subtle background pattern for consistency */}
-        <div className="absolute inset-0 bg-neutral-50 opacity-50 z-0"></div>
+      <section className="py-16 md:py-24 relative bg-gradient-to-br from-white to-neutral-100 overflow-hidden">
+        {/* Background pattern for consistency */}
+        <div className="absolute inset-0 z-0 opacity-5 bg-repeat" style={{
+          backgroundImage: "url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/ %3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
+        }}></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
@@ -195,3 +179,13 @@ const FaqPage = () => {
 }
 
 export default FaqPage
+
+export const query = graphql`
+  query {
+    faqHero: file(relativePath: { eq: "assets/faq-hero.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
+  }
+`
