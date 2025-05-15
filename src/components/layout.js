@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import Header from './header'
 import Footer from './footer'
 import Modal from './modal'
+import BackToTop from './BackToTop'
 
 const Layout = ({ children }) => (
   <>
@@ -15,6 +16,7 @@ const Layout = ({ children }) => (
     </div>
     <Footer />
     <Modal />
+    <BackToTop />
   </>
 )
 

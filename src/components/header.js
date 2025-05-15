@@ -50,13 +50,14 @@ const Header = ({ menu }) => {
                   className="flex justify-center items-center"
                   initial={{ width: 100 }}
                   animate={{ width: scrolled ? 90 : 100 }}
+                  height={"auto"}
                   transition={{ duration: 0.3 }}
                 >
                   <motion.img
                     src={Logo}
                     alt="Puretime Property Logo"
-                    className="w-full h-auto"
-                    whileHover={{ scale: 1.05 }}
+                    className="w-3/4 h-auto"
+                    whileHover={{ scale: 1.2 }}
                     transition={{ duration: 0.2 }}
                   />
                 </motion.div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Seo from '../components/seo'
+import { StaticImage } from 'gatsby-plugin-image'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -28,7 +29,7 @@ const FaqItem = ({ question, answer }) => {
   return (
     <motion.div 
       variants={fadeIn}
-      className="border-b border-neutral-200 py-6"
+      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -69,15 +70,15 @@ const FaqPage = () => {
   const faqItems = [
     {
       question: "How quickly can you buy my property?",
-      answer: <p>We can complete the purchase in as little as 7 days from initial contact. However, we can also work to your preferred timeline if you need more time. Our flexible approach means we can accommodate your needs, whether you're looking for a quick sale or need a specific completion date.</p>
+      answer: <p>We can complete the purchase in as little as 30 days from initial contact. However, we can also work to your preferred timeline if you need more time. Our flexible approach means we can accommodate your needs, whether you're looking for a quick sale or need a specific completion date.</p>
     },
     {
       question: "How does the process work?",
-      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 24 hours. If you accept, we handle all the legal paperwork and can complete the purchase on your preferred date. There are no fees, no chain to worry about, and no risk of last-minute fall-throughs.</p>
+      answer: <p>Our process is simple and transparent: First, you contact us with details about your property. We then conduct a quick market analysis and provide you with a free, no-obligation cash offer within 48 hours. If you accept, we handle all the legal paperwork and can complete the purchase with you paying no legal fees and no risk of last-minute fall-throughs.</p>
     },
     {
       question: "Will you buy any property?",
-      answer: <p>Yes, we consider properties in any condition and in any location across the UK. Whether your property is in pristine condition or requires significant renovation, we can make you a fair offer. We've bought everything from studio apartments to large family homes, including properties with structural issues, short leases, or non-standard construction types.</p>
+      answer: <p>Yes, we consider properties in any condition and in any location across Mainland UK (Except Scotland and Northern Ireland). Whether your property is in pristine condition or requires significant renovation, we can make you a fair offer. We've bought everything from studio apartments to large family homes, including properties with structural issues, short leases, or non-standard construction types.</p>
     },
     {
       question: "How much will you offer for my property?",
@@ -85,7 +86,7 @@ const FaqPage = () => {
     },
     {
       question: "Are there any fees to pay?",
-      answer: <p>No. We cover all costs associated with the sale, including legal fees, valuation costs, and any other expenses typically associated with selling a property. The price we offer is exactly what you'll receive – there are no hidden charges or deductions.</p>
+      answer: <p>No. We cover legal fees associated with the sale of your property. The price we offer is exactly what you'll receive – there are no hidden charges or deductions.</p>
     },
     {
       question: "Is there any obligation when I request an offer?",
@@ -106,8 +107,17 @@ const FaqPage = () => {
       <Seo title="FAQ - Puretime Property Purchasing" />
       
       {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        {/* Add a background image here for consistency */}
+        <div className="absolute inset-0 z-0 opacity-20">
+          <StaticImage 
+            src="../images/assets/faq-hero.jpg"
+            alt="FAQ background" 
+            className="w-full h-full object-cover" 
+            objectPosition="center 50%" 
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -125,14 +135,16 @@ const FaqPage = () => {
       </section>
       
       {/* FAQ Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="py-16 md:py-24 relative">
+        {/* Add a subtle background pattern for consistency */}
+        <div className="absolute inset-0 bg-neutral-50 opacity-50 z-0"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerChildren}
-            className="max-w-3xl mx-auto"
+            className="max-w-3xl mx-auto space-y-8"
           >
             {faqItems.map((item, index) => (
               <FaqItem 
@@ -146,7 +158,7 @@ const FaqPage = () => {
       </section>
       
       {/* Additional Question CTA */}
-      <section className="bg-neutral-50 py-16">
+      <section className="bg-primary-600 py-16">
         <div className="container mx-auto px-4">
           <motion.div 
             initial="hidden"
@@ -155,17 +167,17 @@ const FaqPage = () => {
             variants={staggerChildren}
             className="max-w-3xl mx-auto text-center"
           >
-            <motion.h2 variants={fadeIn} className="text-2xl md:text-3xl font-display font-semibold text-neutral-900 mb-6">
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
               Still have questions?
             </motion.h2>
-            <motion.p variants={fadeIn} className="text-lg text-neutral-700 mb-8">
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               Our team is ready to answer any questions you might have about selling your property to us.
             </motion.p>
             <motion.button 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full font-semibold transition-colors"
+              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
               onClick={() => {
                 // This assumes you have a way to open the contact modal from other components
                 if (window !== undefined && window.openContactModal) {

@@ -1,0 +1,329 @@
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { graphql } from 'gatsby'
+import Seo from '../components/seo'
+import { useModal } from '../context/modalContext'
+import PropertyCard from '../components/PropertyCard'
+import Pagination from '../components/Pagination'
+import PropertyFilter from '../components/PropertyFilter'
+import { StaticImage } from 'gatsby-plugin-image'
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+}
+
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const PropertiesPage = ({ data }) => {
+  const { openModal, setModalData } = useModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const propertiesPerPage = 6;
+  
+  // Get properties from Sanity data
+  const allProperties = data?.allSanityProperty?.nodes || [];
+  
+  const [filters, setFilters] = useState({
+    minBedrooms: '',
+    maxPrice: '',
+    location: '',
+    propertyType: '',
+    status: '',
+    sortBy: 'newest'
+  });
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+  
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  
+  const handleEnquiry = (property) => {
+    setModalData({ 
+      title: 'Property Enquiry',
+      subtitle: `About: ${property.title}`,
+      content: `
+        <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
+        <p class="mb-4"><strong>Property:</strong> ${property.title}</p>
+        <p class="mb-4"><strong>Location:</strong> ${property.location?.city || 'N/A'}</p>
+        <p class="mb-4"><strong>Price:</strong> £${property.price?.toLocaleString() || 'N/A'}</p>
+      `,
+      formType: 'property',
+      formData: {
+        propertyId: property._id,
+        propertyTitle: property.title,
+      }
+    });
+    openModal('contact');
+  };
+  
+  // Define available property statuses
+  const propertyStatuses = [
+    {title: 'For Sale', value: 'for-sale'},
+    {title: 'Sold', value: 'sold'},
+    {title: 'For Rent', value: 'for-rent'},
+    {title: 'Rented', value: 'rented'}
+  ];
+  
+  // Filter properties based on user selections
+  const filteredProperties = allProperties.filter(property => {
+    // Filter by minimum bedrooms
+    if (filters.minBedrooms && (property.bedrooms < parseInt(filters.minBedrooms) || !property.bedrooms)) {
+      return false;
+    }
+    
+    // Filter by maximum price
+    if (filters.maxPrice && property.price > parseInt(filters.maxPrice)) {
+      return false;
+    }
+    
+    // Filter by location (city or state)
+    if (filters.location && property.location) {
+      const locationText = `${property.location.city || ''} ${property.location.state || ''}`.toLowerCase();
+      if (!locationText.includes(filters.location.toLowerCase())) {
+        return false;
+      }
+    }
+    
+    // Filter by property type
+    if (filters.propertyType && property.propertyType !== filters.propertyType) {
+      return false;
+    }
+    
+    // Filter by status
+    if (filters.status && property.status !== filters.status) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  // Sort properties based on user selection
+  const sortedProperties = [...filteredProperties].sort((a, b) => {
+    switch(filters.sortBy) {
+      case 'newest':
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      case 'oldest':
+        return new Date(a.publishedAt) - new Date(b.publishedAt);
+      case 'price-low':
+        return a.price - b.price;
+      case 'price-high':
+        return b.price - a.price;
+      case 'beds-high':
+        return (b.bedrooms || 0) - (a.bedrooms || 0);
+      case 'beds-low':
+        return (a.bedrooms || 0) - (b.bedrooms || 0);
+      default:
+        return 0;
+    }
+  });
+  
+  // Calculate pagination
+  const indexOfLastProperty = currentPage * propertiesPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  const currentProperties = sortedProperties.slice(indexOfFirstProperty, indexOfLastProperty);
+  const totalPages = Math.ceil(sortedProperties.length / propertiesPerPage);
+  
+  // Get unique property types for filter
+  const propertyTypes = [...new Set(allProperties.map(p => p.propertyType).filter(Boolean))];
+  
+  // Get unique locations for filter suggestions
+  const locations = [...new Set(
+    allProperties
+      .map(p => p.location?.city)
+      .filter(Boolean)
+  )];
+
+  return (
+    <>
+      <Seo 
+        title="Our Properties"
+        description="Browse our selection of available and past properties for sale across the UK."
+      />
+      
+      {/* Hero Section */}
+      <section className="bg-neutral-50 py-16 md:py-24 relative">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <StaticImage 
+            src="../images/assets/properties-hero.jpg" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+            objectPosition="center 50%"
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={staggerChildren}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 mb-6">
+              Our Properties
+            </motion.h1>
+            <motion.p variants={fadeIn} className="text-lg md:text-xl text-neutral-700 mb-8">
+              Browse our selection of available and past properties. Filter by your preferences to find your perfect home.
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Properties Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <PropertyFilter 
+            filters={filters}
+            handleInputChange={handleInputChange}
+            propertyTypes={propertyTypes}
+            propertyStatuses={propertyStatuses}
+            locations={locations}
+          />
+          
+          {sortedProperties.length === 0 ? (
+            <motion.div 
+              className="text-center py-16"
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+            >
+              <h3 className="text-2xl font-semibold mb-4">No properties match your search criteria</h3>
+              <p className="text-neutral-600 mb-8">Try adjusting your filters to see more results.</p>
+            </motion.div>
+          ) : (
+            <>
+              <p className="text-neutral-600 mb-6">{sortedProperties.length} properties found</p>
+              
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                initial="hidden"
+                animate="visible"
+                variants={staggerChildren}
+              >
+                {currentProperties.map(property => (
+                  <motion.div 
+                    key={property._id} 
+                    variants={fadeIn}
+                  >
+                    <PropertyCard property={property} onEnquire={handleEnquiry} />
+                  </motion.div>
+                ))}
+              </motion.div>
+                
+              {totalPages > 1 && (
+                <Pagination 
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </section>
+      
+      {/* Call to Action */}
+      <section className="bg-primary-600 py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
+              Can't find what you're looking for?
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
+              Contact us to discuss your property requirements. We're here to help find your perfect property.
+            </motion.p>
+            <motion.button 
+              variants={fadeIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              onClick={() => {
+                if (window !== undefined && window.openContactModal) {
+                  window.openContactModal();
+                }
+              }}
+            >
+              Contact Us
+            </motion.button>
+          </motion.div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+export default PropertiesPage
+
+export const query = graphql`
+  query {
+    allSanityProperty {
+      nodes {
+        _id
+        title
+        slug {
+          current
+        }
+        price
+        priceUnit
+        propertyType
+        bedrooms
+        bathrooms
+        area
+        areaUnit
+        description {
+          _type
+          children {
+            text
+          }
+        }
+        location {
+          city
+          state
+          street
+          postalCode
+          country
+        }
+        mainImage {
+          asset {
+            gatsbyImageData(width: 600, height: 400, placeholder: BLURRED, formats: [AUTO, WEBP])
+          }
+        }
+        images {
+          asset {
+            gatsbyImageData(width: 600, height: 400, placeholder: BLURRED, formats: [AUTO, WEBP])
+          }
+        }
+        amenities
+        featured
+        status
+        publishedAt
+      }
+    }
+  }
+` 

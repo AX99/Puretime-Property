@@ -1,0 +1,110 @@
+[
+  {
+    "id": "prop001",
+    "title": "Modern Semi-Detached House",
+    "location": "Manchester, UK",
+    "price": "£225,000",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "area": "1,250 sq ft",
+    "description": "Beautifully renovated semi-detached property in a quiet residential area. Features a modern kitchen, spacious living room, and landscaped garden.",
+    "features": [
+      "Modern Kitchen",
+      "Off-street Parking",
+      "Landscaped Garden",
+      "Recently Renovated",
+      "Energy Efficient"
+    ],
+    "image": "property1.jpg"
+  },
+  {
+    "id": "prop002",
+    "title": "Spacious Victorian Terrace",
+    "location": "Leeds, UK",
+    "price": "£280,000",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "area": "1,400 sq ft",
+    "description": "Charming Victorian terrace with original features throughout. High ceilings, large windows and a south-facing garden make this a bright and airy home.",
+    "features": [
+      "Original Victorian Features",
+      "South-facing Garden",
+      "Cellar Storage",
+      "Period Fireplace",
+      "Close to Schools"
+    ],
+    "image": "property2.jpg"
+  },
+  {
+    "id": "prop003",
+    "title": "Contemporary City Apartment",
+    "location": "Liverpool, UK",
+    "price": "£175,000",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area": "850 sq ft",
+    "description": "Stylish city-center apartment with fantastic views. Open-plan living space, high-spec kitchen and secure parking included.",
+    "features": [
+      "City Center Location",
+      "Secure Parking",
+      "Open-plan Layout",
+      "Balcony",
+      "Concierge Service"
+    ],
+    "image": "property3.jpg"
+  },
+  {
+    "id": "prop004",
+    "title": "Rural Detached Cottage",
+    "location": "Peak District, UK",
+    "price": "£350,000",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "area": "1,600 sq ft",
+    "description": "Idyllic countryside cottage with stunning views. Recently renovated throughout while maintaining rustic charm and character.",
+    "features": [
+      "Panoramic Views",
+      "Large Garden",
+      "Wood-burning Stove",
+      "Exposed Beams",
+      "Outbuildings"
+    ],
+    "image": "property4.jpg"
+  },
+  {
+    "id": "prop005",
+    "title": "Executive Detached House",
+    "location": "Sheffield, UK",
+    "price": "£400,000",
+    "bedrooms": 5,
+    "bathrooms": 3,
+    "area": "2,200 sq ft",
+    "description": "Impressive executive home on a quiet cul-de-sac. Double garage, large driveway, and beautifully maintained garden with patio area.",
+    "features": [
+      "Double Garage",
+      "Master En-suite",
+      "Home Office",
+      "Utility Room",
+      "Underfloor Heating"
+    ],
+    "image": "property5.jpg"
+  },
+  {
+    "id": "prop006",
+    "title": "Converted Warehouse Apartment",
+    "location": "Manchester, UK",
+    "price": "£320,000",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area": "1,100 sq ft",
+    "description": "Stunning conversion in former textile warehouse. Industrial features include exposed brick walls, steel columns and high ceilings.",
+    "features": [
+      "Historic Building",
+      "Exposed Brick",
+      "High Ceilings",
+      "Communal Roof Terrace",
+      "Secure Entry System"
+    ],
+    "image": "property6.jpg"
+  }
+] 
