@@ -1,8 +1,15 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
-import { StaticImage } from 'gatsby-plugin-image'
+import { useModal } from '../context/modalContext'
+import PageHero from '../components/PageHero'
+import SectionHeader from '../components/SectionHeader'
+import ValueCard from '../components/ValueCard'
+import ImageGallery from '../components/ImageGallery'
 
+// Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
@@ -22,83 +29,143 @@ const staggerChildren = {
   }
 }
 
-const AboutPage = () => {
+// Value card icons
+const IntegrityIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+  </svg>
+);
+
+const EfficiencyIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+  </svg>
+);
+
+const CompassionIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+  </svg>
+);
+
+const AboutPage = ({ data }) => {
+  const { toggleModal } = useModal();
+  
+  // Process the images from GraphQL query
+  const heroImage = getImage(data.heroImage);
+  
+  // Gallery images for the about section
+  const galleryImages = [
+    {
+      imageData: getImage(data.chairImage),
+      alt: "Modern interior with sofa and coffee table"
+    },
+    {
+      imageData: getImage(data.timeImage),
+      alt: "Vintage clock and decor items on wooden surface"
+    }
+  ];
+  
   return (
     <>
       <Seo title="About Us - Puretime Property Purchasing" />
       
       {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24 relative">
-        {/* Add a background image here */}
-        <div className="absolute inset-0 z-0 opacity-20">
-          <StaticImage 
-            src="../images/assets/clock.jpg" 
-            alt="Background" 
-            className="w-full h-full object-cover"
-            objectPosition="center 80%"
-            /* 
-              You can adjust the objectPosition value to control which part of the image is visible:
-              - "center top" shows the top center of the image
-              - "center 30%" shows 30% from the top (useful for faces/key elements)
-              - "left bottom" shows the bottom left corner
-              - "50% 70%" numerically positions from left and top
-            */
-          />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
+      <PageHero 
+        title="We are <span class='italic text-primary-600'>Puretime</span> Property"
+        subtitle="We make selling your home quick, easy, and stress-free."
+        eyebrowText="ABOUT US"
+        heroImage={heroImage}
+      />
+      
+      {/* Main About Section with Images */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-white to-neutral-100 overflow-hidden">
+        <div className="container mx-auto px-4">
           <motion.div 
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true }}
             variants={staggerChildren}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-6xl mx-auto"
           >
-            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 mb-6">
-              About Puretime Property
-            </motion.h1>
-            <motion.p variants={fadeIn} className="text-lg md:text-xl text-neutral-700 mb-8">
-              We make selling your home quick, easy, and stress-free.
-            </motion.p>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left Content Column */}
+              <motion.div variants={fadeIn} className="order-2 md:order-1">
+                <h2 className="section-title mb-8">
+                  It's <span className="italic text-primary-600">Time</span> To Sell Differently
+                </h2>
+                
+                <div className="space-y-6">
+                  <p className="text-body-lg text-neutral-700 leading-relaxed">
+                    We specialise in fast and efficient property sales, regardless of condition or location. Our approach is different - we offer fair cash prices without the hassle of viewings, repairs or lengthy chains.
+                  </p>
+                  
+                  <p className="text-body-lg text-neutral-700 leading-relaxed">
+                    Our team is dedicated to providing a hassle-free and transparent service, ensuring a smooth and stress-free experience for our clients. We handle all the paperwork and can work around your preferred timeline.
+                  </p>
+                  
+                  <p className="text-body-lg text-neutral-700 leading-relaxed">
+                    We pride ourselves on our commitment to integrity, transparency, and customer satisfaction. When you choose Puretime Property Purchasing, you can trust that you're in good hands.
+                  </p>
+                </div>
+                
+                <div className="mt-10 flex justify-center md:justify-start">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    onClick={toggleModal}
+                    className="primary-btn"
+                  >
+                    Get Your Free Valuation
+                  </motion.button>
+                </div>
+              </motion.div>
+              
+              {/* Right Images Column with Animated Reveal */}
+              <div className="order-1 md:order-2">
+                <ImageGallery images={galleryImages} layout="overlapping" />
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
       
       {/* Our Story */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <motion.div 
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             variants={staggerChildren}
             className="max-w-4xl mx-auto"
           >
-            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-12 text-center">
-              Our Story
-            </motion.h2>
-            <motion.div variants={fadeIn} className="prose prose-lg max-w-none space-y-6">
-              <p className="text-neutral-700 leading-relaxed">
+            <SectionHeader 
+              title="Our <span class='italic text-primary-600'>Story</span>"
+            />
+            
+            <motion.div variants={fadeIn} className="space-y-6">
+              <p className="text-body-lg text-neutral-700 leading-relaxed">
                 Puretime Property Purchasing was founded with a simple mission: to offer homeowners a faster, more convenient alternative to traditional property sales. We understand that life circumstances can change rapidly, and sometimes waiting months for a property to sell through conventional channels isn't viable.
               </p>
-              <p className="text-neutral-700 leading-relaxed">
+              <p className="text-body-lg text-neutral-700 leading-relaxed">
                 Our team combines decades of experience in the UK property market with a genuine desire to help homeowners in need of quick, hassle-free property sales. Whether you're facing financial constraints, relocating for work, dealing with inheritance issues, or simply want to avoid the stress of traditional selling processes, we're here to help.
               </p>
-              <p className="text-neutral-700 leading-relaxed">
+              <p className="text-body-lg text-neutral-700 leading-relaxed">
                 What sets us apart is our commitment to transparency and fair dealing. We believe in making clear, competitive offers without hidden fees or last-minute price reductions. Our process is designed to give you certainty and peace of mind from the very beginning.
               </p>
             </motion.div>
           </motion.div>
         </div>
       </section>
-      
+  
       {/* Our Values */}
-      <section className="bg-neutral-50 py-16 md:py-24 relative">
-        {/* Add decorative elements */}
-        {/* <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
-          <StaticImage 
-            src="../images/pattern.png" 
-            alt="Decorative pattern" 
-          />
-        </div> */}
+      <section className="bg-gradient-to-br from-neutral-50 to-white py-16 md:py-24 relative">
+        {/* Background pattern */}
+        <div className="absolute inset-0 z-0 opacity-5 bg-repeat" style={{
+          backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
+        }}></div>
         
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
@@ -106,52 +173,38 @@ const AboutPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerChildren}
-            className="max-w-4xl mx-auto"
+            className="max-w-6xl mx-auto"
           >
-            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-12 text-center">
-              Our Values
-            </motion.h2>
+            <SectionHeader
+              title="Our <span class='italic text-primary-600'>Values</span>"
+              description="Our core values guide everything we do and ensure we deliver the best possible service to our clients."
+            />
             
             <div className="grid md:grid-cols-3 gap-8">
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Integrity</h3>
-                <p className="text-neutral-600">We believe in honest, transparent communication and fair dealing at every stage of the process.</p>
-              </motion.div>
+              <ValueCard 
+                icon={<IntegrityIcon />}
+                title="Integrity"
+                description="We believe in honest, transparent communication and fair dealing at every stage of the process. You'll always know exactly where you stand."
+              />
               
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0z" />
-                    <path fillRule="evenodd" d="M12.395 7.123a1 1 0 10-1.414-1.414l-3.21 3.21-1.353-1.353a1 1 0 00-1.414 1.414l2.06 2.06a1 1 0 001.415 0l3.915-3.916z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Efficiency</h3>
-                <p className="text-neutral-600">We value your time and work diligently to make the sales process as quick and seamless as possible.</p>
-              </motion.div>
+              <ValueCard 
+                icon={<EfficiencyIcon />}
+                title="Efficiency"
+                description="We value your time and work diligently to make the sales process as quick and seamless as possible, with completion in as little as 30 days."
+              />
               
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary-600 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Compassion</h3>
-                <p className="text-neutral-600">We understand that selling your home can be emotional. We approach every client with empathy and respect.</p>
-              </motion.div>
+              <ValueCard 
+                icon={<CompassionIcon />}
+                title="Compassion"
+                description="We understand that selling your home can be emotional. We approach every client with empathy, respect, and a genuine desire to help."
+              />
             </div>
           </motion.div>
         </div>
       </section>
       
-      {/* Team section could be added here */}
-      
       {/* Call to Action */}
-      <section className="bg-primary-600 py-16">
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
         <div className="container mx-auto px-4">
           <motion.div 
             initial="hidden"
@@ -161,24 +214,19 @@ const AboutPage = () => {
             className="max-w-3xl mx-auto text-center"
           >
             <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
-              Ready to get started?
+              Need financing for your next property <span className="italic">investment</span>?
             </motion.h2>
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
-              Contact us today for a no-obligation property valuation and offer.
+              We can introduce you to specialist brokers for all types of property finance, from bridging loans to buy-to-let mortgages.
             </motion.p>
             <motion.button 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-              onClick={() => {
-                // This assumes you have a way to open the contact modal from other components
-                if (window !== undefined && window.openContactModal) {
-                  window.openContactModal();
-                }
-              }}
+              onClick={toggleModal}
+              className="secondary-btn"
             >
-              Contact Us
+              Speak to a Specialist
             </motion.button>
           </motion.div>
         </div>
@@ -188,3 +236,24 @@ const AboutPage = () => {
 }
 
 export default AboutPage
+
+// Page query to get images
+export const query = graphql`
+  query {
+    heroImage: file(relativePath: { eq: "assets/livingroom.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
+    chairImage: file(relativePath: { eq: "assets/chair.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(width: 600, height: 600, quality: 90)
+      }
+    }
+    timeImage: file(relativePath: { eq: "assets/time.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(width: 600, height: 600, quality: 90)
+      }
+    }
+  }
+`

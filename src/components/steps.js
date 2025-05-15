@@ -183,7 +183,7 @@ const Steps = () => {
       <div className="container mx-auto px-4 py-16">
         <CTABanner 
           heading="Ready to sell your property?"
-          description="Contact us today for a no-obligation cash offer. We can complete the purchase in as little as 7 days."
+          description="Contact us today for a no-obligation cash offer. We can complete the purchase in as little as 30 days."
           buttonText="Get Your Free Cash Offer"
         />
       </div>

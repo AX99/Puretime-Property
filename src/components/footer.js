@@ -49,13 +49,13 @@ const Footer = () => {
   const { toggleModal } = useModal()
   return (
     <>
-      <section className="py-16 bg-neutral-50">
+      <section className="pt-16 md:py-16 bg-neutral-50">
         <div className="container mx-auto">
           <CTABanner 
             heading="Ready to sell your property fast?"
-            description="Get a no-obligation cash offer from our team. We can complete the purchase in as little as 7 days."
+            description="Get a no-obligation cash offer from our team. We can complete the purchase in as little as 30 days."
             buttonText="Request Your Free Valuation"
-            className="mb-24"
+            className=""
           />
         </div>
       </section>
@@ -102,26 +102,8 @@ const Footer = () => {
                       {detail.Company}
                     </p>
                     <div className="w-12 h-1 bg-primary-600 mb-2"></div>
-                    <p className="text-body-md font-normal text-neutral-700">
-                      {detail.Address}
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2">
                     <p className="text-body-md font-medium text-neutral-900">
-                      Email us at:
-                    </p>
-                    <a
-                      className="text-body-lg font-display font-medium text-primary-600 hover:text-primary-700 transition-colors"
-                      href={`mailto:${detail.Email}?subject=Property%20Enquiry`}
-                    >
-                      {detail.Email}
-                    </a>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2">
-                    <p className="text-body-md font-medium text-neutral-900">
-                      To speak to someone, call us on:
+                      Call us on:
                     </p>
                     <a
                       className="text-display-xs font-display font-semibold text-primary-600 hover:text-primary-700 transition-colors"
@@ -129,6 +111,43 @@ const Footer = () => {
                     >
                       {detail.Phone}
                     </a>
+                  </div>
+                  
+                  <div className="flex flex-col gap-2">
+                    <p className="text-body-md font-medium text-neutral-900">
+                      Email us at:
+                    </p>
+                    <a
+                      className="text-body-lg font-display font-medium text-primary-600 hover:text-primary-700 transition-colors md:break-normal break-all"
+                      href={`mailto:${detail.Email}?subject=Property%20Enquiry`}
+                    >
+                      <span className="md:hidden">
+                        {detail.Email.split('@')[0]}@<br />
+                        {detail.Email.split('@')[1]}
+                      </span>
+                      <span className="hidden md:inline">
+                        {detail.Email}
+                      </span>
+                    </a>
+                  </div>
+                  
+                  <div className="flex flex-col gap-2">
+                    <p className="text-body-md font-medium text-neutral-900">
+                      Find us at:
+                    </p>
+                    <p className="text-body-md font-normal text-neutral-700">
+                      <span className="md:hidden">
+                        {/* Format address for mobile with line breaks */}
+                        {detail.Address.split(',')[0]},<br />
+                        {detail.Address.split(',')[1]},<br />
+                        {detail.Address.split(',')[2]},<br />
+                        {detail.Address.split(',')[3]}
+                      </span>
+                      <span className="hidden md:inline">
+                        {/* Format address for desktop with natural commas */}
+                        {detail.Address}
+                      </span>
+                    </p>
                   </div>
                 </motion.div>
               ))}
