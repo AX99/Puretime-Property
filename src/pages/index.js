@@ -5,6 +5,8 @@ import Hero from '../components/hero'
 import Input from '../components/input'
 import About from '../components/about'
 import Steps from '../components/steps'
+import Reviews from '../components/Reviews'
+import ProblemProperties from '../components/ProblemProperties'
 import ModalHashTrigger from '../components/modalHashTrigger'
 import CookieConsent from 'react-cookie-consent'
 
@@ -14,8 +16,9 @@ const IndexPage = () => (
     <Seo />
     <Hero />
     <Input />
-    <About />
     <Steps />
+    <ProblemProperties />
+    <Reviews />
     <CookieConsent
       location="bottom"
       buttonText="I Agree"

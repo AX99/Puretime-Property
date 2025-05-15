@@ -56,8 +56,8 @@ const Header = ({ menu }) => {
                   <motion.img
                     src={Logo}
                     alt="Puretime Property Logo"
-                    className="w-20 h-auto"
-                    whileHover={{ scale: 1.05 }}
+                    className="w-3/4 h-auto"
+                    whileHover={{ scale: 1.2 }}
                     transition={{ duration: 0.2 }}
                   />
                 </motion.div>
