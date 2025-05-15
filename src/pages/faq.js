@@ -158,7 +158,7 @@ const FaqPage = () => {
       </section>
       
       {/* Additional Question CTA */}
-      <section className="bg-neutral-50 py-16">
+      <section className="bg-primary-600 py-16">
         <div className="container mx-auto px-4">
           <motion.div 
             initial="hidden"
@@ -167,17 +167,17 @@ const FaqPage = () => {
             variants={staggerChildren}
             className="max-w-3xl mx-auto text-center"
           >
-            <motion.h2 variants={fadeIn} className="text-2xl md:text-3xl font-display font-semibold text-neutral-900 mb-6">
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
               Still have questions?
             </motion.h2>
-            <motion.p variants={fadeIn} className="text-lg text-neutral-700 mb-8">
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               Our team is ready to answer any questions you might have about selling your property to us.
             </motion.p>
             <motion.button 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full font-semibold transition-colors"
+              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
               onClick={() => {
                 // This assumes you have a way to open the contact modal from other components
                 if (window !== undefined && window.openContactModal) {
