@@ -31,7 +31,8 @@ const lendingOptions = [
       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
       </svg>
-    )
+    ),
+    cta: "Enquire about bridging finance"
   },
   {
     title: "Buy-to-Let Mortgages",
@@ -40,7 +41,8 @@ const lendingOptions = [
       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
       </svg>
-    )
+    ),
+    cta: "Enquire about buy-to-let mortgages"
   },
   {
     title: "Commercial Mortgages",
@@ -49,7 +51,8 @@ const lendingOptions = [
       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
-    )
+    ),
+    cta: "Enquire about commercial mortgages"
   },
   {
     title: "Development Finance",
@@ -58,7 +61,8 @@ const lendingOptions = [
       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 3h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
-    )
+      ),
+    cta: "Enquire about development finance"
   }
 ];
 
@@ -125,9 +129,9 @@ const LendingOpportunities = () => {
                 </p>
                 <button 
                   onClick={toggleModal}
-                  className="mt-auto text-primary-600 hover:text-primary-700 font-semibold flex items-center transition-colors"
+                  className="mx-auto mt-auto bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-2 shadow"
                 >
-                  Enquire now 
+                  {option.cta}
                   <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
