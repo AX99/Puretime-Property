@@ -111,22 +111,23 @@ const Hero = () => {
 
   const handleScrollToInput = () => {
     // Get the element we want to scroll to
-    const element = document.getElementById('banner_input')
+    const element = document.getElementById('steps_header')
     
     if (element) {
       // Get the element's position relative to the viewport
       const rect = element.getBoundingClientRect()
       
       // Calculate the absolute position by adding current scroll position
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
       const absoluteElementTop = rect.top + scrollTop
       
-      // Calculate the center position (element top - half of viewport height + half of element height)
-      const center = absoluteElementTop - (window.innerHeight / 2) + (rect.height / 2)
+      // Account for header height (approximately 75-90px) extra padding added
+      const headerOffset = 110
+      const topPosition = absoluteElementTop - headerOffset
       
-      // Perform smooth scroll
+      // Perform smooth scroll to position the element at the top
       window.scrollTo({
-        top: center,
+        top: topPosition,
         behavior: 'smooth'
       })
       
@@ -164,7 +165,7 @@ const Hero = () => {
       ></motion.div>
       
       {/* Content */}
-      <div className="absolute inset-0 z-20 flex items-center">
+      <div className="absolute inset-0 z-20 flex items-start pt-16 md:items-center md:pt-0">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"

@@ -14,18 +14,46 @@ const Header = ({ menu }) => {
   const { toggleDrawer, drawerOpen } = useDrawer();
   const [scrolled, setScrolled] = useState(false);
 
-  // Add scroll effect
+  // Add scroll effect with debouncing to prevent flickering
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let timer = null;
+    let lastStateChangeTime = Date.now();
+    const MIN_TIME_BETWEEN_CHANGES = 300; // ms minimum time between state changes
+    
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+      if (timer !== null) {
+        clearTimeout(timer);
       }
+      
+      timer = setTimeout(() => {
+        // Add buffer for scrolling up vs down to prevent flickering
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > lastScrollY;
+        
+        // Use much higher thresholds to prevent flickering
+        // This creates a larger buffer zone, especially at the top of the page
+        const threshold = scrollingDown ? 30 : 20;
+        
+        const shouldBeScrolled = currentScrollY > threshold;
+        
+        // Only allow state changes after minimum time has passed
+        const now = Date.now();
+        if (shouldBeScrolled !== scrolled && (now - lastStateChangeTime > MIN_TIME_BETWEEN_CHANGES)) {
+          setScrolled(shouldBeScrolled);
+          lastStateChangeTime = now;
+        }
+        
+        lastScrollY = currentScrollY;
+      }, 50); // Longer timeout to further reduce rapid toggles
     };
 
     document.addEventListener("scroll", handleScroll);
     return () => {
       document.removeEventListener("scroll", handleScroll);
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
     };
   }, [scrolled]);
 

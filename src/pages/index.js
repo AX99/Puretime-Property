@@ -2,7 +2,6 @@ import React from 'react'
 
 import Seo from '../components/seo'
 import Hero from '../components/hero'
-import Input from '../components/input'
 import Steps from '../components/steps'
 import Reviews from '../components/Reviews'
 import ProblemProperties from '../components/ProblemProperties'
@@ -15,7 +14,6 @@ const IndexPage = () => (
     <ModalHashTrigger />
     <Seo />
     <Hero />
-    <Input />
     <Steps />
     <ProblemProperties />
     <Reviews />
