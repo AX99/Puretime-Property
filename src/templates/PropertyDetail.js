@@ -7,6 +7,7 @@ import { useModal } from '../context/modalContext'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
 import PropertyMap from '../components/PropertyMap'
 
+
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -23,6 +24,16 @@ const slideIn = {
     opacity: 1, 
     x: 0,
     transition: { duration: 0.6, delay: 0.3 }
+  }
+}
+
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
   }
 }
 
@@ -194,7 +205,7 @@ const PropertyDetailTemplate = ({ data }) => {
                     <span>{locationString}</span>
                   </div>
                   
-                  <div className="flex flex-wrap items-center mb-6">
+                  {/* <div className="flex flex-wrap items-center mb-6">
                     <div className="text-3xl font-bold text-primary-600 mr-4">
                       {formattedPrice}
                     </div>
@@ -203,7 +214,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         {priceUnit.toUpperCase()}
                       </div>
                     )}
-                  </div>
+                  </div> */}
                   
                   {/* Key Property Features - Horizontal Layout */}
                   <div className="flex flex-wrap gap-4 mb-8">
@@ -481,6 +492,35 @@ const PropertyDetailTemplate = ({ data }) => {
               )}
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
+              Need financing for your next property <span className="italic">investment</span>?
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
+              We can introduce you to specialist brokers for all types of property finance, from bridging loans to buy-to-let mortgages.
+            </motion.p>
+            <motion.button 
+              variants={fadeIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={openModal}
+              className="secondary-btn"
+            >
+              Speak to a Specialist
+            </motion.button>
+          </motion.div>
         </div>
       </section>
     </>

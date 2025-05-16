@@ -232,9 +232,9 @@ const PropertyPreview = () => {
                   <span>{locationString}</span>
                 </div>
                 
-                <div className="text-3xl font-bold text-primary-600 mb-6">
+                {/* <div className="text-3xl font-bold text-primary-600 mb-6">
                   {formattedPrice}
-                </div>
+                </div> */}
                 
                 {/* Property key details */}
                 <div className="grid grid-cols-3 gap-4 mb-8">

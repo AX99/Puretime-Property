@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { motion } from 'framer-motion'
 import { useModal } from '../context/modalContext'
 import CTABanner from './CTABanner'
+import navItems from '../data/navItems.json'
 
 // Animation variants
 const fadeIn = {
@@ -89,7 +90,43 @@ const Footer = () => {
                   Get In Contact →
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
                 </a>
+                
+                {/* Desktop Navigation Links */}
+                <div className="mt-8 hidden lg:block">
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                    {/* Column 1 */}
+                    <div>
+                      <p className="text-body-md font-medium text-neutral-900 mb-3">Navigation</p>
+                      <ul className="space-y-2">
+                        {navItems.slice(0, Math.ceil(navItems.length / 2)).map((item, index) => (
+                          <li key={index}>
+                            <a href={item.href} className="relative inline-block group text-primary-600 hover:text-primary-700 transition-colors w-fit">
+                              {item.name}
+                              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    {/* Column 2 */}
+                    <div>
+                      <p className="text-body-md font-medium text-neutral-900 mb-3">&nbsp;</p>
+                      <ul className="space-y-2">
+                        {navItems.slice(Math.ceil(navItems.length / 2)).map((item, index) => (
+                          <li key={index}>
+                            <a href={item.href} className="relative inline-block group text-primary-600 hover:text-primary-700 transition-colors w-fit">
+                              {item.name}
+                              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
+              
+              {/* Mobile Navigation Links - placed outside the grid */}
               
               {data.allFooterJson.nodes[0].contact.map((detail, i) => (
                 <motion.div
@@ -141,7 +178,8 @@ const Footer = () => {
                         {detail.Address.split(',')[0]},<br />
                         {detail.Address.split(',')[1]},<br />
                         {detail.Address.split(',')[2]},<br />
-                        {detail.Address.split(',')[3]}
+                        {detail.Address.split(',')[3]},<br />
+                        {detail.Address.split(',')[4]}
                       </span>
                       <span className="hidden md:inline">
                         {/* Format address for desktop with natural commas */}
@@ -153,7 +191,29 @@ const Footer = () => {
               ))}
             </div>
             
-            <div className="md:mt-16 my-10">
+                          {/* Mobile Navigation Links - after the main content grid */}
+              <motion.div
+                variants={fadeIn}
+                className="lg:hidden mt-12 mb-10"
+              >
+                <h4 className="text-display-xs font-display font-semibold text-neutral-900 mb-5">Site Navigation</h4>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex flex-col space-y-3">
+                    {navItems.map((item, index) => (
+                      <a 
+                        key={index}
+                        href={item.href} 
+                        className="relative inline-block group text-primary-600 hover:text-primary-700 transition-colors w-fit"
+                      >
+                        {item.name}
+                        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+              
+              <div className="md:mt-16 my-10">
               <hr className="text-neutral-300"></hr>
             </div>
             
