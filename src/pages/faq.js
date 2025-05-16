@@ -4,6 +4,8 @@ import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
 import PageHero from '../components/PageHero'
 import { motion, AnimatePresence } from 'framer-motion'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -120,7 +122,7 @@ const FaqPage = ({ data }) => {
       <section className="py-16 md:py-24 relative bg-gradient-to-br from-white to-neutral-100 overflow-hidden">
         {/* Background pattern for consistency */}
         <div className="absolute inset-0 z-0 opacity-5 bg-repeat" style={{
-          backgroundImage: "url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/ %3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
+          backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/ %3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
         }}></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
@@ -157,20 +159,17 @@ const FaqPage = ({ data }) => {
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               Our team is ready to answer any questions you might have about selling your property to us.
             </motion.p>
-            <motion.button 
+            <motion.div
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-              onClick={() => {
-                // This assumes you have a way to open the contact modal from other components
-                if (window !== undefined && window.openContactModal) {
-                  window.openContactModal();
-                }
-              }}
             >
-              Contact Us
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.GENERAL_CONTACT}
+                buttonText="Contact Us"
+                buttonClass="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>

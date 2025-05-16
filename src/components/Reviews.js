@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { StaticImage } from 'gatsby-plugin-image'
-import CTABanner from './CTABanner'
 
 // Animation variants
 const fadeIn = {
@@ -60,14 +59,14 @@ const Reviews = () => {
       name: 'Mubeen Saeed',
       rating: 5,
       review: 'Puretime Property Purchasing Ltd is highly professional very good quality costumer services provider, I have wonderful experience very knowledgeable agents works colossally with me and kept me informed on every step unlike other high street agents. I would recommend and anyone interested to sell their property must contact them.💐',
-      date: '2 months ago'
+      date: '8 months ago'
     },
     {
       id: 2,
       name: 'Imaduddin Sharif',
       rating: 5,
       review: 'I sold my flat through Mr Charles of Puretime. The overall service was excellent and they met my objective to my satisfaction. The process took slightly longer than my expectations and this was due to delays from my tenant and as I am not based in UK, Charles took the initiative on my request and dealt with the on the ground issues diligently dealing with the tenant professionally. He kept me updated and was always responsive to my questions. Highly recommend based on my personal experience.',
-      date: '8 weeks ago'
+      date: '1 month ago'
     },
     {
       id: 3,
@@ -235,7 +234,7 @@ const Reviews = () => {
                         {review.name.charAt(0)}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-lg">{review.name}</h4>
+                        <h4 className="font-semibold text-lg">{review.name.split(' ')[0]+" "+ review.name.split(' ')[1][0]}</h4>
                         <div className="flex items-center">
                           <div className="flex mr-2">
                             {renderStars(review.rating)}
@@ -304,13 +303,6 @@ const Reviews = () => {
               </svg>
             </a>
           </motion.div>
-          
-          {/* Add CTA Banner */}
-          <CTABanner 
-            heading="Ready to get started?" 
-            description="Contact us today to get a fair cash offer for your property. Our team is ready to help you sell quickly and hassle-free."
-            buttonText="Get Your No-Obligation Offer" 
-          />
         </motion.div>
       </div>
     </section>

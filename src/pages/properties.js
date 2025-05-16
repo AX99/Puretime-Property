@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
-import { useModal } from '../context/modalContext'
+import PageHero from '../components/PageHero'
 import PropertyCard from '../components/PropertyCard'
 import Pagination from '../components/Pagination'
 import PropertyFilter from '../components/PropertyFilter'
-import { StaticImage } from 'gatsby-plugin-image'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -29,26 +31,33 @@ const staggerChildren = {
 }
 
 const PropertiesPage = ({ data }) => {
-  const { openModal, setModalData } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const propertiesPerPage = 6;
   
   // Get properties from Sanity data
   const allProperties = data?.allSanityProperty?.nodes || [];
+  const heroImage = getImage(data.propertiesHero);
   
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     minBedrooms: '',
     maxPrice: '',
     location: '',
     propertyType: '',
     status: '',
     sortBy: 'newest'
-  });
+  };
+  
+  const [filters, setFilters] = useState(initialFilters);
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
     setCurrentPage(1); // Reset to first page when filters change
+  };
+  
+  const resetFilters = () => {
+    setFilters(initialFilters);
+    setCurrentPage(1);
   };
   
   const handlePageChange = (pageNumber) => {
@@ -59,25 +68,6 @@ const PropertiesPage = ({ data }) => {
     });
   };
   
-  const handleEnquiry = (property) => {
-    setModalData({ 
-      title: 'Property Enquiry',
-      subtitle: `About: ${property.title}`,
-      content: `
-        <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
-        <p class="mb-4"><strong>Property:</strong> ${property.title}</p>
-        <p class="mb-4"><strong>Location:</strong> ${property.location?.city || 'N/A'}</p>
-        <p class="mb-4"><strong>Price:</strong> £${property.price?.toLocaleString() || 'N/A'}</p>
-      `,
-      formType: 'property',
-      formData: {
-        propertyId: property._id,
-        propertyTitle: property.title,
-      }
-    });
-    openModal('contact');
-  };
-  
   // Define available property statuses
   const propertyStatuses = [
     {title: 'For Sale', value: 'for-sale'},
@@ -85,6 +75,11 @@ const PropertiesPage = ({ data }) => {
     {title: 'For Rent', value: 'for-rent'},
     {title: 'Rented', value: 'rented'}
   ];
+  
+  // Check if any filters are active
+  const hasActiveFilters = Object.entries(filters).some(([key, value]) => 
+    key !== 'sortBy' && value !== ''
+  );
   
   // Filter properties based on user selections
   const filteredProperties = allProperties.filter(property => {
@@ -123,13 +118,13 @@ const PropertiesPage = ({ data }) => {
   const sortedProperties = [...filteredProperties].sort((a, b) => {
     switch(filters.sortBy) {
       case 'newest':
-        return new Date(b.publishedAt) - new Date(a.publishedAt);
+        return new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0);
       case 'oldest':
-        return new Date(a.publishedAt) - new Date(b.publishedAt);
+        return new Date(a.publishedAt || 0) - new Date(b.publishedAt || 0);
       case 'price-low':
-        return a.price - b.price;
+        return (a.price || 0) - (b.price || 0);
       case 'price-high':
-        return b.price - a.price;
+        return (b.price || 0) - (a.price || 0);
       case 'beds-high':
         return (b.bedrooms || 0) - (a.bedrooms || 0);
       case 'beds-low':
@@ -162,35 +157,15 @@ const PropertiesPage = ({ data }) => {
         description="Browse our selection of available and past properties for sale across the UK."
       />
       
-      {/* Hero Section */}
-      <section className="bg-neutral-50 py-16 md:py-24 relative">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <StaticImage 
-            src="../images/assets/properties-hero.jpg" 
-            alt="Background" 
-            className="w-full h-full object-cover"
-            objectPosition="center 50%"
-          />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={staggerChildren}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl font-display font-semibold text-neutral-900 mb-6">
-              Our Properties
-            </motion.h1>
-            <motion.p variants={fadeIn} className="text-lg md:text-xl text-neutral-700 mb-8">
-              Browse our selection of available and past properties. Filter by your preferences to find your perfect home.
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero 
+        title="Our <span class='italic text-primary-600'>Properties</span>"
+        subtitle="Browse our selection of available and past properties. Filter by your preferences to find your perfect home."
+        eyebrowText="PROPERTIES"
+        heroImage={heroImage}
+      />
       
       {/* Properties Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-white to-neutral-100">
         <div className="container mx-auto px-4">
           <PropertyFilter 
             filters={filters}
@@ -209,10 +184,28 @@ const PropertiesPage = ({ data }) => {
             >
               <h3 className="text-2xl font-semibold mb-4">No properties match your search criteria</h3>
               <p className="text-neutral-600 mb-8">Try adjusting your filters to see more results.</p>
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-full font-semibold transition-colors"
+                >
+                  Reset All Filters
+                </button>
+              )}
             </motion.div>
           ) : (
             <>
-              <p className="text-neutral-600 mb-6">{sortedProperties.length} properties found</p>
+              <p className="text-neutral-600 mb-6">
+                {sortedProperties.length} {sortedProperties.length === 1 ? 'property' : 'properties'} found
+                {hasActiveFilters && (
+                  <button
+                    onClick={resetFilters}
+                    className="ml-4 text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    Reset filters
+                  </button>
+                )}
+              </p>
               
               <motion.div 
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -225,7 +218,7 @@ const PropertiesPage = ({ data }) => {
                     key={property._id} 
                     variants={fadeIn}
                   >
-                    <PropertyCard property={property} onEnquire={handleEnquiry} />
+                    <PropertyCard property={property} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -253,24 +246,22 @@ const PropertiesPage = ({ data }) => {
             className="max-w-3xl mx-auto text-center"
           >
             <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
-              Can't find what you're looking for?
+              Need help with <span className="italic">property finance</span>?
             </motion.h2>
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
-              Contact us to discuss your property requirements. We're here to help find your perfect property.
+              Whether you're looking for a buy-to-let mortgage, bridging finance, or development funding, our trusted network of finance specialists can help you secure the right deal for your property goals.
             </motion.p>
-            <motion.button 
+            <motion.div 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-              onClick={() => {
-                if (window !== undefined && window.openContactModal) {
-                  window.openContactModal();
-                }
-              }}
             >
-              Contact Us
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.BROKER_REFERRAL}
+                buttonText="Speak to a Finance Specialist"
+                buttonClass="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -282,6 +273,11 @@ export default PropertiesPage
 
 export const query = graphql`
   query {
+    propertiesHero: file(relativePath: { eq: "assets/properties-hero.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
     allSanityProperty {
       nodes {
         _id
@@ -323,6 +319,9 @@ export const query = graphql`
         featured
         status
         publishedAt
+        tenure
+        councilTaxBand  
+
       }
     }
   }

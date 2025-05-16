@@ -41,6 +41,12 @@ module.exports = {
         100: "#E5E5E5",
         50: "#F5F5F5",
       },
+      blue: {
+        600: "#2563EB",
+      },
+      purple: {
+        600: "#A855F7",
+      }
     },
     fontFamily: {
       display: ["Playfair Display", "sans-serif"],

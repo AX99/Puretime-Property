@@ -1,11 +1,12 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { motion } from 'framer-motion'
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaPoundSign, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
 import Seo from '../components/seo'
-import { useModal } from '../context/modalContext'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
 import PropertyMap from '../components/PropertyMap'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -26,8 +27,17 @@ const slideIn = {
   }
 }
 
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+}
+
 const PropertyDetailTemplate = ({ data }) => {
-  const { openModal, setModalData } = useModal()
   const property = data.sanityProperty
   
   if (!property) {
@@ -40,7 +50,6 @@ const PropertyDetailTemplate = ({ data }) => {
   }
   
   const { 
-    _id, 
     title, 
     price, 
     priceUnit = 'gbp', 
@@ -57,7 +66,8 @@ const PropertyDetailTemplate = ({ data }) => {
     propertyType,
     publishedAt,
     councilTaxBand,
-    tenure
+    tenure,
+    slug
   } = property
   
   // Safely access location fields with fallbacks
@@ -73,13 +83,6 @@ const PropertyDetailTemplate = ({ data }) => {
   // Safely access coordinates
   const lat = coordinates?.lat
   const lng = coordinates?.lng
-  
-  // Format price with currency symbol
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: priceUnit?.toUpperCase() || 'GBP',
-    maximumFractionDigits: 0
-  }).format(price || 0)
   
   const formattedDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -116,32 +119,13 @@ const PropertyDetailTemplate = ({ data }) => {
       case 'for-sale':
       default:
         return { 
-          color: 'bg-green-600', 
+          color: 'bg-primary-600', 
           text: 'For Sale' 
         };
     }
   }
   
   const statusDetails = getStatusDetails()
-  
-  const handleEnquire = () => {
-    setModalData({ 
-      title: 'Property Enquiry',
-      subtitle: `About: ${title}`,
-      content: `
-        <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
-        <p class="mb-4"><strong>Property:</strong> ${title}</p>
-        <p class="mb-4"><strong>Location:</strong> ${city || 'N/A'}</p>
-        <p class="mb-4"><strong>Price:</strong> ${formattedPrice}</p>
-      `,
-      formType: 'property',
-      formData: {
-        propertyId: property._id,
-        propertyTitle: title,
-      }
-    });
-    openModal('contact');
-  };
   
   return (
     <>
@@ -153,33 +137,7 @@ const PropertyDetailTemplate = ({ data }) => {
       <section className="bg-neutral-50 pt-8 pb-16 md:py-16">
         <div className="container mx-auto px-4">
           {/* Breadcrumb and Back Button */}
-          <div className="flex flex-wrap items-center justify-between mb-6">
-            <nav className="flex mb-2 md:mb-0" aria-label="Breadcrumb">
-              <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                <li className="inline-flex items-center">
-                  <Link to="/" className="inline-flex items-center text-sm font-medium text-neutral-700 hover:text-primary-600">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <div className="flex items-center">
-                    <span className="mx-2 text-neutral-400">/</span>
-                    <Link to="/properties" className="text-sm font-medium text-neutral-700 hover:text-primary-600">
-                      Properties
-                    </Link>
-                  </div>
-                </li>
-                <li aria-current="page">
-                  <div className="flex items-center">
-                    <span className="mx-2 text-neutral-400">/</span>
-                    <span className="text-sm font-medium text-neutral-500 truncate max-w-[200px]">
-                      {title}
-                    </span>
-                  </div>
-                </li>
-              </ol>
-            </nav>
-            
+          <div className="flex flex-wrap items-center justify-between mb-6">            
             <Link 
               to="/properties" 
               className="inline-flex items-center text-neutral-700 hover:text-primary-600"
@@ -220,7 +178,7 @@ const PropertyDetailTemplate = ({ data }) => {
                     <span>{locationString}</span>
                   </div>
                   
-                  <div className="flex flex-wrap items-center mb-6">
+                  {/* <div className="flex flex-wrap items-center mb-6">
                     <div className="text-3xl font-bold text-primary-600 mr-4">
                       {formattedPrice}
                     </div>
@@ -229,42 +187,30 @@ const PropertyDetailTemplate = ({ data }) => {
                         {priceUnit.toUpperCase()}
                       </div>
                     )}
-                  </div>
+                  </div> */}
                   
                   {/* Key Property Features - Horizontal Layout */}
-                  <div className="flex flex-wrap mb-8">
-                    <div className="flex items-center mr-6 mb-3">
-                      <FaBed className="text-xl text-primary-600 mr-2" />
-                      <div>
-                        <div className="text-sm text-neutral-500">Bedrooms</div>
-                        <div className="font-semibold">{bedrooms || 'N/A'}</div>
-                      </div>
+                  <div className="flex flex-wrap gap-4 mb-8">
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                      <FaBed className="text-primary-600 mr-2" />
+                      <span><span className="text-neutral-500 mr-1">Bedrooms:</span> {bedrooms || 'N/A'}</span>
                     </div>
-                    <div className="flex items-center mr-6 mb-3">
-                      <FaBath className="text-xl text-primary-600 mr-2" />
-                      <div>
-                        <div className="text-sm text-neutral-500">Bathrooms</div>
-                        <div className="font-semibold">{bathrooms || 'N/A'}</div>
-                      </div>
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                      <FaBath className="text-primary-600 mr-2" />
+                      <span><span className="text-neutral-500 mr-1">Bathrooms:</span> {bathrooms || 'N/A'}</span>
                     </div>
-                    <div className="flex items-center mr-6 mb-3">
-                      <FaRuler className="text-xl text-primary-600 mr-2" />
-                      <div>
-                        <div className="text-sm text-neutral-500">Area</div>
-                        <div className="font-semibold">{area ? `${area} ${areaUnit}` : 'N/A'}</div>
-                      </div>
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                      <FaRuler className="text-primary-600 mr-2" />
+                      <span><span className="text-neutral-500 mr-1">Area:</span> {area ? `${area} ${areaUnit}` : 'N/A'}</span>
                     </div>
-                    <div className="flex items-center mb-3">
-                      <FaHome className="text-xl text-primary-600 mr-2" />
-                      <div>
-                        <div className="text-sm text-neutral-500">Type</div>
-                        <div className="font-semibold capitalize">{propertyType || 'N/A'}</div>
-                      </div>
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                      <FaHome className="text-primary-600 mr-2" />
+                      <span><span className="text-neutral-500 mr-1">Type:</span> {propertyType ? propertyType.charAt(0).toUpperCase() + propertyType.slice(1) : 'N/A'}</span>
                     </div>
                   </div>
                   
-                  {/* Quick Property Details - Horizontal Layout */}
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  {/* Quick Property Details - Horizontal Layout (visible only on mobile) */}
+                  <div className="flex flex-wrap gap-3 mb-8 md:hidden">
                     {tenure && (
                       <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                         <FaRegBuilding className="text-primary-600 mr-2" />
@@ -308,7 +254,7 @@ const PropertyDetailTemplate = ({ data }) => {
                   </div>
                   
                   {amenities && amenities.length > 0 && (
-                    <div className="mb-8">
+                    <div className="mb-8 md:hidden">
                       <h2 className="text-xl font-semibold mb-4">Amenities & Features</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {amenities.map((amenity, index) => (
@@ -320,123 +266,49 @@ const PropertyDetailTemplate = ({ data }) => {
                       </div>
                     </div>
                   )}
-                </div>
-              </motion.div>
-              
-              {/* Location Section with Map */}
-              {location && (
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={fadeIn}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden mb-8"
-                >
-                  <div className="p-6 md:p-8">
-                    <h2 className="text-xl font-semibold mb-4 flex items-center">
-                      <FaMapMarked className="mr-2 text-primary-600" />
-                      Location
-                    </h2>
-                    
-                    <div className="mb-4">
-                      <address className="not-italic">
-                        {street && <div>{street}</div>}
-                        {city && <div>{city}</div>}
-                        {state && <div>{state}</div>}
-                        {postalCode && <div>{postalCode}</div>}
-                        {country && <div>{country}</div>}
-                      </address>
-                    </div>
-                    
-                    {/* Property Map Component */}
-                    <PropertyMap
-                      latitude={lat}
-                      longitude={lng}
-                      title={title}
-                      address={fullAddress}
-                      mapHeight="400px"
-                      zoom={15}
-                      propertyData={{
-                        bedrooms,
-                        bathrooms,
-                        price,
-                        priceUnit,
-                        propertyType
-                      }}
-                    />
-                  </div>
-                </motion.div>
-              )}
-              
-              {/* Property Details Section */}
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                className="bg-white rounded-lg shadow-lg overflow-hidden mb-8"
-              >
-                <div className="p-6 md:p-8">
-                  <h2 className="text-xl font-semibold mb-4">Additional Property Details</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Property Type */}
-                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                      <FaHome className="text-primary-600 mr-3 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Property Type</h3>
-                        <p className="capitalize">{propertyType || 'N/A'}</p>
+                  
+                  {/* Location Section with Map - Small screen only */}
+                  {location && (
+                    <div className="mb-8 md:hidden">
+                      <h2 className="text-xl font-semibold mb-4 flex items-center">
+                        <FaMapMarked className="mr-2 text-primary-600" />
+                        Location
+                      </h2>
+                      
+                      <div className="mb-4">
+                        <address className="not-italic bg-neutral-50 p-4 rounded-md text-neutral-700">
+                          {street && <div>{street}</div>}
+                          {city && <div>{city}</div>}
+                          {state && <div>{state}</div>}
+                          {postalCode && <div>{postalCode}</div>}
+                          {country && <div>{country}</div>}
+                        </address>
                       </div>
-                    </div>
-                    
-                    {/* Tenure */}
-                    {tenure && (
-                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                        <FaRegBuilding className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Tenure</h3>
-                          <p>{tenure}</p>
+                      
+                      {/* Property Map Component */}
+                      {(lat && lng) ? (
+                        <PropertyMap
+                          latitude={lat}
+                          longitude={lng}
+                          title={title}
+                          address={fullAddress}
+                          mapHeight="300px"
+                          zoom={15}
+                          propertyData={{
+                            bedrooms,
+                            bathrooms,
+                            price,
+                            priceUnit,
+                            propertyType
+                          }}
+                        />
+                      ) : (
+                        <div className="bg-neutral-100 h-[300px] rounded-md flex items-center justify-center">
+                          <p className="text-neutral-500">Map location not available</p>
                         </div>
-                      </div>
-                    )}
-                    
-                    {/* Council Tax Band */}
-                    {councilTaxBand && (
-                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                        <FaRegMoneyBillAlt className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Council Tax Band</h3>
-                          <p>Band {councilTaxBand}</p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Status */}
-                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                      <FaTag className="text-primary-600 mr-3 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Status</h3>
-                        <p>{statusDetails.text}</p>
-                      </div>
+                      )}
                     </div>
-                    
-                    {/* Date Listed */}
-                    {publishedAt && (
-                      <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                        <FaCalendarAlt className="text-primary-600 mr-3 mt-1" />
-                        <div>
-                          <h3 className="font-medium">Date Listed</h3>
-                          <p>{formattedDate}</p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Price */}
-                    <div className="flex items-start p-3 bg-neutral-50 rounded-md">
-                      <FaPoundSign className="text-primary-600 mr-3 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Price</h3>
-                        <p>{formattedPrice}</p>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </motion.div>
             </div>
@@ -449,49 +321,186 @@ const PropertyDetailTemplate = ({ data }) => {
               className="lg:col-span-1"
             >
               {/* Enquiry Form Card */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 sticky top-8">
+              {status !== "sold" && <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 top-8">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Interested in this property?</h2>
                   <p className="text-neutral-600 mb-6">
                     Contact us for more information or to schedule a viewing.
                   </p>
                   
-                  <motion.button
-                    onClick={handleEnquire}
-                    className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                  <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Request Information
-                  </motion.button>
+                      <ContactButton
+                        formType={FORM_TYPES.PROPERTY_ENQUIRY}
+                        buttonText="Enquire"
+                        buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                        data={{ 
+                          property: `${title} (${slug?.current || property._id})`
+                        }}
+                      />
+                  </motion.div>
+                </div>
+              </div>}
+              
+              {/* Property Details Card - hidden on small screens */}
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold mb-4">Property Details</h2>
+                  
+                  <div className="space-y-3">
+                    {propertyType && (
+                      <div className="flex items-start bg-neutral-50 p-3 rounded-md">
+                        <FaHome className="text-primary-600 mr-3 mt-1 w-5" />
+                        <div>
+                          <h3 className="font-medium">Property Type</h3>
+                          <p className="capitalize text-neutral-700">{propertyType}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {tenure && (
+                      <div className="flex items-start bg-neutral-50 p-3 rounded-md">
+                        <FaRegBuilding className="text-primary-600 mr-3 mt-1 w-5" />
+                        <div>
+                          <h3 className="font-medium">Tenure</h3>
+                          <p className="text-neutral-700">{tenure}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {councilTaxBand && (
+                      <div className="flex items-start bg-neutral-50 p-3 rounded-md">
+                        <FaRegMoneyBillAlt className="text-primary-600 mr-3 mt-1 w-5" />
+                        <div>
+                          <h3 className="font-medium">Council Tax Band</h3>
+                          <p className="text-neutral-700">Band {councilTaxBand}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {status && (
+                      <div className="flex items-start bg-neutral-50 p-3 rounded-md">
+                        <FaTag className="text-primary-600 mr-3 mt-1 w-5" />
+                        <div>
+                          <h3 className="font-medium">Status</h3>
+                          <p className="text-neutral-700">{statusDetails.text}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {publishedAt && (
+                      <div className="flex items-start bg-neutral-50 p-3 rounded-md">
+                        <FaCalendarAlt className="text-primary-600 mr-3 mt-1 w-5" />
+                        <div>
+                          <h3 className="font-medium">Date Listed</h3>
+                          <p className="text-neutral-700">{formattedDate}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               
-              {/* Key Features Card */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+                            {/* Key Features Card - hidden on small screens */}
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Key Features</h2>
                   
                   <ul className="space-y-3">
-                    {amenities && amenities.length > 0 && amenities.slice(0, 5).map((amenity, index) => (
-                      <li key={index} className="flex items-start">
+                    {amenities && amenities.length > 0 ? (
+                      <>
+                        {amenities.map((amenity, index) => (
+                          <li key={index} className="flex items-start bg-neutral-50 p-3 rounded-md">
                         <span className="text-primary-600 mr-2">•</span>
-                        <span>{amenity}</span>
+                            <span className="text-neutral-700">{amenity}</span>
                       </li>
                     ))}
-                    {amenities && amenities.length > 5 && (
-                      <li className="text-primary-600 font-medium">
-                        +{amenities.length - 5} more features
-                      </li>
-                    )}
-                    {(!amenities || amenities.length === 0) && (
-                      <li className="text-neutral-500">No features listed</li>
+                      </>
+                    ) : (
+                      <li className="text-neutral-500 bg-neutral-50 p-3 rounded-md">No features listed</li>
                     )}
                   </ul>
                 </div>
               </div>
+              
+              {/* Location Card with Map - Desktop only */}
+              {location && (
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
+                  <div className="p-6 w-full">
+                    <h2 className="text-xl font-semibold mb-4 flex items-center">
+                      <FaMapMarked className="mr-2 text-primary-600" />
+                      Location
+                    </h2>
+                    <address className="not-italic mb-4 text-neutral-700 bg-neutral-50 p-4 rounded-md">
+                      {street && <div>{street}</div>}
+                      {city && <div>{city}</div>}
+                      {state && <div>{state}</div>}
+                      {postalCode && <div>{postalCode}</div>}
+                      {country && <div>{country}</div>}
+                    </address>
+                    
+                    {/* Property Map Component */}
+                    {(lat && lng) ? (
+                      <div className="w-full">
+                        <PropertyMap
+                          latitude={lat}
+                          longitude={lng}
+                          title={title}
+                          address={fullAddress}
+                          mapHeight="250px"
+                          zoom={14}
+                          propertyData={{
+                            bedrooms,
+                            bathrooms,
+                            price,
+                            priceUnit,
+                            propertyType
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="bg-neutral-100 h-[250px] rounded-md flex items-center justify-center">
+                        <p className="text-neutral-500">Map location not available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-white mb-6">
+              Need financing for your next property <span className="italic">investment</span>?
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
+              We can introduce you to specialist brokers for all types of property finance, from bridging loans to buy-to-let mortgages.
+            </motion.p>
+            <motion.div 
+              variants={fadeIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ContactButton
+                formType={FORM_TYPES.BROKER_REFERRAL}
+                buttonText="Speak to a Finance Specialist"
+                buttonClass="secondary-btn"
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </>

@@ -2,9 +2,9 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 import CTABanner from './CTABanner'
-
+import Input from './input'
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -66,13 +66,15 @@ const Steps = () => {
   ]
 
   return (
+    <>
+
     <section id="steps" className="bg-gradient-to-br from-white to-neutral-100 relative">
       {/* Add subtle background pattern */}
       <div className="absolute inset-0 z-0 opacity-5 bg-repeat" style={{
         backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
       }}></div>
       
-      <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
+      <div className="container mx-auto px-4 pt-12 md:pt-20 relative z-10">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -83,7 +85,7 @@ const Steps = () => {
           {/* Section Header - Improved for better attention */}
           <div className="text-center mb-16">
             <motion.div variants={fadeIn} className="inline-block bg-primary-600/10 px-4 py-2 rounded-full mb-4">
-              <span className="text-primary-600 font-semibold tracking-wide uppercase text-body-md">
+              <span className="text-primary-600 font-semibold tracking-wide uppercase text-body-md" id="steps_header">
                 {page.section}
               </span>
             </motion.div>
@@ -106,6 +108,7 @@ const Steps = () => {
           </div>
         </motion.div>
       </div>
+      <Input />
 
       {/* Full-Height Steps Section */}
       {steps.map((step, index) => (
@@ -165,7 +168,7 @@ const Steps = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        onClick={toggleModal}
+                        onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                         className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-md"
                       >
                         {ctaTexts[index]}
@@ -185,9 +188,11 @@ const Steps = () => {
           heading="Ready to sell your property?"
           description="Contact us today for a no-obligation cash offer. We can complete the purchase in as little as 30 days."
           buttonText="Get Your Free Cash Offer"
+          formType={FORM_TYPES.PROPERTY_SELLER}
         />
       </div>
     </section>
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -19,14 +19,25 @@ const fadeIn = {
  * @param {string} props.description - The description text for the CTA
  * @param {string} props.buttonText - The text for the CTA button (defaults to "Get Your Free Cash Offer")
  * @param {string} props.className - Additional CSS classes for the container
+ * @param {string} props.formType - The type of form to display (defaults to PROPERTY_SELLER)
+ * @param {Object} props.data - Additional data to pass to the form
  */
 const CTABanner = ({ 
   heading = "Ready to sell your property?", 
   description = "Contact us today for a no-obligation cash offer. We can complete the purchase in as little as 30 days.", 
   buttonText = "Get Your Free Cash Offer",
-  className = ""
+  className = "",
+  formType = FORM_TYPES.PROPERTY_SELLER,
+  data = null
 }) => {
-  const { toggleModal } = useModal()
+  const { openModal } = useModal()
+
+  const handleClick = () => {
+    openModal({
+      type: formType,
+      data: data
+    });
+  };
 
   return (
     <motion.div 
@@ -46,7 +57,7 @@ const CTABanner = ({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        onClick={toggleModal}
+        onClick={handleClick}
         className="bg-white text-primary-600 hover:bg-neutral-100 px-10 py-4 rounded-full font-bold text-lg transition-colors shadow-md"
       >
         {buttonText}

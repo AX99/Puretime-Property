@@ -38,20 +38,21 @@ const ImageGallery = ({
     switch (layout) {
       case 'overlapping':
         return (
-          <div className="relative flex items-center justify-center h-[350px] sm:h-[250px] md:h-[450px]">
-            <div className="relative w-full max-w-sm mx-auto">
+          <div className="tester relative flex items-start justify-center h-[200px] md:h-[450px] lg:h-[500px]">
+            <div className="relative w-40 sm:w-60 mx-auto md:mr-0">
               {images.length > 0 && (
                 <motion.div 
                   custom={1}
                   variants={imageVariants}
                   className="rounded-xl overflow-hidden shadow-xl absolute 
-                            sm:left-0 sm:top-8 
-                            md:left-0 md:top-12 
-                            left-4 top-12 
+                            sm:-left-60 sm:top-6
+                            md:left-4 md:top-32
+                            -left-4 top-0 
                             z-10 
-                            w-[200px] h-[200px] 
-                            sm:w-[180px] sm:h-[180px] 
-                            md:w-[280px] md:h-[280px]"
+                            w-[210px] h-[210px] 
+                            sm:w-[220px] sm:h-[220px] 
+                            md:w-[300px] md:h-[300px]
+                            lg:w-[340px] lg:h-[340px]"
                   whileHover={{ 
                     scale: 1.03, 
                     boxShadow: "0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04)",
@@ -78,13 +79,14 @@ const ImageGallery = ({
                   custom={2}
                   variants={imageVariants}
                   className="rounded-xl overflow-hidden shadow-xl absolute 
-                            sm:right-0 sm:-top-4
-                            md:right-0 md:-top-4 
-                            right-4 top-24
+                            sm:right-20 sm:top-2
+                            md:right-10 md:-top-15 
+                            right-40 top-16
                             z-20 
-                            w-[180px] h-[180px] 
-                            sm:w-[160px] sm:h-[160px] 
-                            md:w-[220px] md:h-[220px]"
+                            w-[190px] h-[190px] 
+                            sm:w-[200px] sm:h-[200px] 
+                            md:w-[240px] md:h-[240px]
+                            lg:w-[280px] lg:h-[280px]"
                   whileHover={{ 
                     scale: 1.03, 
                     boxShadow: "0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04)",

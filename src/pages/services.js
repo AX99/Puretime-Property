@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import Seo from '../components/seo'
 import { StaticImage } from 'gatsby-plugin-image'
 import { useModal } from '../context/modalContext'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -26,6 +27,11 @@ const staggerChildren = {
 
 const ServicesPage = () => {
   const { toggleModal } = useModal();
+  
+  // Handler for different button types
+  const handleButtonClick = (formType) => {
+    toggleModal({ type: formType });
+  };
   
   return (
     <>
@@ -142,7 +148,7 @@ const ServicesPage = () => {
                 variants={fadeIn}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={toggleModal}
+                onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_SELLER)}
                 className="primary-btn"
               >
                 Get Your Free Cash Offer
@@ -267,7 +273,7 @@ const ServicesPage = () => {
                 <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
                   Need short-term funding to secure a property quickly or bridge a gap between sale and purchase? Through our trusted network, we can connect you with specialists offering competitive rates and quick decisions.
                 </p>
-                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={toggleModal}>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}>
                   Enquire about bridging finance
                   <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -288,7 +294,7 @@ const ServicesPage = () => {
                 <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
                   Looking to expand your property portfolio? We can introduce you to brokers specialising in buy-to-let mortgages, including solutions for first-time landlords and complex scenarios.
                   </p>
-                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={toggleModal}>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}>
                   Enquire about buy-to-let mortgages
                   <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -309,7 +315,7 @@ const ServicesPage = () => {
                 <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
                   From retail units and offices to industrial properties and holiday lets, we can connect you with specialists who understand commercial property finance.
                   </p>
-                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={toggleModal}>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}>
                     Enquire about commercial mortgages
                   <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -330,7 +336,7 @@ const ServicesPage = () => {
                 <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
                   Funding for property development projects large and small, from light refurbishments to ground-up builds. Our trusted partners can help secure up to 90% loan-to-cost.
                   </p>
-                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={toggleModal}>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}>
                   Enquire about development finance
                   <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -345,7 +351,7 @@ const ServicesPage = () => {
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-                onClick={toggleModal}
+                onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}
                 className="primary-btn"
               >
                 Speak to a Specialist

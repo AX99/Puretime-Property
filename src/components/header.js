@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "gatsby";
-import { useModal } from "../context/modalContext";
+import { useModal, FORM_TYPES } from "../context/modalContext";
 import { useDrawer } from "../context/drawerContext";
 import { motion } from "framer-motion";
 
@@ -14,18 +14,46 @@ const Header = ({ menu }) => {
   const { toggleDrawer, drawerOpen } = useDrawer();
   const [scrolled, setScrolled] = useState(false);
 
-  // Add scroll effect
+  // Add scroll effect with debouncing to prevent flickering
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let timer = null;
+    let lastStateChangeTime = Date.now();
+    const MIN_TIME_BETWEEN_CHANGES = 300; // ms minimum time between state changes
+    
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+      if (timer !== null) {
+        clearTimeout(timer);
       }
+      
+      timer = setTimeout(() => {
+        // Add buffer for scrolling up vs down to prevent flickering
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > lastScrollY;
+        
+        // Use much higher thresholds to prevent flickering
+        // This creates a larger buffer zone, especially at the top of the page
+        const threshold = scrollingDown ? 30 : 20;
+        
+        const shouldBeScrolled = currentScrollY > threshold;
+        
+        // Only allow state changes after minimum time has passed
+        const now = Date.now();
+        if (shouldBeScrolled !== scrolled && (now - lastStateChangeTime > MIN_TIME_BETWEEN_CHANGES)) {
+          setScrolled(shouldBeScrolled);
+          lastStateChangeTime = now;
+        }
+        
+        lastScrollY = currentScrollY;
+      }, 50); // Longer timeout to further reduce rapid toggles
     };
 
     document.addEventListener("scroll", handleScroll);
     return () => {
       document.removeEventListener("scroll", handleScroll);
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
     };
   }, [scrolled]);
 
@@ -111,7 +139,7 @@ const Header = ({ menu }) => {
               {/* Contact button */}
               <motion.button
                 className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 hover:bg-primary-700 text-white font-semibold cursor-pointer px-5 py-3 text-body-xs"
-                onClick={toggleModal}
+                onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                 aria-label="Contact us"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

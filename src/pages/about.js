@@ -4,6 +4,7 @@ import { graphql } from 'gatsby'
 import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
 import { useModal } from '../context/modalContext'
+import { FORM_TYPES } from '../context/modalContext'
 import PageHero from '../components/PageHero'
 import SectionHeader from '../components/SectionHeader'
 import ValueCard from '../components/ValueCard'
@@ -50,6 +51,15 @@ const CompassionIcon = () => (
 
 const AboutPage = ({ data }) => {
   const { toggleModal } = useModal();
+  
+  // Handlers for different form types
+  const handleSellerForm = () => {
+    toggleModal({ type: FORM_TYPES.PROPERTY_SELLER });
+  };
+  
+  const handleBrokerForm = () => {
+    toggleModal({ type: FORM_TYPES.BROKER_REFERRAL });
+  };
   
   // Process the images from GraphQL query
   const heroImage = getImage(data.heroImage);
@@ -114,7 +124,7 @@ const AboutPage = ({ data }) => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    onClick={toggleModal}
+                    onClick={handleSellerForm}
                     className="primary-btn"
                   >
                     Get Your Free Valuation
@@ -123,8 +133,12 @@ const AboutPage = ({ data }) => {
               </motion.div>
               
               {/* Right Images Column with Animated Reveal */}
-              <div className="order-1 md:order-2">
-                <ImageGallery images={galleryImages} layout="overlapping" />
+              <div className="order-1 md:order-2 flex items-center justify-end h-full">
+                <ImageGallery 
+                  images={galleryImages} 
+                  layout="overlapping" 
+                  className="mb-10 md:mb-0 -mt-6 md:-mt-10 lg:-mt-12 md:pr-4"
+                />
               </div>
             </div>
           </motion.div>
@@ -159,7 +173,7 @@ const AboutPage = ({ data }) => {
           </motion.div>
         </div>
       </section>
-  
+      
       {/* Our Values */}
       <section className="bg-gradient-to-br from-neutral-50 to-white py-16 md:py-24 relative">
         {/* Background pattern */}
@@ -223,7 +237,7 @@ const AboutPage = ({ data }) => {
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={toggleModal}
+              onClick={handleBrokerForm}
               className="secondary-btn"
             >
               Speak to a Specialist
