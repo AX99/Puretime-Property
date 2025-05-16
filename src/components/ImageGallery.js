@@ -38,16 +38,16 @@ const ImageGallery = ({
     switch (layout) {
       case 'overlapping':
         return (
-          <div className="relative flex items-center justify-center h-[330px] sm:h-[280px] md:h-[450px] lg:h-[500px]">
-            <div className="relative w-full mx-auto md:mr-0">
+          <div className="tester relative flex items-start justify-center h-[200px] md:h-[450px] lg:h-[500px]">
+            <div className="relative w-40 sm:w-60 mx-auto md:mr-0">
               {images.length > 0 && (
                 <motion.div 
                   custom={1}
                   variants={imageVariants}
                   className="rounded-xl overflow-hidden shadow-xl absolute 
-                            sm:left-0 sm:top-0
-                            md:left-4 md:top-0 
-                            left-4 top-0 
+                            sm:-left-60 sm:top-6
+                            md:left-4 md:top-32
+                            -left-4 top-0 
                             z-10 
                             w-[210px] h-[210px] 
                             sm:w-[220px] sm:h-[220px] 
@@ -79,9 +79,9 @@ const ImageGallery = ({
                   custom={2}
                   variants={imageVariants}
                   className="rounded-xl overflow-hidden shadow-xl absolute 
-                            sm:right-0 sm:-top-14
-                            md:right-4 md:-top-16 
-                            right-4 top-16
+                            sm:right-20 sm:top-2
+                            md:right-10 md:-top-15 
+                            right-40 top-16
                             z-20 
                             w-[190px] h-[190px] 
                             sm:w-[200px] sm:h-[200px] 
