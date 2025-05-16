@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaTimes, FaArrowRight, FaHouseUser, FaTag, FaCalendarAlt } from 'react-icons/fa'
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaTimes, FaArrowRight, FaHouseUser, FaTag, FaRegBuilding, FaRegMoneyBillAlt } from 'react-icons/fa'
 import { usePropertyPreview } from '../context/propertyPreviewContext'
 import PropertyImageCarousel from './PropertyImageCarousel'
 
@@ -13,6 +13,23 @@ const PropertyPreview = () => {
   const previewRef = useRef(null)
   const closeButtonRef = useRef(null)
   const lastFocusedElement = useRef(null)
+  
+  // Close on navigation
+  useEffect(() => {
+    // Function to handle any navigation
+    const handleNavigate = () => {
+      if (isPreviewOpen) {
+        closePreview();
+      }
+    };
+    
+    // Handle browser back/forward
+    window.addEventListener('popstate', handleNavigate);
+    
+    return () => {
+      window.removeEventListener('popstate', handleNavigate);
+    };
+  }, [isPreviewOpen, closePreview]);
   
   // Handle focus management
   useEffect(() => {
@@ -128,7 +145,7 @@ const PropertyPreview = () => {
         return { color: 'bg-purple-600', text: 'Rented' };
       case 'for-sale':
       default:
-        return { color: 'bg-green-600', text: 'For Sale' };
+        return { color: 'bg-primary-600', text: 'For Sale' };
     }
   }
   
@@ -138,6 +155,9 @@ const PropertyPreview = () => {
   const firstParagraph = description && description.length > 0 
     ? description[0]?.children?.map(child => child.text).join(' ') 
     : 'No description available'
+
+  // Property details URL
+  const propertyUrl = `/property/${slug?.current || _id}`;
   
   return (
     <AnimatePresence>
@@ -160,7 +180,7 @@ const PropertyPreview = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3, type: 'spring', damping: 25 }}
-            className="fixed top-0 right-0 h-full w-full md:w-2/3 lg:w-1/2 bg-white shadow-xl overflow-y-auto z-[9001]"
+            className="fixed top-0 right-0 h-full w-full md:w-2/3 lg:w-2/5 bg-white shadow-xl overflow-y-auto z-[9001]"
           >
             {/* Close button */}
             <button
@@ -173,14 +193,14 @@ const PropertyPreview = () => {
             </button>
             
             {/* Property content */}
-            <div className="h-full">
-              {/* Property Image Carousel */}
+            <div className="flex flex-col h-full">
+              {/* Property Image Carousel - Removed aspect ratio */}
               <div className="relative">
                 <PropertyImageCarousel 
                   mainImage={mainImage}
                   images={images}
                   showThumbnails={true}
-                  aspectRatio="aspect-[4/3]"
+                  className="w-full"
                 />
                 
                 <div className={`absolute top-4 left-4 ${statusDetails.color} text-white px-4 py-2 rounded-lg font-semibold`}>
@@ -188,7 +208,24 @@ const PropertyPreview = () => {
                 </div>
               </div>
               
-              <div className="p-6 md:p-8">
+              {/* View Full Details Button - At top level */}
+              <div className="bg-neutral-50 py-3 px-6 border-b border-neutral-100">
+                <a 
+                  href={propertyUrl}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    closePreview();
+                    navigate(propertyUrl);
+                  }}
+                  className="flex items-center justify-center text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                >
+                  View Full Property Details
+                  <FaArrowRight className="ml-2" />
+                </a>
+              </div>
+              
+              {/* Content with no top padding */}
+              <div className="p-6 md:p-8 pt-4">
                 <h2 className="text-2xl md:text-3xl font-bold mb-2">{title}</h2>
                 <div className="flex items-center text-neutral-600 mb-4">
                   <FaMapMarkerAlt className="mr-2 text-primary-600" />
@@ -223,33 +260,50 @@ const PropertyPreview = () => {
                 {/* Property type and tenure */}
                 <div className="flex flex-wrap gap-4 mb-6">
                   {propertyType && (
-                    <div className="flex items-center text-neutral-700">
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                       <FaHouseUser className="text-primary-600 mr-2" />
-                      <span className="capitalize">{propertyType}</span>
+                      <span><span className="text-neutral-500 mr-1">Property Type:</span> {propertyType.charAt(0).toUpperCase() + propertyType.slice(1)}</span>
                     </div>
                   )}
                   
                   {tenure && (
-                    <div className="flex items-center text-neutral-700">
+                      <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                        <FaRegBuilding className="text-primary-600 mr-2" />
+                        <span><span className="text-neutral-500 mr-1">Tenure:</span> {tenure}</span>
+                      </div>
+                    )}
+                    
+                    {councilTaxBand && (
+                      <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
+                        <FaRegMoneyBillAlt className="text-primary-600 mr-2" />
+                        <span><span className="text-neutral-500 mr-1">Council Tax:</span> Band {councilTaxBand}</span>
+                      </div>
+                    )}
+                    
+                    <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                       <FaTag className="text-primary-600 mr-2" />
-                      <span>{tenure}</span>
+                      <span><span className="text-neutral-500 mr-1">Status:</span> {statusDetails.text}</span>
                     </div>
-                  )}
-                  
-                  {formattedDate && (
-                    <div className="flex items-center text-neutral-700">
-                      <FaCalendarAlt className="text-primary-600 mr-2" />
-                      <span className="text-sm">Listed on {formattedDate}</span>
-                    </div>
-                  )}
                 </div>
                 
-                {/* Description preview */}
+                {/* Description preview with Read More link */}
                 {description && (
                   <div className="mb-8">
                     <h3 className="text-xl font-semibold mb-3">Description</h3>
-                    <div className="text-neutral-700 line-clamp-4">
-                      {firstParagraph}
+                    <div className="text-neutral-700">
+                      <p className="line-clamp-4 mb-2">{firstParagraph}</p>
+                      <a 
+                        href={propertyUrl}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          closePreview();
+                          navigate(propertyUrl);
+                        }}
+                        className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center"
+                      >
+                        Read more
+                        <FaArrowRight className="ml-1 w-3 h-3" />
+                      </a>
                     </div>
                   </div>
                 )}
@@ -273,15 +327,20 @@ const PropertyPreview = () => {
                   </div>
                 )}
                 
-                {/* Full detail link */}
+                {/* Full detail link (bottom) */}
                 <div className="flex flex-col sm:flex-row gap-4 mt-6">
-                  <Link 
-                    to={`/property/${slug?.current || _id}`} 
-                    className="flex items-center justify-center bg-neutral-800 hover:bg-neutral-900 text-white font-semibold py-3 px-6 rounded-md transition-colors w-full"
+                  <a 
+                    href={propertyUrl}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      closePreview();
+                      navigate(propertyUrl);
+                    }}
+                    className="flex items-center justify-center bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-md transition-colors w-full"
                   >
                     View Full Details
                     <FaArrowRight className="ml-2" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

@@ -159,7 +159,7 @@ const AboutPage = ({ data }) => {
           </motion.div>
         </div>
       </section>
-  
+      
       {/* Our Values */}
       <section className="bg-gradient-to-br from-neutral-50 to-white py-16 md:py-24 relative">
         {/* Background pattern */}

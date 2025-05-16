@@ -8,7 +8,7 @@ import { usePropertyPreview } from '../context/propertyPreviewContext'
 // Property Card component for displaying property listings
 const PropertyCard = ({ property, onEnquire }) => {
   const { openPreview } = usePropertyPreview()
-  const { title, location, price, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug } = property
+  const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug } = property
   const imageData = mainImage?.asset?.gatsbyImageData
 
   // Format location string from location object
@@ -42,6 +42,9 @@ const PropertyCard = ({ property, onEnquire }) => {
     }
   };
   
+  // Check if property is sold or rented
+  const isUnavailable = status === 'sold' || status === 'rented';
+  
   return (
     <motion.div 
       className="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col"
@@ -73,9 +76,9 @@ const PropertyCard = ({ property, onEnquire }) => {
             </div>
           )}
         </Link>
-        <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
+        {/* <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
           £{price?.toLocaleString()}
-        </div>
+        </div> */}
         {getStatusBadge()}
       </div>
       
@@ -121,26 +124,38 @@ const PropertyCard = ({ property, onEnquire }) => {
       </div>
       
       <div className="p-6 pt-0">
-        <div className="flex flex-col sm:flex-row gap-2">
+        {isUnavailable ? (
           <motion.button
             onClick={() => openPreview(property)}
-            className="flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-3 px-4 rounded-md transition-colors flex-1"
+            className="w-full flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-3 px-4 rounded-md transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             <FaEye className="mr-2" />
             Quick View
           </motion.button>
-          
-          <motion.button
-            onClick={() => onEnquire(property)}
-            className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-md transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Enquire
-          </motion.button>
-        </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row gap-2">
+            <motion.button
+              onClick={() => openPreview(property)}
+              className="flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold py-3 px-4 rounded-md transition-colors flex-1"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaEye className="mr-2" />
+              Quick View
+            </motion.button>
+            
+            <motion.button
+              onClick={() => onEnquire(property)}
+              className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-md transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Enquire
+            </motion.button>
+          </div>
+        )}
       </div>
     </motion.div>
   );
