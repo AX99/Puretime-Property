@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useModal, FORM_TYPES } from '../context/modalContext'
 import { StaticImage } from 'gatsby-plugin-image'
 import CTABanner from './CTABanner'
-import ContactButton from './ContactButton'
+
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },

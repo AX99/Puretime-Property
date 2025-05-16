@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { StaticImage } from 'gatsby-plugin-image'
-import CTABanner from './CTABanner'
-import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {

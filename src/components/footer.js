@@ -83,14 +83,16 @@ const Footer = () => {
                 <h3 className="font-display text-display-md md:text-display-lg font-semibold text-neutral-900 mb-4 leading-tight">
                   Want To Sell Your Property <span className="italic text-primary-600">Fast</span>?
                 </h3>
-                <a
-                  href="/#"
-                  onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
-                  className="cursor-pointer font-display text-body-xl md:text-display-sm text-primary-600 font-medium hover:text-primary-700 transition-colors relative inline-block group"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleModal({ type: FORM_TYPES.PROPERTY_SELLER });
+                  }}
+                  className="bg-transparent border-0 cursor-pointer font-display text-body-xl md:text-display-sm text-primary-600 font-medium hover:text-primary-700 transition-colors relative inline-block group"
                 >
                   Get In Contact →
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
-                </a>
+                </button>
                 
                 {/* Desktop Navigation Links */}
                 <div className="mt-8 hidden lg:block">
