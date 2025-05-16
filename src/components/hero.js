@@ -106,7 +106,7 @@ const Hero = () => {
       setTimeout(() => {
         document.body.removeChild(overlay)
       }, 500)
-    }, 2500)
+    }, 800)
   }
 
   const handleScrollToInput = () => {

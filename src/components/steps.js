@@ -168,7 +168,7 @@ const Steps = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        onClick={toggleModal}
+                        onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                         className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-md"
                       >
                         {ctaTexts[index]}

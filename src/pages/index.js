@@ -15,9 +15,9 @@ const IndexPage = () => (
     <Seo />
     <Hero />
     <Steps />
+    <LendingOpportunities />
     <ProblemProperties />
     <Reviews />
-    <LendingOpportunities />
     <CookieConsent
       location="bottom"
       buttonText="I Agree"

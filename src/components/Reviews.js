@@ -305,14 +305,6 @@ const Reviews = () => {
               </svg>
             </a>
           </motion.div>
-          
-          {/* Add CTA Banner */}
-          <CTABanner 
-            heading="Ready to get started?" 
-            description="Contact us today to get a fair cash offer for your property. Our team is ready to help you sell quickly and hassle-free."
-            buttonText="Get Your No-Obligation Offer" 
-            formType={FORM_TYPES.PROPERTY_SELLER}
-          />
         </motion.div>
       </div>
     </section>

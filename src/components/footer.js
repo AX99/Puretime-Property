@@ -85,7 +85,7 @@ const Footer = () => {
                 </h3>
                 <a
                   href="/#"
-                  onClick={toggleModal}
+                  onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                   className="cursor-pointer font-display text-body-xl md:text-display-sm text-primary-600 font-medium hover:text-primary-700 transition-colors relative inline-block group"
                 >
                   Get In Contact →

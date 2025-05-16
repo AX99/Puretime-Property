@@ -1,8 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 import { StaticImage } from 'gatsby-plugin-image'
-
+import CTABanner from './CTABanner'
+import ContactButton from './ContactButton'
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -118,17 +119,19 @@ const LendingOpportunities = () => {
                 variants={fadeIn}
                 className="bg-white p-6 md:p-8 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border-t-4 border-primary-600 flex flex-col h-full"
               >
-                <div className="flex items-start mb-4">
-                  <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <div className="flex flex-col items-center md:items-start text-center md:text-left md:flex-row items-start mb-4">
+                  <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-3 md:mb-0 md:mr-4 flex-shrink-0">
                     {option.icon}
                   </div>
-                  <h3 className="text-2xl font-semibold text-neutral-900">{option.title}</h3>
+                  <h3 className="text-2xl font-semibold text-neutral-900 mt-2 md:mt-0">{option.title}</h3>
                 </div>
-                <p className="text-neutral-700 leading-relaxed mb-6 flex-grow">
+                <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
                   {option.description}
                 </p>
                 <button 
-                  onClick={toggleModal}
+                  onClick={() => {
+                    toggleModal({type : FORM_TYPES.BROKER_REFERRAL})
+                  }}
                   className="mx-auto mt-auto bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-2 shadow"
                 >
                   {option.cta}
@@ -139,6 +142,15 @@ const LendingOpportunities = () => {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Add CTA Banner */}
+          <CTABanner 
+            heading="Speak to a broker today" 
+            description="We can introduce you to our trusted network of specialist brokers who provide tailored lending solutions for all types of property investment."
+            buttonText="Enquire about lending solutions" 
+            formType={FORM_TYPES.BROKER_REFERRAL}
+            className='mt-10'
+          />
         </motion.div>
       </div>
     </section>

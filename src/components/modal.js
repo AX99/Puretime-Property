@@ -1039,7 +1039,7 @@ const Modal = () => {
         if (e.key === 'Tab') {
           handleTabKey(e)
         } else if (e.key === 'Escape') {
-          toggleModal()
+          toggleModal({})
         }
       }
       
@@ -1074,7 +1074,7 @@ const Modal = () => {
   const handleCloseModal = (e) => {
     // Close modal when clicking on the backdrop
     if (e.target.id === 'modal_backdrop') {
-      toggleModal();
+      toggleModal({});
     }
   }
 
@@ -1169,10 +1169,10 @@ const Modal = () => {
               <div className="relative">
                 <button
                   ref={closeButtonRef}
-                  onClick={toggleModal}
+                  onClick={() => toggleModal({})}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-                      toggleModal();
+                      toggleModal({});
                     }
                   }}
                   className="absolute top-0 right-0 p-2 text-display-md text-primary-600 cursor-pointer hover:bg-neutral-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-600"

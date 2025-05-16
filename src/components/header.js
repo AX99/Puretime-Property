@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "gatsby";
-import { useModal } from "../context/modalContext";
+import { useModal, FORM_TYPES } from "../context/modalContext";
 import { useDrawer } from "../context/drawerContext";
 import { motion } from "framer-motion";
 
@@ -139,7 +139,7 @@ const Header = ({ menu }) => {
               {/* Contact button */}
               <motion.button
                 className="button rounded-full flex gap-1 items-center justify-center bg-primary-600 hover:bg-primary-700 text-white font-semibold cursor-pointer px-5 py-3 text-body-xs"
-                onClick={toggleModal}
+                onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                 aria-label="Contact us"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
