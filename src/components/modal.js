@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import addtoMailchimp from 'gatsby-plugin-mailchimp'
-
+import { motion, AnimatePresence } from 'framer-motion'
 import { useModal } from '../context/modalContext'
 
 const Modal = () => {
@@ -199,32 +199,80 @@ const Modal = () => {
     }
   }
 
+  // Animation variants
+  const backdropVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.3 }
+    },
+    exit: { 
+      opacity: 0,
+      transition: { duration: 0.2 } 
+    }
+  }
+  
+  const modalVariants = {
+    hidden: { 
+      opacity: 0,
+      scale: 0.95,
+      y: 10
+    },
+    visible: { 
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { 
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+        duration: 0.3,
+        delay: 0.1
+      }
+    },
+    exit: { 
+      opacity: 0,
+      scale: 0.95,
+      y: 10,
+      transition: { 
+        duration: 0.2
+      }
+    }
+  }
+
   return (
-    <>
-      {' '}
+    <AnimatePresence>
       {isModalOpen && (
         <>
           {/* Modal backdrop */}
-          <div
+          <motion.div
             id="modal_backdrop"
             onClick={handleCloseModal}
             className="fixed z-[10000] inset-0 bg-black bg-opacity-30 backdrop-blur-sm"
             aria-hidden="true"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={backdropVariants}
           />
           
           {/* Modal dialog */}
           <section
             id="contact_modal"
-            className="fixed z-[10001] inset-0 flex items-center justify-center px-4 sm:px-6 pointer-events-none overflow-hidden"
+            className="fixed z-[10001] inset-0 flex items-center justify-center p-4 pointer-events-none overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
           >
-            <div 
+            <motion.div 
               ref={modalRef}
-              className="w-full max-h-[90vh] overflow-y-auto p-6 bg-white rounded-md shadow-xl shadow-primary-600/40 lg:max-w-xl pointer-events-auto"
+              className="w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl shadow-primary-600/20 sm:w-[28rem] md:w-[32rem] lg:w-[36rem] xl:w-[42rem] 2xl:w-[48rem] pointer-events-auto border border-neutral-100"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={modalVariants}
             >
-              <div>
+              <div className="relative">
                 <button
                   ref={closeButtonRef}
                   onClick={toggleModal}
@@ -233,246 +281,246 @@ const Modal = () => {
                       toggleModal();
                     }
                   }}
-                  className="inline-block p-2 overflow-hidden text-center relative top-0 right-0 float-right text-display-md text-primary-600 cursor-pointer hover:bg-gray-100 rounded-full whitespace-nowrap align-middle m-0 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="absolute top-0 right-0 p-2 text-display-md text-primary-600 cursor-pointer hover:bg-neutral-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-600"
                   aria-label="Close modal"
                   type="button"
                 >
                   &times;
                 </button>
               </div>
-              <div className="container mx-auto bg-white px-9 pt-1 pb-4 shadow rounded-4">
-                <div className="relative flex flex-col justify-center overflow-hidden">
-                  <div className="w-full pt-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 lg:max-w-xl">
-                    <h4 id="modal-title" className="font-semibold text-display-sm tracking-widest font-display text-center underline underline-offset-2 text-primary-600">
-                      {state.formSuccess ? "Thanks for contacting us!" : "Complete The Form To Receive Your Offer"}
-                    </h4>
+              <div className="pt-6 pb-4">
+                <div className="flex flex-col justify-center">
+                  <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
+                    {state.formSuccess ? "Thanks for contacting us!" : "Complete The Form To Receive Your Offer"}
+                  </h4>
+                  {state.formSuccess && (
+                    <div className="mt-2">
+                      <p className="text-body-md text-primary-600 text-center  p-3 rounded-lg">
+                        We aim to get back to you within 48 hours.
+                      </p>
+                    </div>
+                  )}
 
-                    {state.showForm && (
-                      <form
-                        id="contact_form"
-                        onSubmit={handleSubmit}
-                        name="contact"
-                        method="POST"
-                        className="mt-6"
-                      >
-                        <div className="mb-2">
-                          <label
-                            htmlFor="firstName"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
-                          >
-                            First Name:<span className="text-red-600"> *</span>
+                  {state.showForm && (
+                    <form
+                      id="contact_form"
+                      onSubmit={handleSubmit}
+                      name="contact"
+                      method="POST"
+                      className="mt-6 space-y-4"
+                    >
+                      <div className="mb-2">
+                        <label
+                          htmlFor="firstName"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          First Name:<span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={state.firstName}
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          placeholder="First Name"
+                          name="firstName"
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="lastName"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          Last Name:<span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={state.lastName}
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          placeholder="Last Name"
+                          name="lastName"
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="phonenumber"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          Phone Number:<span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="tel"
+                          value={state.phonenumber}
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          placeholder="Phone Number"
+                          name="phonenumber"
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="email"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          Email:<span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="email"
+                          value={state.email}
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          name="email"
+                          placeholder="Email"
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="address"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          First Line of Address:
+                          <span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={state.address}
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          id="address"
+                          name="address"
+                          placeholder="First Line of Address"
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="postcode"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          Postcode:<span className="text-red-600"> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          id="postcode"
+                          name="postcode"
+                          placeholder="Postcode"
+                          defaultValue={
+                            modalData ? modalData.postcode : state.postcode
+                          }
+                          required
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <label
+                          htmlFor="valuation"
+                          className="block font-medium text-neutral-900 mb-1.5 text-sm"
+                        >
+                          Estimated Property Valuation (£):
+                        </label>
+                        <input
+                          type="number"
+                          onChange={handleInputChange}
+                          className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+                          id="valuation"
+                          name="valuation"
+                          placeholder="500,000"
+                          value={state.valuation}
+                        />
+                      </div>
+                      <div className="mb-4 mt-6 bg-neutral-50 p-4 rounded-lg">
+                        <div className="text-sm font-semibold mb-2 text-neutral-900">Marketing Permissions</div>
+                        <p className="text-body-xs mb-3 text-neutral-700">
+                          By using this form you are agreeing to hear from us by email. Please select all the 
+                          additional ways you would like to hear from Puretime Property Purchasing Ltd:
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="gdprPhone"
+                              checked={state.gdprPhone}
+                              onChange={handleInputChange}
+                              className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-600 rounded"
+                            />
+                            <span className="text-sm text-neutral-800">Phone</span>
                           </label>
-                          <input
-                            type="text"
-                            value={state.firstName}
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            placeholder="First Name"
-                            name="firstName"
-                            required
-                          />
-                        </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="lastName"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
-                          >
-                            Last Name:<span className="text-red-600"> *</span>
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="gdprPost"
+                              checked={state.gdprPost}
+                              onChange={handleInputChange}
+                              className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-600 rounded"
+                            />
+                            <span className="text-sm text-neutral-800">Post</span>
                           </label>
-                          <input
-                            type="text"
-                            value={state.lastName}
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            placeholder="Last Name"
-                            name="lastName"
-                            required
-                          />
                         </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="phonenumber"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
+                      </div>
+                      <div aria-hidden="true" className="hidden" hidden>
+                        <input
+                          type="text"
+                          name="b_d0281388fbca39d6d0711dcea_4cd2acada4"
+                          tabIndex="-1"
+                          defaultValue=""
+                        />
+                      </div>
+                      <div className="m-2 text-primary-600">
+                        <p>
+                          <span className="text-red-600"> *</span> - Required
+                          Fields
+                        </p>
+                      </div>
+                      <div className="mt-4">
+                        <p className="text-body-xs text-neutral-600 bg-neutral-50 p-3 rounded-lg">
+                          We use Mailchimp as our marketing platform. By
+                          clicking submit below, you acknowledge being added to
+                          our mailing list and your information will be
+                          transferred to Mailchimp for processing.{' '}
+                          <a
+                            href="https://mailchimp.com/legal/terms"
+                            className="text-primary-600 hover:underline"
                           >
-                            Phone Number:<span className="text-red-600"> *</span>
-                          </label>
-                          <input
-                            type="tel"
-                            value={state.phonenumber}
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            placeholder="Phone Number"
-                            name="phonenumber"
-                            required
-                          />
-                        </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="email"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
+                            Learn more
+                          </a>{' '}
+                          about Mailchimp's privacy practices. You can
+                          unsubscribe from our messages at any time by clicking
+                          the link in the footer of our emails.
+                        </p>
+                      </div>
+                      <div className="mt-6">
+                        <button
+                          type="submit"
+                          className="w-full px-6 py-3 tracking-wide text-white transition-colors duration-200 transform bg-primary-600 rounded-full hover:bg-primary-700 focus:outline-none focus:bg-primary-700 focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 font-semibold shadow-md"
+                          aria-label="Submit form"
+                        >
+                          Submit
+                        </button>
+                        
+                        {state.message && (
+                          <div 
+                            className={`mt-4 p-4 rounded-lg ${state.formSuccess ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}
+                            role="status"
+                            aria-live="polite"
                           >
-                            Email:<span className="text-red-600"> *</span>
-                          </label>
-                          <input
-                            type="email"
-                            value={state.email}
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            name="email"
-                            placeholder="Email"
-                            required
-                          />
-                        </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="address"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
-                          >
-                            First Line of Address:
-                            <span className="text-red-600"> *</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={state.address}
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            id="address"
-                            name="address"
-                            placeholder="First Line of Address"
-                            required
-                          />
-                        </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="postcode"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
-                          >
-                            Postcode:<span className="text-red-600"> *</span>
-                          </label>
-                          <input
-                            type="text"
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            id="postcode"
-                            name="postcode"
-                            placeholder="Postcode"
-                            defaultValue={
-                              modalData ? modalData.postcode : state.postcode
-                            }
-                            required
-                          />
-                        </div>
-                        <div className="mb-2">
-                          <label
-                            htmlFor="valuation"
-                            className="block font-size-4 font-weight-semibold text-black-2 line-height-reset text-sm"
-                          >
-                            Estimated Property Valuation (£):
-                          </label>
-                          <input
-                            type="number"
-                            onChange={handleInputChange}
-                            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            id="valuation"
-                            name="valuation"
-                            placeholder="500,000"
-                            value={state.valuation}
-                          />
-                        </div>
-                        <div className="mb-4 mt-6">
-                          <div className="text-sm font-weight-semibold mb-2">Marketing Permissions</div>
-                          <p className="text-body-xs mb-3">
-                            By using this form you are agreeing to hear from us by email. Please select all the 
-                            additional ways you would like to hear from Puretime Property Purchasing Ltd:
-                          </p>
-                          <div className="flex flex-col gap-2">
-                            <label className="flex items-center cursor-pointer">
-                              <input
-                                type="checkbox"
-                                name="gdprPhone"
-                                checked={state.gdprPhone}
-                                onChange={handleInputChange}
-                                className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-500"
-                              />
-                              <span className="text-sm">Phone</span>
-                            </label>
-                            <label className="flex items-center cursor-pointer">
-                              <input
-                                type="checkbox"
-                                name="gdprPost"
-                                checked={state.gdprPost}
-                                onChange={handleInputChange}
-                                className="mr-2 h-4 w-4 text-primary-600 focus:ring-primary-500"
-                              />
-                              <span className="text-sm">Post</span>
-                            </label>
+                            {state.message}
                           </div>
-                          {/* <p className="text-body-xs mt-2">
-                            You can unsubscribe from our messages at any time by clicking the link in the footer of our emails.
-                            For information about our privacy practices, please visit our website.
-                          </p> */}
-                        </div>
-                        <div aria-hidden="true" className="hidden" hidden>
-                          <input
-                            type="text"
-                            name="b_d0281388fbca39d6d0711dcea_4cd2acada4"
-                            tabIndex="-1"
-                            defaultValue=""
-                          />
-                        </div>
-                        <div className="m-2 text-primary-600">
-                          <p>
-                            {' '}
-                            <span className="text-red-600"> * </span> - Required
-                            Fields
-                          </p>
-                        </div>
-                        <div className="mt-4">
-                          <p className="text-body-xs">
-                            We use Mailchimp as our marketing platform. By
-                            clicking submit below, you acknowledge being added to
-                            our mailing list and your information will be
-                            transferred to Mailchimp for processing.{' '}
-                            <a
-                              href="https://mailchimp.com/legal/terms"
-                              className="text-primary-600 hover:underline"
-                            >
-                              Learn more
-                            </a>{' '}
-                            about Mailchimp's privacy practices. You can
-                            unsubscribe from our messages at any time by clicking
-                            the link in the footer of our emails.
-                          </p>
-                        </div>
-                        <div className="mt-6">
-                          <button
-                            type="submit"
-                            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus:bg-primary-700 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                            aria-label="Submit form"
-                          >
-                            Submit
-                          </button>
-                          
-                          {state.message && (
-                            <div 
-                              className={`mt-4 p-3 rounded-md ${state.formSuccess ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}
-                              role="status"
-                              aria-live="polite"
-                            >
-                              {state.message}
-                            </div>
-                          )}
-                        </div>
-                      </form>
-                    )}
-                  </div>
+                        )}
+                      </div>
+                    </form>
+                  )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </section>
         </>
-      )}{' '}
-    </>
+      )}
+    </AnimatePresence>
   )
 }
 export default Modal
