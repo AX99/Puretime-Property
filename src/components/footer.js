@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 import CTABanner from './CTABanner'
 import navItems from '../data/navItems.json'
 
@@ -57,6 +57,7 @@ const Footer = () => {
             description="Get a no-obligation cash offer from our team. We can complete the purchase in as little as 30 days."
             buttonText="Request Your Free Valuation"
             className=""
+            formType={FORM_TYPES.PROPERTY_SELLER}
           />
         </div>
       </section>

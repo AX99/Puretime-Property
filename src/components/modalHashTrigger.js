@@ -1,14 +1,25 @@
 import { useEffect } from 'react'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 
 const ModalHashTrigger = () => {
-  const { toggleModal, isModalOpen } = useModal()
+  const { openModal, isModalOpen } = useModal()
 
   useEffect(() => {
     const handleHashChange = () => {
-      if (!isModalOpen && window.location.hash === '#contact') {
-        toggleModal()
-        window.location.hash = ''
+      if (!isModalOpen) {
+        if (window.location.hash === '#contact') {
+          openModal({ type: FORM_TYPES.GENERAL_CONTACT })
+          window.location.hash = ''
+        } else if (window.location.hash === '#property-enquiry') {
+          openModal({ type: FORM_TYPES.PROPERTY_ENQUIRY })
+          window.location.hash = ''
+        } else if (window.location.hash === '#seller') {
+          openModal({ type: FORM_TYPES.PROPERTY_SELLER })
+          window.location.hash = ''
+        } else if (window.location.hash === '#broker') {
+          openModal({ type: FORM_TYPES.BROKER_REFERRAL })
+          window.location.hash = ''
+        }
       }
     }
 
@@ -19,7 +30,7 @@ const ModalHashTrigger = () => {
     return () => {
       window.removeEventListener('hashchange', handleHashChange)
     }
-  }, [toggleModal, isModalOpen])
+  }, [openModal, isModalOpen])
 
   return null
 }

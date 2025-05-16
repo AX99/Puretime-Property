@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { FORM_TYPES } from '../context/modalContext'
 import CTABanner from './CTABanner'
 
 // Animation variants
@@ -24,7 +24,6 @@ const staggerChildren = {
 }
 
 const ProblemProperties = () => {
-  const { toggleModal } = useModal()
   
   // Reworded and reordered list of problem properties
   const propertyCategories = [
@@ -134,6 +133,7 @@ const ProblemProperties = () => {
             description="No matter what condition your property is in or what complications you're facing, we're interested in making you a fair cash offer. Our experienced team specializes in solving complex property situations."
             buttonText="Get a Cash Offer Today"
             className="mt-16"
+            formType={FORM_TYPES.PROPERTY_SELLER}
           />
         </motion.div>
       </div>

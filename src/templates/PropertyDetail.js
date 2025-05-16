@@ -1,12 +1,12 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import { motion } from 'framer-motion'
-import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaPoundSign, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
+import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
 import Seo from '../components/seo'
-import { useModal } from '../context/modalContext'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
 import PropertyMap from '../components/PropertyMap'
-
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -38,7 +38,6 @@ const staggerChildren = {
 }
 
 const PropertyDetailTemplate = ({ data }) => {
-  const { openModal, setModalData } = useModal()
   const property = data.sanityProperty
   
   if (!property) {
@@ -51,7 +50,6 @@ const PropertyDetailTemplate = ({ data }) => {
   }
   
   const { 
-    _id, 
     title, 
     price, 
     priceUnit = 'gbp', 
@@ -68,7 +66,8 @@ const PropertyDetailTemplate = ({ data }) => {
     propertyType,
     publishedAt,
     councilTaxBand,
-    tenure
+    tenure,
+    slug
   } = property
   
   // Safely access location fields with fallbacks
@@ -84,13 +83,6 @@ const PropertyDetailTemplate = ({ data }) => {
   // Safely access coordinates
   const lat = coordinates?.lat
   const lng = coordinates?.lng
-  
-  // Format price with currency symbol
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: priceUnit?.toUpperCase() || 'GBP',
-    maximumFractionDigits: 0
-  }).format(price || 0)
   
   const formattedDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -134,25 +126,6 @@ const PropertyDetailTemplate = ({ data }) => {
   }
   
   const statusDetails = getStatusDetails()
-  
-  const handleEnquire = () => {
-    setModalData({ 
-      title: 'Property Enquiry',
-      subtitle: `About: ${title}`,
-      content: `
-        <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
-        <p class="mb-4"><strong>Property:</strong> ${title}</p>
-        <p class="mb-4"><strong>Location:</strong> ${street || 'N/A'}, ${city || 'N/A'} ${state || 'N/A'} ${postalCode || 'N/A'} ${country || 'N/A'}  </p>
-        <p class="mb-4"><strong>Price:</strong> ${formattedPrice}</p>
-      `,
-      formType: 'property',
-      formData: {
-        propertyId: property._id,
-        propertyTitle: title,
-      }
-    });
-    openModal('contact');
-  };
   
   return (
     <>
@@ -348,23 +321,28 @@ const PropertyDetailTemplate = ({ data }) => {
               className="lg:col-span-1"
             >
               {/* Enquiry Form Card */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 sticky top-8">
+              {status !== "sold" && <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 top-8">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Interested in this property?</h2>
                   <p className="text-neutral-600 mb-6">
                     Contact us for more information or to schedule a viewing.
                   </p>
                   
-                  <motion.button
-                    onClick={handleEnquire}
-                    className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                  <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Request Information
-                  </motion.button>
+                      <ContactButton
+                        formType={FORM_TYPES.PROPERTY_ENQUIRY}
+                        buttonText="Enquire"
+                        buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                        data={{ 
+                          property: `${title} (${slug?.current || property._id})`
+                        }}
+                      />
+                  </motion.div>
                 </div>
-              </div>
+              </div>}
               
               {/* Property Details Card - hidden on small screens */}
               <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
@@ -511,15 +489,17 @@ const PropertyDetailTemplate = ({ data }) => {
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               We can introduce you to specialist brokers for all types of property finance, from bridging loans to buy-to-let mortgages.
             </motion.p>
-            <motion.button 
+            <motion.div 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={openModal}
-              className="secondary-btn"
             >
-              Speak to a Specialist
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.BROKER_REFERRAL}
+                buttonText="Speak to a Finance Specialist"
+                buttonClass="secondary-btn"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { StaticImage } from 'gatsby-plugin-image'
 import CTABanner from './CTABanner'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -310,6 +311,7 @@ const Reviews = () => {
             heading="Ready to get started?" 
             description="Contact us today to get a fair cash offer for your property. Our team is ready to help you sell quickly and hassle-free."
             buttonText="Get Your No-Obligation Offer" 
+            formType={FORM_TYPES.PROPERTY_SELLER}
           />
         </motion.div>
       </div>

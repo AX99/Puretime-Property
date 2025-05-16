@@ -4,6 +4,8 @@ import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
 import PageHero from '../components/PageHero'
 import { motion, AnimatePresence } from 'framer-motion'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -157,20 +159,17 @@ const FaqPage = ({ data }) => {
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               Our team is ready to answer any questions you might have about selling your property to us.
             </motion.p>
-            <motion.button 
+            <motion.div
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-              onClick={() => {
-                // This assumes you have a way to open the contact modal from other components
-                if (window !== undefined && window.openContactModal) {
-                  window.openContactModal();
-                }
-              }}
             >
-              Contact Us
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.GENERAL_CONTACT}
+                buttonText="Contact Us"
+                buttonClass="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>

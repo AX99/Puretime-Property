@@ -4,9 +4,12 @@ import { motion } from 'framer-motion'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaEye, FaArrowRight } from 'react-icons/fa'
 import { usePropertyPreview } from '../context/propertyPreviewContext'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
+
 
 // Property Card component for displaying property listings
-const PropertyCard = ({ property, onEnquire }) => {
+const PropertyCard = ({ property }) => {
   const { openPreview } = usePropertyPreview()
   const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug } = property
   const imageData = mainImage?.asset?.gatsbyImageData
@@ -146,14 +149,20 @@ const PropertyCard = ({ property, onEnquire }) => {
               Quick View
             </motion.button>
             
-            <motion.button
-              onClick={() => onEnquire(property)}
-              className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-md transition-colors"
+            <motion.div
+              className="flex-1 text-center rounded-md"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Enquire
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.PROPERTY_ENQUIRY}
+                buttonText="Enquire"
+                buttonClass="bg-primary-600 w-full hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-md transition-colors"
+                data={{ 
+                  property: `${title} (${slug?.current || property._id})`
+                }}
+              />
+            </motion.div>
           </div>
         )}
       </div>

@@ -4,10 +4,11 @@ import { graphql } from 'gatsby'
 import { getImage } from 'gatsby-plugin-image'
 import Seo from '../components/seo'
 import PageHero from '../components/PageHero'
-import { useModal } from '../context/modalContext'
 import PropertyCard from '../components/PropertyCard'
 import Pagination from '../components/Pagination'
 import PropertyFilter from '../components/PropertyFilter'
+import ContactButton from '../components/ContactButton'
+import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
 const fadeIn = {
@@ -30,7 +31,6 @@ const staggerChildren = {
 }
 
 const PropertiesPage = ({ data }) => {
-  const { openModal, setModalData } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const propertiesPerPage = 6;
   
@@ -66,25 +66,6 @@ const PropertiesPage = ({ data }) => {
       top: 0,
       behavior: 'smooth'
     });
-  };
-  
-  const handleEnquiry = (property) => {
-    setModalData({ 
-      title: 'Property Enquiry',
-      subtitle: `About: ${property.title}`,
-      content: `
-        <p class="mb-4">Please fill out the form below and we'll get back to you with more information about this property.</p>
-        <p class="mb-4"><strong>Property:</strong> ${property.title}</p>
-        <p class="mb-4"><strong>Location:</strong> ${property.location?.city || 'N/A'}</p>
-        <p class="mb-4"><strong>Price:</strong> £${property.price?.toLocaleString() || 'N/A'}</p>
-      `,
-      formType: 'property',
-      formData: {
-        propertyId: property._id,
-        propertyTitle: property.title,
-      }
-    });
-    openModal('contact');
   };
   
   // Define available property statuses
@@ -237,7 +218,7 @@ const PropertiesPage = ({ data }) => {
                     key={property._id} 
                     variants={fadeIn}
                   >
-                    <PropertyCard property={property} onEnquire={handleEnquiry} />
+                    <PropertyCard property={property} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -270,19 +251,17 @@ const PropertiesPage = ({ data }) => {
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               Whether you're looking for a buy-to-let mortgage, bridging finance, or development funding, our trusted network of finance specialists can help you secure the right deal for your property goals.
             </motion.p>
-            <motion.button 
+            <motion.div 
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-              onClick={() => {
-                if (window !== undefined && window.openContactModal) {
-                  window.openContactModal();
-                }
-              }}
             >
-              Speak to a Finance Specialist
-            </motion.button>
+              <ContactButton
+                formType={FORM_TYPES.BROKER_REFERRAL}
+                buttonText="Speak to a Finance Specialist"
+                buttonClass="bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>

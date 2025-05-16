@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { motion } from 'framer-motion'
-import { useModal } from '../context/modalContext'
+import { useModal, FORM_TYPES } from '../context/modalContext'
 import CTABanner from './CTABanner'
 
 // Animation variants
@@ -185,6 +185,7 @@ const Steps = () => {
           heading="Ready to sell your property?"
           description="Contact us today for a no-obligation cash offer. We can complete the purchase in as little as 30 days."
           buttonText="Get Your Free Cash Offer"
+          formType={FORM_TYPES.PROPERTY_SELLER}
         />
       </div>
     </section>
