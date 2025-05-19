@@ -543,12 +543,24 @@ export const query = graphql`
       }
       mainImage {
         asset {
-          gatsbyImageData(width: 1200, height: 800, placeholder: BLURRED, formats: [AUTO, WEBP])
+          gatsbyImageData(
+            width: 1200
+            height: 800
+            placeholder: BLURRED
+            formats: [AVIF, WEBP]
+            layout: CONSTRAINED
+          )
         }
       }
       images {
         asset {
-          gatsbyImageData(width: 1200, height: 800, placeholder: BLURRED, formats: [AUTO, WEBP])
+          gatsbyImageData(
+            width: 1200
+            height: 800
+            placeholder: BLURRED
+            formats: [AVIF, WEBP]
+            layout: CONSTRAINED
+          )
         }
       }
       amenities

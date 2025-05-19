@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { Link, navigate } from 'gatsby'
+import { navigate } from 'gatsby'
 import { motion, AnimatePresence } from 'framer-motion'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaTimes, FaArrowRight, FaHouseUser, FaTag, FaRegBuilding, FaRegMoneyBillAlt } from 'react-icons/fa'
 import { usePropertyPreview } from '../context/propertyPreviewContext'
 import PropertyImageCarousel from './PropertyImageCarousel'
@@ -98,8 +97,8 @@ const PropertyPreview = () => {
     title, 
     slug, 
     location, 
-    price, 
-    priceUnit = 'gbp', 
+    // price, 
+    // priceUnit = 'gbp', 
     bedrooms, 
     bathrooms, 
     area, 
@@ -110,24 +109,24 @@ const PropertyPreview = () => {
     images, 
     status,
     propertyType,
-    publishedAt,
+    // publishedAt,
     councilTaxBand,
     tenure
   } = previewProperty
   
   // Format price with currency symbol
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: priceUnit?.toUpperCase() || 'GBP',
-    maximumFractionDigits: 0
-  }).format(price || 0)
+  // const formattedPrice = new Intl.NumberFormat('en-GB', {
+  //   style: 'currency',
+  //   currency: priceUnit?.toUpperCase() || 'GBP',
+  //   maximumFractionDigits: 0
+  // }).format(price || 0)
   
   // Format date
-  const formattedDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }) : null
+  // const formattedDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB', {
+  //   day: 'numeric',
+  //   month: 'long',
+  //   year: 'numeric'
+  // }) : null
   
   // Format location string from location object
   const locationString = location?.city ? 

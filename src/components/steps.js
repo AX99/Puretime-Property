@@ -118,10 +118,10 @@ const Steps = () => {
           id={`step-${step.id}`}
         >
           <div className="container mx-auto px-4">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
               variants={fadeIn}
               className="max-w-6xl mx-auto"
             >
@@ -137,7 +137,7 @@ const Steps = () => {
                   // For even-indexed steps (1, 3, etc.) keep normal positioning
                   <div className="absolute top-6 left-6 z-10 w-16 h-16 bg-primary-600 text-white text-2xl font-bold rounded-full flex items-center justify-center shadow-md">
                     {step.id}
-                  </div>
+              </div>
                 )}
                 
                 <div className="md:flex">
@@ -164,15 +164,15 @@ const Steps = () => {
                     
                     {/* Enhanced CTA Button - centered on mobile */}
                     <div className="flex justify-center md:justify-start">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         onClick={() => toggleModal({ type: FORM_TYPES.PROPERTY_SELLER })}
                         className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-md"
-                      >
+                >
                         {ctaTexts[index]}
-                      </motion.button>
+                </motion.button>
                     </div>
                   </div>
                 </div>

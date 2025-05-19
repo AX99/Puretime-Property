@@ -44,9 +44,11 @@ const Hero = () => {
       heroimage: file(relativePath: { eq: "hero-image.png" }) {
         childImageSharp {
           gatsbyImageData(
-            width: 5120
+            width: 1920
             placeholder: BLURRED
-            formats: [WEBP, AVIF]
+            formats: [AVIF, WEBP]
+            layout: FULL_WIDTH
+            quality: 90
           )
         }
       }

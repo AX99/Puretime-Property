@@ -135,7 +135,7 @@ const PropertyFilter = ({ filters, handleInputChange, propertyTypes, propertySta
                   />
                   <datalist id="location-list">
                     {locations.map((location, i) => (
-                      <option key={i} value={location} />
+                      <option key={i} value={location} aria-label={location} />
                     ))}
                   </datalist>
                 </div>
