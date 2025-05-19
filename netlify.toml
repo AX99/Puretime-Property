@@ -1,5 +1,5 @@
 [build]
-  command = "gatsby build"
+  command = "make build"
   publish = "public"
 
 [build.environment]

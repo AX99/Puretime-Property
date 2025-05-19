@@ -141,7 +141,7 @@ module.exports = {
         `,
         serialize: ({ site, allSitePage }) =>
           allSitePage.nodes.map(node => ({
-            url: `${site.siteMetadata.siteUrl}${node.path}`,
+            url: `${site.siteMetadata.siteUrl.replace(/\/$/, '')}${node.path}`,
             changefreq: `daily`,
             priority: node.path === '/' ? 1.0 : 0.7,
           })),
