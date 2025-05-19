@@ -122,8 +122,6 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
-        output: `/sitemap.xml`,
-        createLinkInHead: true,
         excludes: [`/dev-404-page`, `/404`, `/404.html`],
         query: `
           {
@@ -139,12 +137,19 @@ module.exports = {
             }
           }
         `,
-        serialize: ({ site, allSitePage }) =>
-          allSitePage.nodes.map(node => ({
-            url: `${site.siteMetadata.siteUrl.replace(/\/$/, '')}${node.path}`,
+        resolveSiteUrl: (data) => {
+          return data.site.siteMetadata.siteUrl
+        },
+        resolvePages: (data) => {
+          return data.allSitePage.nodes
+        },
+        serialize: (page, { resolvePagePath }) => {
+          return {
+            url: page.path,
             changefreq: `daily`,
-            priority: node.path === '/' ? 1.0 : 0.7,
-          })),
+            priority: page.path === '/' ? 1.0 : 0.7,
+          }
+        },
       },
     },
     {
