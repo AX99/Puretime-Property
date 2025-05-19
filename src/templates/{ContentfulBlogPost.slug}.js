@@ -2,30 +2,24 @@ import React from "react";
 import BlogPost from "../components/blog/BlogPost";
 import BlogLayout from "../components/blog/BlogLayout";
 import { graphql } from "gatsby";
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import { renderRichText } from "gatsby-source-contentful/rich-text";
-import { BLOCKS } from "@contentful/rich-text-types";
+import Seo from "../components/seo";
 
 const BlogPostPage = ({ data }) => {
   // Fetch blog post data using the slug
   const post = data.contentfulBlogPost;
-
-  const options = {
-    renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node) => {
-        const { gatsbyImage, description } = node.data.target;
-        return <GatsbyImage image={getImage(gatsbyImage)} alt={description} />;
-      },
-    },
-  };
-
+  
+  // Prepare SEO data
+  const seoImage = post.featuredImage?.gatsbyImage?.images?.fallback?.src;
+  const seoDescription = post.summary || `Read our blog post about ${post.title}`;
+  
   return (
     <BlogLayout>
+      <Seo 
+        title={`${post.title} - Puretime Property Blog`}
+        description={seoDescription}
+        image={seoImage}
+      />
       <BlogPost post={post} />
-      <div>
-        {post.bodyContent?.raw && renderRichText(post.bodyContent, options)}
-      </div>
     </BlogLayout>
   );
 };
@@ -36,6 +30,7 @@ export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
     contentfulBlogPost(slug: { eq: $slug }) {
       title
+      summary
       featuredImage {
         id
         description

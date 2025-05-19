@@ -36,7 +36,7 @@ function Seo({ lang, meta, title, description, image, url }) {
         },
         {
           name: `keywords`,
-          content: `landing page, uikit, open source ui kit, landify ui kit, free uikit, figma uikit, aravinddesign, free website ui kit, free figma website ui kit, free landing page ui kit, landing page ui kit for figma, website ui kit for figma`,
+          content: `quick house sale, mortgage broker near me, sell house fast, cash property buyers, property cash buyers UK, sell home quickly, fast property sale, quick home sale, sell house without estate agent, problem property buyers, distressed property sale, sell house without repairs, chain-free property sale, avoid repossession, sell inherited property, quick completion property, sell property with tenants, property cash offer, quick house valuation, sell house without fees, property finance options, bridging loans property, buy-to-let mortgages, property development finance, commercial property loans, property investment UK`,
         },
         {
           property: `og:image`,
