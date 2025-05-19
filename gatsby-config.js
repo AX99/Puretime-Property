@@ -124,7 +124,7 @@ module.exports = {
       options: {
         output: `/sitemap.xml`,
         createLinkInHead: true,
-        exclude: [`/dev-404-page`, `/404`, `/404.html`],
+        excludes: [`/dev-404-page`, `/404`, `/404.html`],
         query: `
           {
             site {
