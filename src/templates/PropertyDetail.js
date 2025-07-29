@@ -301,6 +301,7 @@ const PropertyDetailTemplate = ({ data }) => {
                             priceUnit,
                             propertyType
                           }}
+                          className='z-20'
                         />
                       ) : (
                         <div className="bg-neutral-100 h-[300px] rounded-md flex items-center justify-center">
@@ -458,6 +459,7 @@ const PropertyDetailTemplate = ({ data }) => {
                             priceUnit,
                             propertyType
                           }}
+                          className='z-20'  
                         />
                       </div>
                     ) : (
