@@ -87,6 +87,19 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'customPropertyType',
+      title: 'Specify Property Type',
+      type: 'string',
+      hidden: ({parent}) => parent?.propertyType !== 'other',
+      validation: Rule => Rule.custom((value: string | undefined, context) => {
+        const parent = context.parent as { propertyType?: string } | undefined;
+        if (parent?.propertyType === 'other' && !value) {
+          return 'Please specify the property type';
+        }
+        return true;
+      })
+    }),
+    defineField({
       name: 'councilTaxBand',
       title: 'Council Tax Band',
       type: 'string',

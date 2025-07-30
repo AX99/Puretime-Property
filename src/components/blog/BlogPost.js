@@ -4,12 +4,10 @@ import BlogPostContent from './BlogPostContent'
 
 const BlogPost = ({ post }) => {
   return (
-    <div className="container mx-auto">
+    <>
       <BlogPostHeader post={post} />
-      <div className="grid grid-cols-1 py-6 items-center">
-        <BlogPostContent post={post} />
-      </div>
-    </div>
+      <BlogPostContent post={post} />
+    </>
   )
 }
 

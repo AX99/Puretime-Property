@@ -66,6 +66,7 @@ const PropertyDetailTemplate = ({ data }) => {
     propertyType,
     publishedAt,
     councilTaxBand,
+    customPropertyType,
     tenure,
     slug
   } = property
@@ -205,7 +206,13 @@ const PropertyDetailTemplate = ({ data }) => {
                     </div>
                     <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                       <FaHome className="text-primary-600 mr-2" />
-                      <span><span className="text-neutral-500 mr-1">Type:</span> {propertyType ? propertyType.charAt(0).toUpperCase() + propertyType.slice(1) : 'N/A'}</span>
+                      <span>
+                        <span className="text-neutral-500 mr-1">Type:</span> 
+                        {propertyType === 'other' 
+                          ? (customPropertyType || 'Other')
+                          : (propertyType ? propertyType.charAt(0).toUpperCase() + propertyType.slice(1) : 'N/A')
+                        }
+                      </span>
                     </div>
                   </div>
 
@@ -356,7 +363,12 @@ const PropertyDetailTemplate = ({ data }) => {
                         <FaHome className="text-primary-600 mr-3 mt-1 w-5" />
                         <div>
                           <h3 className="font-medium">Property Type</h3>
-                          <p className="capitalize text-neutral-700">{propertyType}</p>
+                          <p className="capitalize text-neutral-700">
+                            {propertyType === 'other' 
+                              ? (customPropertyType || 'Other')
+                              : propertyType
+                            }
+                          </p>
                         </div>
                       </div>
                     )}
@@ -522,6 +534,7 @@ export const query = graphql`
       price
       priceUnit
       propertyType
+      customPropertyType
       bedrooms
       bathrooms
       area
@@ -545,12 +558,24 @@ export const query = graphql`
       }
       mainImage {
         asset {
-          gatsbyImageData(width: 1200, height: 800, placeholder: BLURRED, formats: [AUTO, WEBP])
+          gatsbyImageData(
+            width: 1200
+            height: 800
+            placeholder: BLURRED
+            formats: [AVIF, WEBP]
+            layout: CONSTRAINED
+          )
         }
       }
       images {
         asset {
-          gatsbyImageData(width: 1200, height: 800, placeholder: BLURRED, formats: [AUTO, WEBP])
+          gatsbyImageData(
+            width: 1200
+            height: 800
+            placeholder: BLURRED
+            formats: [AVIF, WEBP]
+            layout: CONSTRAINED
+          )
         }
       }
       amenities

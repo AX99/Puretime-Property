@@ -77,7 +77,7 @@ const Header = ({ menu }) => {
                 <motion.div
                   className="flex justify-center items-center"
                   initial={{ width: 100 }}
-                  animate={{ width: scrolled ? 90 : 100 }}
+                  animate={{ width: scrolled ? 90 : 95 }}
                   height={"auto"}
                   transition={{ duration: 0.3 }}
                 >

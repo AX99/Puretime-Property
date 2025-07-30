@@ -874,17 +874,35 @@ const GeneralContactForm = () => {
           
           <div className="mb-2">
             <label
-              htmlFor="name"
+              htmlFor="firstname"
               className="block font-medium text-neutral-900 mb-1.5 text-sm"
             >
-              Full Name:<span className="text-red-600"> *</span>
+              First Name:<span className="text-red-600"> *</span>
+            </label>
+            <input
+              type="text"
+              value={formData.firstname}
+              onChange={handleInputChange}
+              className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="Your First Name"
+              name="firstname"
+              required
+            />
+          </div>
+          
+          <div className="mb-2">
+            <label
+              htmlFor="lastname"
+              className="block font-medium text-neutral-900 mb-1.5 text-sm"
+            >
+              Last Name:<span className="text-red-600"> *</span>
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={handleInputChange}
               className="block w-full px-4 py-3 text-neutral-900 bg-white border border-neutral-300 rounded-lg focus:border-primary-600 focus:ring-primary-600 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Your Full Name"
+              placeholder="Your Last Name"
               name="name"
               required
             />

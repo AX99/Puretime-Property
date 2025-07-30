@@ -13,8 +13,30 @@ module.exports = {
   plugins: [
     `gatsby-plugin-postcss`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-image`,
-    `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-plugin-image`,
+      options: {
+        defaults: {
+          formats: [`avif`, `webp`],
+          placeholder: `blurred`,
+          quality: 90,
+          breakpoints: [750, 1080, 1366, 1920],
+          backgroundColor: `transparent`,
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        defaults: {
+          formats: [`avif`, `webp`],
+          placeholder: `blurred`,
+          quality: 90,
+          breakpoints: [750, 1080, 1366, 1920],
+          backgroundColor: `transparent`,
+        },
+      },
+    },
     `gatsby-transformer-sharp`,
     `gatsby-transformer-json`,
     {
@@ -40,14 +62,15 @@ module.exports = {
         start_url: `/`,
         background_color: `#BD8334`,
         display: `minimal-ui`,
-        icon: `src/images/favicon.png`, // Replace with your favicon (This path is relative to the root of the site)
+        icon: `src/images/favicon.png`,
+        cache_busting_mode: 'none',
       },
     },
     {
       resolve: "gatsby-plugin-mailchimp",
       options: {
         endpoint: `${process.env.MAILCHIMP_KEY}`,
-        timeout: 3500, // number; the amount of time, in milliseconds, that you want to allow mailchimp to respond to your request before timing out. defaults to 3500
+        timeout: 3500,
       },
     },
     {
@@ -76,20 +99,92 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
-        // You can add multiple tracking ids and a pageview event will be fired for all of them.
         trackingIds: [
-          `${process.env.GA_TRACKING_ID}`, // Google Analytics / GA
+          `${process.env.GA_TRACKING_ID}`,
         ],
+        gtagConfig: {
+          anonymize_ip: true,
+          cookie_expires: 0,
+        },
+        pluginConfig: {
+          head: true,
+          respectDNT: true,
+        },
       },
     },
     {
       resolve: `gatsby-plugin-google-adsense`,
       options: {
         publisherId: `${process.env.ADSENSE_PUBLISHER_ID}`,
+        head: true,
       },
     },
-    `gatsby-plugin-sitemap`,
-    `gatsby-plugin-robots-txt`,
-    `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        excludes: [`/dev-404-page`, `/404`, `/404.html`],
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            allSitePage {
+              nodes {
+                path
+              }
+            }
+          }
+        `,
+        resolveSiteUrl: (data) => {
+          return data.site.siteMetadata.siteUrl
+        },
+        resolvePages: (data) => {
+          return data.allSitePage.nodes
+        },
+        serialize: (page, { resolvePagePath }) => {
+          return {
+            url: page.path,
+            changefreq: `daily`,
+            priority: page.path === '/' ? 1.0 : 0.7,
+          }
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        host: `https://puretimepropertypurchasing.com`,
+        sitemap: `https://puretimepropertypurchasing.com/sitemap.xml`,
+        policy: [{ userAgent: '*', allow: '/' }],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        precachePages: [`/`, `/blog/*`, `/property/*`],
+        workboxConfig: {
+          runtimeCaching: [
+            {
+              urlPattern: /(\.js$|\.css$|static\/)/,
+              handler: `CacheFirst`,
+            },
+            {
+              urlPattern: /^https?:.*\/page-data\/.*\/page-data\.json/,
+              handler: `NetworkFirst`,
+            },
+            {
+              urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|avif|svg|gif|tiff|js|woff|woff2|json|css)$/,
+              handler: `StaleWhileRevalidate`,
+            },
+            {
+              urlPattern: /^https?:\/\/fonts\.googleapis\.com\/css/,
+              handler: `StaleWhileRevalidate`,
+            },
+          ],
+        },
+      },
+    },
   ],
 };

@@ -4,17 +4,6 @@ import Footer from '../footer'
 import { motion } from 'framer-motion'
 
 const BlogLayout = ({ children }) => {
-  const menu = [
-    {
-      name: 'Home',
-      href: '/',
-    },
-    {
-      name: 'Blog',
-      href: '/blog',
-    },
-  ]
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -22,7 +11,7 @@ const BlogLayout = ({ children }) => {
       transition={{ duration: 0.3 }}
       className="min-h-screen flex flex-col"
     >
-      <Header menu={menu} />
+      <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
     </motion.div>
