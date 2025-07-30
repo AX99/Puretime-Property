@@ -11,8 +11,8 @@ import { FORM_TYPES } from '../context/modalContext'
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6 }
   }
@@ -20,8 +20,8 @@ const fadeIn = {
 
 const slideIn = {
   hidden: { opacity: 0, x: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     transition: { duration: 0.6, delay: 0.3 }
   }
@@ -39,7 +39,7 @@ const staggerChildren = {
 
 const PropertyDetailTemplate = ({ data }) => {
   const property = data.sanityProperty
-  
+
   if (!property) {
     return (
       <div className="container mx-auto px-4 py-16">
@@ -48,20 +48,20 @@ const PropertyDetailTemplate = ({ data }) => {
       </div>
     )
   }
-  
-  const { 
-    title, 
-    price, 
-    priceUnit = 'gbp', 
-    bedrooms, 
-    bathrooms, 
-    area, 
-    areaUnit = 'sqft', 
-    description, 
-    location, 
-    mainImage, 
-    images, 
-    amenities, 
+
+  const {
+    title,
+    price,
+    priceUnit = 'gbp',
+    bedrooms,
+    bathrooms,
+    area,
+    areaUnit = 'sqft',
+    description,
+    location,
+    mainImage,
+    images,
+    amenities,
     status,
     propertyType,
     publishedAt,
@@ -70,7 +70,7 @@ const PropertyDetailTemplate = ({ data }) => {
     tenure,
     slug
   } = property
-  
+
   // Safely access location fields with fallbacks
   const {
     city = '',
@@ -80,74 +80,74 @@ const PropertyDetailTemplate = ({ data }) => {
     country = '',
     coordinates = {}
   } = location || {}
-  
+
   // Safely access coordinates
   const lat = coordinates?.lat
   const lng = coordinates?.lng
-  
+
   const formattedDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   }) : 'Date not available'
-  
-  const locationString = city ? 
-    `${city}${state ? `, ${state}` : ''}` : 
+
+  const locationString = city ?
+    `${city}${state ? `, ${state}` : ''}` :
     'Location not specified'
-    
-  const fullAddress = location ? 
-    `${street || ''} ${city || ''} ${state || ''} ${postalCode || ''} ${country || ''}`.trim() : 
+
+  const fullAddress = location ?
+    `${street || ''} ${city || ''} ${state || ''} ${postalCode || ''} ${country || ''}`.trim() :
     'Address not available'
-  
+
   // Status badge styling and text
   const getStatusDetails = () => {
-    switch(status) {
+    switch (status) {
       case 'sold':
-        return { 
-          color: 'bg-red-600', 
-          text: 'Sold' 
+        return {
+          color: 'bg-red-600',
+          text: 'Sold'
         };
       case 'for-rent':
-        return { 
-          color: 'bg-blue-600', 
-          text: 'For Rent' 
+        return {
+          color: 'bg-blue-600',
+          text: 'For Rent'
         };
       case 'rented':
-        return { 
-          color: 'bg-purple-600', 
-          text: 'Rented' 
+        return {
+          color: 'bg-purple-600',
+          text: 'Rented'
         };
       case 'for-sale':
       default:
-        return { 
-          color: 'bg-primary-600', 
-          text: 'For Sale' 
+        return {
+          color: 'bg-primary-600',
+          text: 'For Sale'
         };
     }
   }
-  
+
   const statusDetails = getStatusDetails()
-  
+
   return (
     <>
-      <Seo 
+      <Seo
         title={`${title} | Property Details`}
         description={description ? description[0]?.children?.map(child => child.text).join(' ').substring(0, 160) : `View details for ${title} located in ${locationString}`}
       />
-      
+
       <section className="bg-neutral-50 pt-8 pb-16 md:py-16">
         <div className="container mx-auto px-4">
           {/* Breadcrumb and Back Button */}
-          <div className="flex flex-wrap items-center justify-between mb-6">            
-            <Link 
-              to="/properties" 
+          <div className="flex flex-wrap items-center justify-between mb-6">
+            <Link
+              to="/properties"
               className="inline-flex items-center text-neutral-700 hover:text-primary-600"
             >
               <FaArrowLeft className="mr-2" />
               Back to all properties
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main content - 2/3 width on desktop */}
             <div className="lg:col-span-2">
@@ -159,18 +159,18 @@ const PropertyDetailTemplate = ({ data }) => {
               >
                 {/* Property Image Carousel */}
                 <div className="relative">
-                  <PropertyImageCarousel 
+                  <PropertyImageCarousel
                     mainImage={mainImage}
                     images={images}
                     showThumbnails={true}
                     aspectRatio="aspect-[16/9]"
                   />
-                  
+
                   <div className={`absolute top-4 right-4 ${statusDetails.color} text-white px-4 py-2 rounded-lg font-semibold`}>
                     {statusDetails.text}
                   </div>
                 </div>
-                
+
                 {/* Property Details */}
                 <div className="p-6 md:p-8">
                   <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
@@ -178,7 +178,7 @@ const PropertyDetailTemplate = ({ data }) => {
                     <FaMapMarkerAlt className="mr-2 text-primary-600" />
                     <span>{locationString}</span>
                   </div>
-                  
+
                   {/* <div className="flex flex-wrap items-center mb-6">
                     <div className="text-3xl font-bold text-primary-600 mr-4">
                       {formattedPrice}
@@ -189,7 +189,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       </div>
                     )}
                   </div> */}
-                  
+
                   {/* Key Property Features - Horizontal Layout */}
                   <div className="flex flex-wrap gap-4 mb-8">
                     <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
@@ -215,7 +215,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       </span>
                     </div>
                   </div>
-                  
+
                   {/* Quick Property Details - Horizontal Layout (visible only on mobile) */}
                   <div className="flex flex-wrap gap-3 mb-8 md:hidden">
                     {tenure && (
@@ -224,19 +224,19 @@ const PropertyDetailTemplate = ({ data }) => {
                         <span><span className="text-neutral-500 mr-1">Tenure:</span> {tenure}</span>
                       </div>
                     )}
-                    
+
                     {councilTaxBand && (
                       <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                         <FaRegMoneyBillAlt className="text-primary-600 mr-2" />
                         <span><span className="text-neutral-500 mr-1">Council Tax:</span> Band {councilTaxBand}</span>
                       </div>
                     )}
-                    
+
                     <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                       <FaTag className="text-primary-600 mr-2" />
                       <span><span className="text-neutral-500 mr-1">Status:</span> {statusDetails.text}</span>
                     </div>
-                    
+
                     {publishedAt && (
                       <div className="inline-flex items-center bg-neutral-50 px-4 py-2 rounded-md">
                         <FaCalendarAlt className="text-primary-600 mr-2" />
@@ -244,7 +244,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="mb-8">
                     <h2 className="text-xl font-semibold mb-4">Description</h2>
                     {description && description.length > 0 ? (
@@ -259,7 +259,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       <p className="text-neutral-500">No description available</p>
                     )}
                   </div>
-                  
+
                   {amenities && amenities.length > 0 && (
                     <div className="mb-8 md:hidden">
                       <h2 className="text-xl font-semibold mb-4">Amenities & Features</h2>
@@ -273,7 +273,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Location Section with Map - Small screen only */}
                   {location && (
                     <div className="mb-8 md:hidden">
@@ -281,7 +281,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         <FaMapMarked className="mr-2 text-primary-600" />
                         Location
                       </h2>
-                      
+
                       <div className="mb-4">
                         <address className="not-italic bg-neutral-50 p-4 rounded-md text-neutral-700">
                           {street && <div>{street}</div>}
@@ -291,7 +291,7 @@ const PropertyDetailTemplate = ({ data }) => {
                           {country && <div>{country}</div>}
                         </address>
                       </div>
-                      
+
                       {/* Property Map Component */}
                       {(lat && lng) ? (
                         <PropertyMap
@@ -308,7 +308,7 @@ const PropertyDetailTemplate = ({ data }) => {
                             priceUnit,
                             propertyType
                           }}
-                          className='z-20'
+                          className="z-20"
                         />
                       ) : (
                         <div className="bg-neutral-100 h-[300px] rounded-md flex items-center justify-center">
@@ -320,7 +320,7 @@ const PropertyDetailTemplate = ({ data }) => {
                 </div>
               </motion.div>
             </div>
-            
+
             {/* Sidebar - 1/3 width on desktop */}
             <motion.div
               initial="hidden"
@@ -335,28 +335,28 @@ const PropertyDetailTemplate = ({ data }) => {
                   <p className="text-neutral-600 mb-6">
                     Contact us for more information or to schedule a viewing.
                   </p>
-                  
+
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                      <ContactButton
-                        formType={FORM_TYPES.PROPERTY_ENQUIRY}
-                        buttonText="Enquire"
-                        buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
-                        data={{ 
-                          property: `${title} (${slug?.current || property._id})`
-                        }}
-                      />
+                    <ContactButton
+                      formType={FORM_TYPES.PROPERTY_ENQUIRY}
+                      buttonText="Enquire"
+                      buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                      data={{
+                        property: `${title} (${slug?.current || property._id})`
+                      }}
+                    />
                   </motion.div>
                 </div>
               </div>}
-              
+
               {/* Property Details Card - hidden on small screens */}
               <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Property Details</h2>
-                  
+
                   <div className="space-y-3">
                     {propertyType && (
                       <div className="flex items-start bg-neutral-50 p-3 rounded-md">
@@ -372,7 +372,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         </div>
                       </div>
                     )}
-                    
+
                     {tenure && (
                       <div className="flex items-start bg-neutral-50 p-3 rounded-md">
                         <FaRegBuilding className="text-primary-600 mr-3 mt-1 w-5" />
@@ -382,7 +382,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         </div>
                       </div>
                     )}
-                    
+
                     {councilTaxBand && (
                       <div className="flex items-start bg-neutral-50 p-3 rounded-md">
                         <FaRegMoneyBillAlt className="text-primary-600 mr-3 mt-1 w-5" />
@@ -392,7 +392,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         </div>
                       </div>
                     )}
-                    
+
                     {status && (
                       <div className="flex items-start bg-neutral-50 p-3 rounded-md">
                         <FaTag className="text-primary-600 mr-3 mt-1 w-5" />
@@ -402,7 +402,7 @@ const PropertyDetailTemplate = ({ data }) => {
                         </div>
                       </div>
                     )}
-                    
+
                     {publishedAt && (
                       <div className="flex items-start bg-neutral-50 p-3 rounded-md">
                         <FaCalendarAlt className="text-primary-600 mr-3 mt-1 w-5" />
@@ -415,21 +415,21 @@ const PropertyDetailTemplate = ({ data }) => {
                   </div>
                 </div>
               </div>
-              
-                            {/* Key Features Card - hidden on small screens */}
+
+              {/* Key Features Card - hidden on small screens */}
               <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Key Features</h2>
-                  
+
                   <ul className="space-y-3">
                     {amenities && amenities.length > 0 ? (
                       <>
                         {amenities.map((amenity, index) => (
                           <li key={index} className="flex items-start bg-neutral-50 p-3 rounded-md">
-                        <span className="text-primary-600 mr-2">•</span>
+                            <span className="text-primary-600 mr-2">•</span>
                             <span className="text-neutral-700">{amenity}</span>
-                      </li>
-                    ))}
+                          </li>
+                        ))}
                       </>
                     ) : (
                       <li className="text-neutral-500 bg-neutral-50 p-3 rounded-md">No features listed</li>
@@ -437,7 +437,7 @@ const PropertyDetailTemplate = ({ data }) => {
                   </ul>
                 </div>
               </div>
-              
+
               {/* Location Card with Map - Desktop only */}
               {location && (
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 hidden md:block">
@@ -453,7 +453,7 @@ const PropertyDetailTemplate = ({ data }) => {
                       {postalCode && <div>{postalCode}</div>}
                       {country && <div>{country}</div>}
                     </address>
-                    
+
                     {/* Property Map Component */}
                     {(lat && lng) ? (
                       <div className="w-full">
@@ -471,7 +471,7 @@ const PropertyDetailTemplate = ({ data }) => {
                             priceUnit,
                             propertyType
                           }}
-                          className='z-20'  
+                          className='z-20'
                         />
                       </div>
                     ) : (
@@ -490,7 +490,7 @@ const PropertyDetailTemplate = ({ data }) => {
       {/* Call to Action */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -503,7 +503,7 @@ const PropertyDetailTemplate = ({ data }) => {
             <motion.p variants={fadeIn} className="text-lg text-white/90 mb-8">
               We can introduce you to specialist brokers for all types of property finance, from bridging loans to buy-to-let mortgages.
             </motion.p>
-            <motion.div 
+            <motion.div
               variants={fadeIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
