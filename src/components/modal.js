@@ -3,10 +3,10 @@ import addtoMailchimp from 'gatsby-plugin-mailchimp'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useModal } from '../context/modalContext'
 import { FORM_TYPES } from '../context/modalContext'
-import { 
-  submitBrokerReferralForm, 
-  submitPropertyEnquiryForm, 
-  submitGeneralContactForm 
+import {
+  submitBrokerReferralForm,
+  submitPropertyEnquiryForm,
+  submitGeneralContactForm
 } from '../utils/formSubmission'
 
 // Property Seller Form (Existing Mailchimp Form)
@@ -39,14 +39,15 @@ const PropertySellerForm = ({ toggleModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     setState(prevState => ({
       ...prevState,
       message: "Submitting your information..."
     }))
-    
+
     try {
-      const response = await addtoMailchimp(state.email, {
+      // Submit to Mailchimp
+      const mailchimpResponse = await addtoMailchimp(state.email, {
         FNAME: state.firstName,
         LNAME: state.lastName,
         PHONE: state.phonenumber,
@@ -57,20 +58,51 @@ const PropertySellerForm = ({ toggleModal }) => {
         'gdpr[283]': state.gdprPost ? 'Y' : '',
       })
 
+      // Submit to n8n webhook
+      try {
+        const webhookResponse = await fetch('https://n8n.99techsolutions.co.uk/webhook/form-submission', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formType: 'property-seller',
+            email: state.email,
+            firstName: state.firstName,
+            lastName: state.lastName,
+            phonenumber: state.phonenumber,
+            address: state.address,
+            postcode: state.postcode,
+            valuation: state.valuation,
+            message: state.message,
+            gdprPhone: state.gdprPhone,
+            gdprPost: state.gdprPost,
+          }),
+        });
+
+        if (!webhookResponse.ok) {
+          console.error('Failed to submit to n8n webhook:', await webhookResponse.text());
+          // Continue execution even if webhook fails
+        }
+      } catch (webhookError) {
+        console.error('Error submitting to n8n webhook:', webhookError);
+        // Continue execution even if webhook fails
+      }
+
       const newMessage =
-        response.result === 'success'
-          ? `${response.msg} Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
-          : `Error: ${response.msg}`
+        mailchimpResponse.result === 'success'
+          ? `${mailchimpResponse.msg} Keep an eye on your inbox and spam folder. We'll get back to you shortly.`
+          : `Error: ${mailchimpResponse.msg}`
 
       setState((prevState) => ({
         ...prevState,
         message: newMessage,
-        showForm: response.result === 'success' ? false : true,
-        formSuccess: response.result === 'success',
+        showForm: mailchimpResponse.result === 'success' ? false : true,
+        formSuccess: mailchimpResponse.result === 'success',
       }))
 
       // Hide the error message after 6 seconds if the response is not successful
-      if (response.result !== 'success') {
+      if (mailchimpResponse.result !== 'success') {
         setTimeout(() => {
           setState((prevState) => ({
             ...prevState,
@@ -79,15 +111,15 @@ const PropertySellerForm = ({ toggleModal }) => {
         }, 6000)
       }
     } catch (error) {
-      console.error("Mailchimp submission error:", error)
+      console.error("Form submission error:", error)
       setState((prevState) => ({
         ...prevState,
-        message: error.message === "Timeout" 
-          ? "Request timed out. Please try again later." 
+        message: error.message === "Timeout"
+          ? "Request timed out. Please try again later."
           : `Error: ${error.message}`,
         formSuccess: false
       }))
-      
+
       // Hide error message after 6 seconds
       setTimeout(() => {
         setState((prevState) => ({
@@ -103,7 +135,7 @@ const PropertySellerForm = ({ toggleModal }) => {
       <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
         {state.formSuccess ? "Thanks for contacting us!" : "Complete The Form To Receive Your Offer"}
       </h4>
-      
+
       {state.formSuccess && (
         <div className="mt-2">
           <p className="text-body-md text-primary-600 text-center p-3 rounded-lg">
@@ -247,7 +279,7 @@ const PropertySellerForm = ({ toggleModal }) => {
           <div className="mb-4 mt-6 bg-neutral-50 p-4 rounded-lg">
             <div className="text-sm font-semibold mb-2 text-neutral-900">Marketing Permissions</div>
             <p className="text-body-xs mb-3 text-neutral-700">
-              By using this form you are agreeing to hear from us by email. Please select all the 
+              By using this form you are agreeing to hear from us by email. Please select all the
               additional ways you would like to hear from Puretime Property Purchasing Ltd:
             </p>
             <div className="flex flex-col gap-2">
@@ -312,9 +344,9 @@ const PropertySellerForm = ({ toggleModal }) => {
             >
               Submit
             </button>
-            
+
             {state.message && (
-              <div 
+              <div
                 className={`mt-4 p-4 rounded-lg ${state.formSuccess ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}
                 role="status"
                 aria-live="polite"
@@ -352,26 +384,26 @@ const BrokerReferralForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Check honeypot field
     if (formData.honey_trap) {
       console.log("Spam submission detected")
       return // Stop processing if honeypot is filled
     }
-    
+
     try {
       // Update UI to show processing
       setFormData({
         ...formData,
         submissionMessage: "Processing your request..."
       })
-      
+
       // Remove the honeypot field from the data we send
       const { honey_trap, ...formDataToSubmit } = formData
-      
+
       // Submit to Netlify Forms
       const response = await submitBrokerReferralForm(formDataToSubmit)
-      
+
       if (response.success) {
         setFormData({
           ...formData,
@@ -386,7 +418,7 @@ const BrokerReferralForm = () => {
         ...formData,
         submissionMessage: error.message || "There was an error submitting your form. Please try again."
       })
-      
+
       // Hide error message after 6 seconds
       setTimeout(() => {
         setFormData((prevState) => ({
@@ -402,7 +434,7 @@ const BrokerReferralForm = () => {
       <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
         {formData.formSubmitted ? "Referral Request Received" : "Broker Referral Request"}
       </h4>
-      
+
       {formData.formSubmitted ? (
         <div className="text-center p-4">
           <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4 mb-4">
@@ -411,8 +443,8 @@ const BrokerReferralForm = () => {
           <p className="text-neutral-700 mt-4">We aim to connect you with a specialist broker within 24 hours.</p>
         </div>
       ) : (
-        <form 
-          onSubmit={handleSubmit} 
+        <form
+          onSubmit={handleSubmit}
           className="mt-6 space-y-4"
           name="broker-referral"
           method="POST"
@@ -420,7 +452,7 @@ const BrokerReferralForm = () => {
           data-netlify-honeypot="honey_trap"
         >
           {/* Honeypot field - invisible to users but catches bots */}
-          <div aria-hidden="true" className="hidden" style={{position: 'absolute', left: '-9999px'}}>
+          <div aria-hidden="true" className="hidden" style={{ position: 'absolute', left: '-9999px' }}>
             <input
               type="text"
               name="honey_trap"
@@ -429,7 +461,7 @@ const BrokerReferralForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="name"
@@ -447,7 +479,7 @@ const BrokerReferralForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="email"
@@ -465,7 +497,7 @@ const BrokerReferralForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="phone"
@@ -483,7 +515,7 @@ const BrokerReferralForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="loanAmount"
@@ -500,7 +532,7 @@ const BrokerReferralForm = () => {
               name="loanAmount"
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="message"
@@ -517,13 +549,13 @@ const BrokerReferralForm = () => {
               rows="4"
             />
           </div>
-          
+
           <div className="m-2 text-primary-600">
             <p>
               <span className="text-red-600">*</span> - Required Fields
             </p>
           </div>
-          
+
           <div className="mt-6">
             <button
               type="submit"
@@ -532,9 +564,9 @@ const BrokerReferralForm = () => {
             >
               Request Broker Referral
             </button>
-            
+
             {formData.submissionMessage && !formData.formSubmitted && (
-              <div 
+              <div
                 className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-800 border border-blue-200"
                 role="status"
                 aria-live="polite"
@@ -573,26 +605,26 @@ const PropertyEnquiryForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Check honeypot field
     if (formData.honey_trap) {
       console.log("Spam submission detected")
       return // Stop processing if honeypot is filled
     }
-    
+
     try {
       // Update UI to show processing
       setFormData({
         ...formData,
         submissionMessage: "Processing your enquiry..."
       })
-      
+
       // Remove the honeypot field from the data we send
       const { honey_trap, ...formDataToSubmit } = formData
-      
+
       // Submit to Netlify Forms
       const response = await submitPropertyEnquiryForm(formDataToSubmit)
-      
+
       if (response.success) {
         setFormData({
           ...formData,
@@ -607,7 +639,7 @@ const PropertyEnquiryForm = () => {
         ...formData,
         submissionMessage: error.message || "There was an error submitting your enquiry. Please try again."
       })
-      
+
       // Hide error message after 6 seconds
       setTimeout(() => {
         setFormData((prevState) => ({
@@ -623,7 +655,7 @@ const PropertyEnquiryForm = () => {
       <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
         {formData.formSubmitted ? "Enquiry Received" : "Property Enquiry"}
       </h4>
-      
+
       {formData.formSubmitted ? (
         <div className="text-center p-4">
           <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4 mb-4">
@@ -632,8 +664,8 @@ const PropertyEnquiryForm = () => {
           <p className="text-neutral-700 mt-4">Our property specialists will contact you within 48 hours.</p>
         </div>
       ) : (
-        <form 
-          onSubmit={handleSubmit} 
+        <form
+          onSubmit={handleSubmit}
           className="mt-6 space-y-4"
           name="property-enquiry"
           method="POST"
@@ -641,7 +673,7 @@ const PropertyEnquiryForm = () => {
           data-netlify-honeypot="honey_trap"
         >
           {/* Honeypot field - invisible to users but catches bots */}
-          <div aria-hidden="true" className="hidden" style={{position: 'absolute', left: '-9999px'}}>
+          <div aria-hidden="true" className="hidden" style={{ position: 'absolute', left: '-9999px' }}>
             <input
               type="text"
               name="honey_trap"
@@ -650,7 +682,7 @@ const PropertyEnquiryForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="name"
@@ -668,7 +700,7 @@ const PropertyEnquiryForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="email"
@@ -686,7 +718,7 @@ const PropertyEnquiryForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="phone"
@@ -704,7 +736,7 @@ const PropertyEnquiryForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="property"
@@ -722,7 +754,7 @@ const PropertyEnquiryForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="message"
@@ -739,13 +771,13 @@ const PropertyEnquiryForm = () => {
               rows="4"
             />
           </div>
-          
+
           <div className="m-2 text-primary-600">
             <p>
               <span className="text-red-600">*</span> - Required Fields
             </p>
           </div>
-          
+
           <div className="mt-6">
             <button
               type="submit"
@@ -754,9 +786,9 @@ const PropertyEnquiryForm = () => {
             >
               Submit Enquiry
             </button>
-            
+
             {formData.submissionMessage && !formData.formSubmitted && (
-              <div 
+              <div
                 className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-800 border border-blue-200"
                 role="status"
                 aria-live="polite"
@@ -794,26 +826,26 @@ const GeneralContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Check honeypot field
     if (formData.honey_trap) {
       console.log("Spam submission detected")
       return // Stop processing if honeypot is filled
     }
-    
+
     try {
       // Update UI to show processing
       setFormData({
         ...formData,
         submissionMessage: "Processing your message..."
       })
-      
+
       // Remove the honeypot field from the data we send
       const { honey_trap, ...formDataToSubmit } = formData
-      
+
       // Submit to Netlify Forms
       const response = await submitGeneralContactForm(formDataToSubmit)
-      
+
       if (response.success) {
         setFormData({
           ...formData,
@@ -828,7 +860,7 @@ const GeneralContactForm = () => {
         ...formData,
         submissionMessage: error.message || "There was an error submitting your message. Please try again."
       })
-      
+
       // Hide error message after 6 seconds
       setTimeout(() => {
         setFormData((prevState) => ({
@@ -844,7 +876,7 @@ const GeneralContactForm = () => {
       <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
         {formData.formSubmitted ? "Message Received" : "Contact Us"}
       </h4>
-      
+
       {formData.formSubmitted ? (
         <div className="text-center p-4">
           <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4 mb-4">
@@ -853,8 +885,8 @@ const GeneralContactForm = () => {
           <p className="text-neutral-700 mt-4">We typically respond to queries within 1-2 business days.</p>
         </div>
       ) : (
-        <form 
-          onSubmit={handleSubmit} 
+        <form
+          onSubmit={handleSubmit}
           className="mt-6 space-y-4"
           name="general-contact"
           method="POST"
@@ -862,7 +894,7 @@ const GeneralContactForm = () => {
           data-netlify-honeypot="honey_trap"
         >
           {/* Honeypot field - invisible to users but catches bots */}
-          <div aria-hidden="true" className="hidden" style={{position: 'absolute', left: '-9999px'}}>
+          <div aria-hidden="true" className="hidden" style={{ position: 'absolute', left: '-9999px' }}>
             <input
               type="text"
               name="honey_trap"
@@ -871,7 +903,7 @@ const GeneralContactForm = () => {
               onChange={handleInputChange}
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="firstname"
@@ -889,7 +921,7 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="lastname"
@@ -907,7 +939,7 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="email"
@@ -925,7 +957,7 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="phone"
@@ -943,7 +975,7 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="subject"
@@ -961,7 +993,7 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="mb-2">
             <label
               htmlFor="message"
@@ -979,13 +1011,13 @@ const GeneralContactForm = () => {
               required
             />
           </div>
-          
+
           <div className="m-2 text-primary-600">
             <p>
               <span className="text-red-600">*</span> - Required Fields
             </p>
           </div>
-          
+
           <div className="mt-6">
             <button
               type="submit"
@@ -994,9 +1026,9 @@ const GeneralContactForm = () => {
             >
               Send Message
             </button>
-            
+
             {formData.submissionMessage && !formData.formSubmitted && (
-              <div 
+              <div
                 className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-800 border border-blue-200"
                 role="status"
                 aria-live="polite"
@@ -1013,46 +1045,46 @@ const GeneralContactForm = () => {
 
 const Modal = () => {
   const { isModalOpen, toggleModal, formType } = useModal()
-  
+
   // References for focus management
   const modalRef = useRef(null)
   const closeButtonRef = useRef(null)
   const lastFocusedElement = useRef(null)
-  
+
   // Handle focus when modal opens and closes
   useEffect(() => {
     if (isModalOpen) {
       // Store the currently focused element to restore later
       lastFocusedElement.current = document.activeElement
-      
+
       // Focus the close button when modal opens
       if (closeButtonRef.current) {
         closeButtonRef.current.focus()
       }
-      
+
       // Trap focus inside modal
       const handleTabKey = (e) => {
         if (!modalRef.current) return
-        
+
         // Get all focusable elements
         const focusableElements = modalRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         )
         const firstElement = focusableElements[0]
         const lastElement = focusableElements[focusableElements.length - 1]
-        
+
         // If shift+tab pressed and focus on first element, move to last focusable element
         if (e.shiftKey && document.activeElement === firstElement) {
           lastElement.focus()
           e.preventDefault()
-        } 
+        }
         // If tab pressed and focus on last element, move to first focusable element
         else if (!e.shiftKey && document.activeElement === lastElement) {
           firstElement.focus()
           e.preventDefault()
         }
       }
-      
+
       const handleKeyDown = (e) => {
         if (e.key === 'Tab') {
           handleTabKey(e)
@@ -1060,10 +1092,10 @@ const Modal = () => {
           toggleModal({})
         }
       }
-      
+
       // Add event listener
       document.addEventListener('keydown', handleKeyDown)
-      
+
       // Remove event listener on cleanup
       return () => {
         document.removeEventListener('keydown', handleKeyDown)
@@ -1080,7 +1112,7 @@ const Modal = () => {
       // Just prevent scrolling without changing position
       document.body.style.overflow = 'hidden';
       document.body.style.width = '100%';
-      
+
       return () => {
         // Re-enable scrolling
         document.body.style.overflow = '';
@@ -1099,27 +1131,27 @@ const Modal = () => {
   // Animation variants
   const backdropVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: { duration: 0.3 }
     },
-    exit: { 
+    exit: {
       opacity: 0,
-      transition: { duration: 0.2 } 
+      transition: { duration: 0.2 }
     }
   }
-  
+
   const modalVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       scale: 0.95,
       y: 10
     },
-    visible: { 
+    visible: {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { 
+      transition: {
         type: "spring",
         damping: 25,
         stiffness: 500,
@@ -1127,11 +1159,11 @@ const Modal = () => {
         delay: 0.1
       }
     },
-    exit: { 
+    exit: {
       opacity: 0,
       scale: 0.95,
       y: 10,
-      transition: { 
+      transition: {
         duration: 0.2
       }
     }
@@ -1139,7 +1171,7 @@ const Modal = () => {
 
   // Determine which form to display based on formType
   const renderForm = () => {
-    switch(formType) {
+    switch (formType) {
       case FORM_TYPES.BROKER_REFERRAL:
         return <BrokerReferralForm />;
       case FORM_TYPES.PROPERTY_ENQUIRY:
@@ -1167,7 +1199,7 @@ const Modal = () => {
             exit="exit"
             variants={backdropVariants}
           />
-          
+
           {/* Modal dialog */}
           <section
             id="contact_modal"
@@ -1176,7 +1208,7 @@ const Modal = () => {
             aria-modal="true"
             aria-labelledby="modal-title"
           >
-            <motion.div 
+            <motion.div
               ref={modalRef}
               className="w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 bg-white rounded-xl shadow-xl shadow-primary-600/20 sm:w-[28rem] md:w-[32rem] lg:w-[36rem] xl:w-[42rem] 2xl:w-[48rem] pointer-events-auto border border-neutral-100"
               initial="hidden"
