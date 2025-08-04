@@ -15,13 +15,13 @@ const PropertyCard = ({ property }) => {
   const imageData = mainImage?.asset?.gatsbyImageData
 
   // Format location string from location object
-  const locationString = location?.city ? 
-    `${location.city}${location.state ? `, ${location.state}` : ''}` : 
+  const locationString = location?.city ?
+    `${location.city}${location.state ? `, ${location.state}` : ''}` :
     'Location not specified'
-  
+
   // Status badge styling
   const getStatusBadge = () => {
-    switch(status) {
+    switch (status) {
       case 'sold':
         return (
           <div className="absolute top-0 left-0 bg-red-600 text-white px-4 py-2 rounded-br-lg font-semibold">
@@ -44,23 +44,23 @@ const PropertyCard = ({ property }) => {
         return null;
     }
   };
-  
+
   // Check if property is sold or rented
   const isUnavailable = status === 'sold' || status === 'rented';
-  
+
   return (
-    <motion.div 
+    <motion.div
       className="bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col"
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
       <div className="relative h-52 bg-neutral-200">
         {/* Image with overlay link to full details */}
-        <Link to={`/property/${slug?.current || property._id}`} className="block h-full">
+        <Link to={`/properties/${slug?.current || property._id}`} className="block h-full">
           {imageData ? (
             <>
-              <GatsbyImage 
-                image={imageData} 
+              <GatsbyImage
+                image={imageData}
                 alt={title}
                 className="h-full w-full object-cover"
               />
@@ -84,16 +84,16 @@ const PropertyCard = ({ property }) => {
         </div> */}
         {getStatusBadge()}
       </div>
-      
+
       <div className="p-6 flex-grow">
-        <Link to={`/property/${slug?.current || property._id}`} className="block hover:text-primary-600 transition-colors">
+        <Link to={`/properties/${slug?.current || property._id}`} className="block hover:text-primary-600 transition-colors">
           <h3 className="text-xl font-semibold mb-2">{title}</h3>
         </Link>
         <div className="flex items-center text-neutral-600 mb-4">
           <FaMapMarkerAlt className="mr-2 text-primary-600" />
           <span>{locationString}</span>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="flex items-center">
             <FaBed className="mr-2 text-primary-600" />
@@ -108,24 +108,24 @@ const PropertyCard = ({ property }) => {
             <span>{area ? `${area} ${property.areaUnit || 'sqft'}` : 'N/A'}</span>
           </div>
         </div>
-        
+
         {description && (
           <div className="text-neutral-600 mb-4 line-clamp-3">
             {description[0]?.children?.map(child => child.text).join(' ') || 'No description available'}
           </div>
         )}
-        
+
         {amenities && amenities.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-4">
             {amenities.slice(0, 3).map((amenity, index) => (
-            <span key={index} className="bg-neutral-100 text-neutral-700 px-2 py-1 rounded-full text-xs">
+              <span key={index} className="bg-neutral-100 text-neutral-700 px-2 py-1 rounded-full text-xs">
                 {amenity}
-            </span>
-          ))}
-        </div>
+              </span>
+            ))}
+          </div>
         )}
       </div>
-      
+
       <div className="p-6 pt-0">
         {isUnavailable ? (
           <motion.button
@@ -148,7 +148,7 @@ const PropertyCard = ({ property }) => {
               <FaEye className="mr-2" />
               Quick View
             </motion.button>
-            
+
             <motion.div
               className="flex-1 text-center rounded-md"
               whileHover={{ scale: 1.02 }}
@@ -158,7 +158,7 @@ const PropertyCard = ({ property }) => {
                 formType={FORM_TYPES.PROPERTY_ENQUIRY}
                 buttonText="Enquire"
                 buttonClass="bg-primary-600 w-full hover:bg-primary-700 text-white font-semibold py-3 px-4 rounded-md transition-colors"
-                data={{ 
+                data={{
                   property: `${title} (${slug?.current || property._id})`
                 }}
               />

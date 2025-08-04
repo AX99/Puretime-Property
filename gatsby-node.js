@@ -69,10 +69,10 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   // Create a page for each property
   propertyResult.data.allSanityProperty.nodes.forEach((node) => {
     // Use slug if available, otherwise use ID
-    const path = node.slug?.current 
-      ? `/property/${node.slug.current}/` 
-      : `/property/${node._id}/`;
-      
+    const path = node.slug?.current
+      ? `/properties/${node.slug.current}/`
+      : `/properties/${node._id}/`;
+
     createPage({
       path,
       component: propertyDetailTemplate,
