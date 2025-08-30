@@ -2,6 +2,7 @@ import React from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import Counter from 'yet-another-react-lightbox/plugins/counter'
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails'
+import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import 'yet-another-react-lightbox/styles.css'
 import 'yet-another-react-lightbox/plugins/counter.css'
 import 'yet-another-react-lightbox/plugins/thumbnails.css'
@@ -46,7 +47,7 @@ const ImageLightbox = ({
       close={onClose}
       index={Math.min(initialIndex, lightboxImages.length - 1)}
       slides={lightboxImages}
-      plugins={[Counter, Thumbnails]}
+      plugins={[Counter, Thumbnails, Zoom]}
       carousel={{
         finite: true,
         preload: 2
