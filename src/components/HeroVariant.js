@@ -41,6 +41,8 @@ const staggerChildren = {
  * @param {string} subtitle - Support text below the heading
  * @param {string} eyebrowText - Optional label text displayed above heading
  * @param {Object} heroImage - Gatsby image data from graphql query
+ * @param {string} imageObjectPosition - CSS object-position for hero image (e.g., 'center 50%')
+ * @param {string} imageObjectFit - CSS object-fit for hero image (e.g., 'cover', 'contain')
  * @param {string} ctaText - Call-to-action button text
  * @param {string} formType - Form type to trigger
  * @param {boolean} showStats - Whether to display statistics
@@ -55,6 +57,8 @@ const HeroVariant = ({
   subtitle, 
   eyebrowText, 
   heroImage,
+  imageObjectPosition = "center 50%",
+  imageObjectFit = "cover",
   ctaText,
   formType = FORM_TYPES.PROPERTY_SELLER,
   showStats = false,
@@ -153,8 +157,8 @@ const HeroVariant = ({
             image={heroImage}
             alt="Background" 
             className="w-full h-full"
-            objectPosition="center 50%"
-            objectFit="cover"
+            objectPosition={imageObjectPosition}
+            objectFit={imageObjectFit}
           />
         ) : (
           <div className="w-full h-full bg-neutral-100"></div>

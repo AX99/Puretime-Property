@@ -1,5 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../../components/seo'
 import HeroVariant from '../../components/HeroVariant'
 import ServiceTimeline from '../../components/ServiceTimeline'
@@ -26,7 +28,8 @@ const staggerChildren = {
   }
 }
 
-const ForHomeownersPage = () => {
+const ForHomeownersPage = ({ data }) => {
+  const heroImage = getImage(data?.homeownersBg);
 
   // Service data for timeline
   const services = [
@@ -112,6 +115,8 @@ const ForHomeownersPage = () => {
         subtitle="Skip the stress of traditional selling. Get a fair cash offer within 24 hours and complete in as little as 30 days."
         ctaText="Get My Cash Offer Now"
         formType={FORM_TYPES.PROPERTY_SELLER}
+        heroImage={heroImage}
+        imageObjectPosition="center 80%"
       />
 
       {/* Value Proposition Bar */}
@@ -322,3 +327,13 @@ const ForHomeownersPage = () => {
 }
 
 export default ForHomeownersPage
+
+export const query = graphql`
+  query ForHomeownersHeroImageQuery {
+    homeownersBg: file(relativePath: { eq: "assets/clock.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
+  }
+`

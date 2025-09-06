@@ -1,5 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../../components/seo'
 import HeroVariant from '../../components/HeroVariant'
 import ServiceGrid from '../../components/ServiceGrid'
@@ -26,8 +28,9 @@ const staggerChildren = {
   }
 }
 
-const ForLandlordsPage = () => {
+const ForLandlordsPage = ({ data }) => {
   const { toggleModal } = useModal();
+  const heroImage = getImage(data?.financeBg);
 
   // Streamlined service data - consolidated from 6 to 3 core services
   const services = [
@@ -103,6 +106,7 @@ const ForLandlordsPage = () => {
         subtitle="Let our expert team handle everything from tenant sourcing to compliance whilst you enjoy stress-free rental income."
         ctaText="Get Management Quote"
         formType={FORM_TYPES.PROPERTY_MANAGEMENT}
+        heroImage={heroImage}
       />
 
       {/* Problem/Solution Section */}
@@ -247,7 +251,7 @@ const ForLandlordsPage = () => {
             </motion.p>
             
             <motion.div variants={fadeIn} className="grid md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="bg-white p-6">
                 <h3 className="text-xl font-bold text-primary-700 mb-4">Continue Renting</h3>
                 <p className="text-neutral-700 mb-4">Let us manage your property professionally while you enjoy stress-free rental income.</p>
                 <button 
@@ -257,7 +261,7 @@ const ForLandlordsPage = () => {
                   Get Management Quote
                 </button>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="bg-white p-6">
                 <h3 className="text-xl font-bold text-primary-700 mb-4">Quick Sale</h3>
                 <p className="text-neutral-700 mb-4">Get a cash offer within 24 hours and complete the sale in as little as 30 days.</p>
                 <button 
@@ -286,3 +290,13 @@ const ForLandlordsPage = () => {
 }
 
 export default ForLandlordsPage
+
+export const query = graphql`
+  query ForLandlordsHeroImageQuery {
+    financeBg: file(relativePath: { eq: "assets/finance-bg.jpg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
+  }
+`

@@ -1,5 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { graphql } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 import Seo from '../../components/seo'
 import HeroVariant from '../../components/HeroVariant'
 import CTABanner from '../../components/CTABanner'
@@ -25,7 +27,8 @@ const staggerChildren = {
   }
 }
 
-const ForBuyersInvestorsPage = () => {
+const ForBuyersInvestorsPage = ({ data }) => {
+  const heroImage = getImage(data?.buyersInvestorsBg);
 
   // Hero stats data
   const heroStats = [
@@ -150,7 +153,7 @@ const ForBuyersInvestorsPage = () => {
       
       {/* Hero Section */}
       <HeroVariant
-        variant="657o"
+        variant="business"
         eyebrowText="FOR BUYERS & INVESTORS"
         titleJSX={<>Access <span className="italic text-primary-700">Professional</span> Finance Solutions</>}
         subtitle="Connect with our network of specialist brokers for competitive rates and expert guidance on all types of property finance."
@@ -158,6 +161,7 @@ const ForBuyersInvestorsPage = () => {
         formType={FORM_TYPES.BROKER_REFERRAL}
         showStats={false}
         stats={heroStats}
+        heroImage={heroImage}
       />
 
       {/* Why Our Broker Network Section */}
@@ -342,3 +346,13 @@ const ForBuyersInvestorsPage = () => {
 }
 
 export default ForBuyersInvestorsPage
+
+export const query = graphql`
+  query ForBuyersInvestorsHeroImageQuery {
+    buyersInvestorsBg: file(relativePath: { eq: "assets/keys.jpeg" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, quality: 90)
+      }
+    }
+  }
+`
