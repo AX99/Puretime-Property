@@ -7,7 +7,8 @@ export const FORM_TYPES = {
   PROPERTY_SELLER: 'propertySeller',
   BROKER_REFERRAL: 'brokerReferral',
   PROPERTY_ENQUIRY: 'propertyEnquiry',
-  GENERAL_CONTACT: 'generalContact'
+  GENERAL_CONTACT: 'generalContact',
+  PROPERTY_MANAGEMENT: 'propertyManagement'
 }
 
 export const ModalProvider = ({ children }) => {

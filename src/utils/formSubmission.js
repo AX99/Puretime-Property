@@ -73,4 +73,13 @@ export const submitPropertyEnquiryForm = (formData) => {
  */
 export const submitGeneralContactForm = (formData) => {
   return submitToNetlify(formData, "general-contact");
+};
+
+/**
+ * Submit property management form
+ * @param {Object} formData - The form data
+ * @returns {Promise} - The form submission response
+ */
+export const submitPropertyManagementForm = (formData) => {
+  return submitToNetlify(formData, "property-management");
 }; 
