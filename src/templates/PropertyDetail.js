@@ -6,6 +6,7 @@ import Seo from '../components/seo'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
 import PropertyMap from '../components/PropertyMap'
 import ContactButton from '../components/ContactButton'
+import SanityBlockRenderer from '../components/SanityBlockRenderer'
 import { FORM_TYPES } from '../context/modalContext'
 
 // Animation variants
@@ -247,70 +248,7 @@ const PropertyDetailTemplate = ({ data }) => {
 
                   <div className="mb-8">
                     <h2 className="text-xl font-semibold mb-4">Description</h2>
-                    {description && description.length > 0 ? (
-                      <div className="text-neutral-700 space-y-4">
-                        {description.map((block) => {
-                          // Skip if not a block or no children
-                          if (block._type !== 'block' || !block.children) {
-                            return null;
-                          }
-
-                          // Simple text renderer with basic formatting
-                          const renderText = (text, marks = []) => {
-                            if (!text) return null;
-                            
-                            let element = text;
-                            
-                            // Apply marks if present
-                            if (marks && marks.length > 0) {
-                              marks.forEach(mark => {
-                                switch(mark) {
-                                  case 'strong':
-                                    element = <strong key={mark}>{element}</strong>;
-                                    break;
-                                  case 'em':
-                                    element = <em key={mark}>{element}</em>;
-                                    break;
-                                  case 'underline':
-                                    element = <span className="underline" key={mark}>{element}</span>;
-                                    break;
-                                  case 'strike-through':
-                                    element = <span className="line-through" key={mark}>{element}</span>;
-                                    break;
-                                  default:
-                                    break;
-                                }
-                              });
-                            }
-                            
-                            return element;
-                          };
-
-                          // Get all text content from children
-                          const content = block.children.map((child, i) => (
-                            <span key={i}>
-                              {renderText(child.text, child.marks)}
-                            </span>
-                          ));
-
-                          // Simple styling based on block style
-                          switch(block.style) {
-                            case 'h1':
-                              return <h1 key={block._key} className="text-2xl font-bold mb-4">{content}</h1>;
-                            case 'h2':
-                              return <h2 key={block._key} className="text-xl font-bold mb-3">{content}</h2>;
-                            case 'h3':
-                              return <h3 key={block._key} className="text-lg font-bold mb-2">{content}</h3>;
-                            case 'blockquote':
-                              return <blockquote key={block._key} className="border-l-4 border-gray-300 pl-4 italic mb-4">{content}</blockquote>;
-                            default:
-                              return <p key={block._key} className="mb-4">{content}</p>;
-                          }
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-neutral-500">No description available</p>
-                    )}
+                    <SanityBlockRenderer blocks={description} />
                   </div>
 
                   {amenities && amenities.length > 0 && (
@@ -596,6 +534,8 @@ export const query = graphql`
         _key
         _type
         style
+        listItem
+        level
         children {
           _key
           _type
