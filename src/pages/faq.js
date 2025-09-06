@@ -112,7 +112,7 @@ const FaqPage = ({ data }) => {
     <>
       <Seo title="FAQ - Puretime Property Purchasing" />
       <PageHero 
-        title="Frequently Asked <span class='italic text-primary-600'>Questions</span>"
+        titleJSX={<>Frequently Asked <span className="italic text-primary-600">Questions</span></>}
         subtitle="Everything you need to know about our property purchasing service"
         eyebrowText="FAQ"
         heroImage={heroImage}

@@ -6,7 +6,8 @@ import { FORM_TYPES } from '../context/modalContext'
 import {
   submitBrokerReferralForm,
   submitPropertyEnquiryForm,
-  submitGeneralContactForm
+  submitGeneralContactForm,
+  submitPropertyManagementForm
 } from '../utils/formSubmission'
 
 // Property Seller Form (Existing Mailchimp Form)
@@ -1043,6 +1044,325 @@ const GeneralContactForm = () => {
   )
 }
 
+// Property Management Form
+const PropertyManagementForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    propertyAddress: '',
+    propertyType: '',
+    currentStatus: '',
+    numberOfUnits: '',
+    currentManagement: '',
+    servicesRequired: '',
+    additionalInfo: '',
+    formSubmitted: false,
+    submissionMessage: '',
+    honey_trap: '' // Add honeypot field to state
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    // Check honeypot field
+    if (formData.honey_trap) {
+      console.log("Spam submission detected")
+      return // Stop processing if honeypot is filled
+    }
+
+    try {
+      // Update UI to show processing
+      setFormData({
+        ...formData,
+        submissionMessage: "Processing your enquiry..."
+      })
+
+      // Remove the honeypot field from the data we send
+      const { honey_trap, ...formDataToSubmit } = formData
+
+      // Submit to Netlify Forms
+      const response = await submitPropertyManagementForm(formDataToSubmit)
+
+      if (response.success) {
+        setFormData({
+          ...formData,
+          formSubmitted: true,
+          submissionMessage: "Thank you for your property management enquiry. We'll be in touch within 24 hours to discuss your requirements."
+        })
+      } else {
+        throw new Error(response.message)
+      }
+    } catch (error) {
+      setFormData({
+        ...formData,
+        submissionMessage: error.message || "There was an error submitting your enquiry. Please try again."
+      })
+
+      // Hide error message after 6 seconds
+      setTimeout(() => {
+        setFormData((prevState) => ({
+          ...prevState,
+          submissionMessage: '',
+        }))
+      }, 6000)
+    }
+  }
+
+  return (
+    <>
+      <h4 id="modal-title" className="font-semibold text-display-sm tracking-wide font-display text-center text-primary-600 mb-6">
+        {formData.formSubmitted ? "Enquiry Received" : "Property Management Enquiry"}
+      </h4>
+
+      {formData.formSubmitted ? (
+        <div className="text-center p-4">
+          <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4 mb-4">
+            {formData.submissionMessage}
+          </div>
+          <p className="text-neutral-700 mt-4">Our property management team will review your requirements and contact you shortly.</p>
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="mt-6 space-y-4"
+          name="property-management"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="honey_trap"
+        >
+          {/* Honeypot field - invisible to users but catches bots */}
+          <div aria-hidden="true" className="hidden" style={{ position: 'absolute', left: '-9999px' }}>
+            <input
+              type="text"
+              name="honey_trap"
+              value={formData.honey_trap}
+              onChange={handleInputChange}
+              tabIndex="-1"
+              autoComplete="off"
+            />
+          </div>
+          
+          <input type="hidden" name="form-name" value="property-management" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="name" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+                placeholder="Enter your full name"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+                placeholder="Enter your email"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="phone" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+                placeholder="Enter your phone number"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="propertyType" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Property Type *
+              </label>
+              <select
+                id="propertyType"
+                name="propertyType"
+                value={formData.propertyType}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              >
+                <option value="">Select property type</option>
+                <option value="house">House</option>
+                <option value="flat">Flat/Apartment</option>
+                <option value="hmo">HMO (House in Multiple Occupation)</option>
+                <option value="commercial">Commercial Property</option>
+                <option value="portfolio">Property Portfolio</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="propertyAddress" className="block text-body-sm font-medium text-neutral-700 mb-1">
+              Property Address *
+            </label>
+            <input
+              type="text"
+              id="propertyAddress"
+              name="propertyAddress"
+              value={formData.propertyAddress}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              placeholder="Enter the property address"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="currentStatus" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Current Rental Status *
+              </label>
+              <select
+                id="currentStatus"
+                name="currentStatus"
+                value={formData.currentStatus}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              >
+                <option value="">Select status</option>
+                <option value="vacant">Currently Vacant</option>
+                <option value="occupied">Currently Occupied</option>
+                <option value="new-purchase">New Purchase</option>
+                <option value="renovating">Under Renovation</option>
+              </select>
+            </div>
+            
+            <div>
+              <label htmlFor="numberOfUnits" className="block text-body-sm font-medium text-neutral-700 mb-1">
+                Number of Units
+              </label>
+              <select
+                id="numberOfUnits"
+                name="numberOfUnits"
+                value={formData.numberOfUnits}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              >
+                <option value="">Select number</option>
+                <option value="1">1 Unit</option>
+                <option value="2-5">2-5 Units</option>
+                <option value="6-10">6-10 Units</option>
+                <option value="11+">11+ Units</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="currentManagement" className="block text-body-sm font-medium text-neutral-700 mb-1">
+              Current Management Situation *
+            </label>
+            <select
+              id="currentManagement"
+              name="currentManagement"
+              value={formData.currentManagement}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+            >
+              <option value="">Select situation</option>
+              <option value="self-managed">Currently Self-Managed</option>
+              <option value="existing-agent">Have Existing Agent</option>
+              <option value="no-management">No Current Management</option>
+              <option value="changing-agent">Looking to Change Agent</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="servicesRequired" className="block text-body-sm font-medium text-neutral-700 mb-1">
+              Services Required *
+            </label>
+            <select
+              id="servicesRequired"
+              name="servicesRequired"
+              value={formData.servicesRequired}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+            >
+              <option value="">Select services</option>
+              <option value="full-management">Full Property Management</option>
+              <option value="tenant-find">Tenant Find Only</option>
+              <option value="rent-collection">Rent Collection Service</option>
+              <option value="compliance-only">Compliance Management Only</option>
+              <option value="consultation">Management Consultation</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="additionalInfo" className="block text-body-sm font-medium text-neutral-700 mb-1">
+              Additional Information
+            </label>
+            <textarea
+              id="additionalInfo"
+              name="additionalInfo"
+              value={formData.additionalInfo}
+              onChange={handleInputChange}
+              rows="3"
+              className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-600 focus:border-primary-600"
+              placeholder="Tell us about any specific requirements or challenges..."
+            />
+          </div>
+
+          <div className="pt-4">
+            <button
+              type="submit"
+              className="w-full bg-primary-600 text-white py-3 px-4 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 transition-colors duration-200 font-semibold"
+            >
+              Submit Management Enquiry
+            </button>
+          </div>
+
+          {formData.submissionMessage && (
+            <div className={`mt-4 p-3 rounded-md ${
+              formData.submissionMessage.includes('error') || formData.submissionMessage.includes('Error')
+                ? 'bg-red-50 border border-red-200 text-red-800'
+                : 'bg-blue-50 border border-blue-200 text-blue-800'
+            }`}>
+              {formData.submissionMessage}
+            </div>
+          )}
+        </form>
+      )}
+    </>
+  )
+}
+
 const Modal = () => {
   const { isModalOpen, toggleModal, formType } = useModal()
 
@@ -1178,6 +1498,8 @@ const Modal = () => {
         return <PropertyEnquiryForm />;
       case FORM_TYPES.GENERAL_CONTACT:
         return <GeneralContactForm />;
+      case FORM_TYPES.PROPERTY_MANAGEMENT:
+        return <PropertyManagementForm />;
       case FORM_TYPES.PROPERTY_SELLER:
       default:
         return <PropertySellerForm toggleModal={toggleModal} />;

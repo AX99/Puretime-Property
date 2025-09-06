@@ -61,6 +61,10 @@ const AboutPage = ({ data }) => {
     toggleModal({ type: FORM_TYPES.BROKER_REFERRAL });
   };
   
+  const handleManagementForm = () => {
+    toggleModal({ type: FORM_TYPES.PROPERTY_MANAGEMENT });
+  };
+  
   // Process the images from GraphQL query
   const heroImage = getImage(data.heroImage);
   
@@ -82,7 +86,7 @@ const AboutPage = ({ data }) => {
       
       {/* Hero Section */}
       <PageHero 
-        title="We are <span class='italic text-primary-600'>Puretime</span> Property"
+        titleJSX={<>We are <span className="italic text-primary-600">Puretime</span> Property</>}
         subtitle="We make selling your home quick, easy, and stress-free."
         eyebrowText="ABOUT US"
         heroImage={heroImage}
@@ -156,7 +160,7 @@ const AboutPage = ({ data }) => {
             className="max-w-4xl mx-auto"
           >
             <SectionHeader 
-              title="Our <span class='italic text-primary-600'>Story</span>"
+              titleJSX={<>Our <span className="italic text-primary-600">Story</span></>}
             />
             
             <motion.div variants={fadeIn} className="space-y-6">
@@ -165,6 +169,9 @@ const AboutPage = ({ data }) => {
               </p>
               <p className="text-body-lg text-neutral-700 leading-relaxed">
                 Our team combines decades of experience in the UK property market with a genuine desire to help homeowners in need of quick, hassle-free property sales. Whether you're facing financial constraints, relocating for work, dealing with inheritance issues, or simply want to avoid the stress of traditional selling processes, we're here to help.
+              </p>
+              <p className="text-body-lg text-neutral-700 leading-relaxed">
+                Beyond our core property purchasing services, we've expanded to offer comprehensive property management solutions for landlords seeking stress-free rental management. From tenant sourcing and rent collection to compliance management and financial reporting, we provide complete support for property investors looking to maximise their returns whilst ensuring regulatory compliance.
               </p>
               <p className="text-body-lg text-neutral-700 leading-relaxed">
                 What sets us apart is our commitment to transparency and fair dealing. We believe in making clear, competitive offers without hidden fees or last-minute price reductions. Our process is designed to give you certainty and peace of mind from the very beginning.
@@ -190,7 +197,7 @@ const AboutPage = ({ data }) => {
             className="max-w-6xl mx-auto"
           >
             <SectionHeader
-              title="Our <span class='italic text-primary-600'>Values</span>"
+              titleJSX={<>Our <span className="italic text-primary-600">Values</span></>}
               description="Our core values guide everything we do and ensure we deliver the best possible service to our clients."
             />
             
@@ -217,7 +224,7 @@ const AboutPage = ({ data }) => {
         </div>
       </section>
       
-      {/* Call to Action */}
+      {/* Finance CTA */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -241,6 +248,35 @@ const AboutPage = ({ data }) => {
               className="secondary-btn"
             >
               Speak to a Specialist
+            </motion.button>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Property Management CTA */}
+      <section className="bg-gradient-to-br from-neutral-50 to-white py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-6">
+              Tired of dealing with difficult <span className="italic text-primary-600">tenants</span> and maintenance issues?
+            </motion.h2>
+            <motion.p variants={fadeIn} className="text-lg text-neutral-700 mb-8">
+              Let our property management team handle everything from tenant sourcing to rent collection and compliance, whilst you enjoy stress-free rental income.
+            </motion.p>
+            <motion.button 
+              variants={fadeIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleManagementForm}
+              className="primary-btn"
+            >
+              Get Your Free Management Quote
             </motion.button>
           </motion.div>
         </div>

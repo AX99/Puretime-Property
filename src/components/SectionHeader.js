@@ -13,7 +13,8 @@ const fadeIn = {
 
 /**
  * SectionHeader - A reusable component for section headings
- * @param {string} title - The title text (can include HTML for styling)
+ * @param {string|React.ReactNode} title - The title text (legacy; prefer titleJSX)
+ * @param {React.ReactNode} titleJSX - JSX title content (takes precedence over title)
  * @param {string} description - Optional description text below the title
  * @param {string} align - Text alignment ('center', 'left', or 'right')
  * @param {string} className - Additional CSS classes
@@ -21,6 +22,7 @@ const fadeIn = {
  */
 const SectionHeader = ({ 
   title, 
+  titleJSX = null,
   description, 
   align = 'center',
   className = '' 
@@ -32,10 +34,7 @@ const SectionHeader = ({
     right: 'text-right'
   };
 
-  // Function to safely render HTML in the title
-  const createMarkup = (htmlContent) => {
-    return { __html: htmlContent };
-  };
+  // Deprecated: HTML title support; prefer JSX via titleJSX
 
   // Divider alignment classes
   const dividerClasses = {
@@ -49,8 +48,9 @@ const SectionHeader = ({
       <motion.h2 
         variants={fadeIn} 
         className="section-title"
-        dangerouslySetInnerHTML={createMarkup(title)}
-      />
+      >
+        {titleJSX || title}
+      </motion.h2>
       
       <motion.div 
         variants={fadeIn} 

@@ -24,7 +24,8 @@ const staggerChildren = {
 
 /**
  * PageHero - A reusable hero component for page headers
- * @param {string} title - Main heading (can include HTML tags for styling)
+ * @param {string|React.ReactNode} title - Main heading (legacy; prefer titleJSX)
+ * @param {React.ReactNode} titleJSX - JSX heading content (takes precedence over title)
  * @param {string} subtitle - Support text below the heading
  * @param {string} eyebrowText - Optional label text displayed above heading
  * @param {Object} heroImage - Gatsby image data from graphql query
@@ -33,15 +34,12 @@ const staggerChildren = {
  */
 const PageHero = ({ 
   title, 
+  titleJSX = null,
   subtitle, 
   eyebrowText, 
   heroImage,
   className = "" 
 }) => {
-  // Function to safely render HTML in the title
-  const createMarkup = (htmlContent) => {
-    return { __html: htmlContent };
-  };
 
   return (
     <section className={`bg-gradient-to-b from-neutral-50 to-white py-16 md:py-24 relative ${className}`}>
@@ -78,8 +76,9 @@ const PageHero = ({
           <motion.h1 
             variants={fadeIn} 
             className="font-display text-display-lg md:text-display-xl font-semibold text-neutral-900 mb-6"
-            dangerouslySetInnerHTML={createMarkup(title)}
-          />
+          >
+            {titleJSX || title}
+          </motion.h1>
           
           <motion.div variants={fadeIn} className="w-24 h-1 bg-primary-600 mx-auto mb-8"></motion.div>
           

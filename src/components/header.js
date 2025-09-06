@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "gatsby";
 import { useModal, FORM_TYPES } from "../context/modalContext";
 import { useDrawer } from "../context/drawerContext";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Drawer from "./drawer";
 import Logo from "../images/logos/logo.svg";
@@ -13,6 +13,8 @@ const Header = ({ menu }) => {
   const { toggleModal } = useModal();
   const { toggleDrawer, drawerOpen } = useDrawer();
   const [scrolled, setScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownRef = useRef(null);
 
   // Add scroll effect with debouncing to prevent flickering
   useEffect(() => {
@@ -56,6 +58,41 @@ const Header = ({ menu }) => {
       }
     };
   }, [scrolled]);
+
+  // Handle dropdown functionality
+  const handleDropdownToggle = (itemName) => {
+    setActiveDropdown(activeDropdown === itemName ? null : itemName);
+  };
+
+  const handleDropdownClose = () => {
+    setActiveDropdown(null);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close dropdown on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setActiveDropdown(null);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -117,21 +154,73 @@ const Header = ({ menu }) => {
               </motion.button>
               
               {/* Desktop navigation */}
-              <nav className="md:flex hidden flex-row gap-1">
+              <nav className="md:flex hidden flex-row gap-1" ref={dropdownRef}>
                 {navigation.map((item, index) => (
                   <motion.div
                     key={item.name}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="relative"
                   >
-                    <Link
-                      to={item.href}
-                      className="relative px-4 py-2 text-body-md font-medium text-neutral-700 hover:text-primary-600 rounded-md hover:bg-neutral-50 transition-colors"
-                      activeClassName="text-primary-600 bg-neutral-50"
-                    >
-                      {item.name}
-                    </Link>
+                    {item.hasDropdown ? (
+                      <div className="relative">
+                        <button
+                          onClick={() => handleDropdownToggle(item.name)}
+                          className="flex items-center px-4 text-body-md font-medium text-neutral-700 hover:text-primary-600 rounded-md hover:bg-neutral-50 transition-colors"
+                        >
+                          {item.name}
+                          <svg 
+                            className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                              activeDropdown === item.name ? 'rotate-180' : ''
+                            }`} 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        
+                        <AnimatePresence>
+                          {activeDropdown === item.name && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                              transition={{ duration: 0.2 }}
+                              className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-neutral-200 py-2 z-50"
+                            >
+                              {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                                <Link
+                                  key={dropdownItem.name}
+                                  to={dropdownItem.href}
+                                  onClick={handleDropdownClose}
+                                  className="block px-4 py-3 text-body-md font-medium text-neutral-700 hover:text-primary-600 hover:bg-neutral-50 transition-colors group"
+                                >
+                                  <div className="font-semibold group-hover:text-primary-600">
+                                    {dropdownItem.name}
+                                  </div>
+                                  {dropdownItem.description && (
+                                    <div className="text-body-sm text-neutral-500 mt-1">
+                                      {dropdownItem.description}
+                                    </div>
+                                  )}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        className="relative px-4 py-2 text-body-md font-medium text-neutral-700 hover:text-primary-600 rounded-md hover:bg-neutral-50 transition-colors"
+                        activeClassName="text-primary-600 bg-neutral-50"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
               </nav>

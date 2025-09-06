@@ -11,7 +11,7 @@ import { FORM_TYPES } from '../context/modalContext'
 // Property Card component for displaying property listings
 const PropertyCard = ({ property }) => {
   const { openPreview } = usePropertyPreview()
-  const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug } = property
+  const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug, price } = property
   const imageData = mainImage?.asset?.gatsbyImageData
 
   // Format location string from location object
@@ -56,7 +56,7 @@ const PropertyCard = ({ property }) => {
     >
       <div className="relative h-52 bg-neutral-200">
         {/* Image with overlay link to full details */}
-        <Link to={`/properties/${slug?.current || property._id}`} className="block h-full">
+        <Link to={`/properties/${slug?.current || property._id}`} className="block h-full group">
           {imageData ? (
             <>
               <GatsbyImage
@@ -64,11 +64,11 @@ const PropertyCard = ({ property }) => {
                 alt={title}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 flex items-center justify-center transition-all duration-300">
-                <div className="opacity-0 hover:opacity-100 transform translate-y-4 hover:translate-y-0 transition-all duration-300">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 flex items-center justify-center transition-colors duration-300">
+                <div className="opacity-0 group-hover:opacity-100 transform translate-y-0 transition-opacity duration-300">
                   <div className="bg-primary-600 text-white py-2 px-4 rounded-full shadow-lg flex items-center">
                     <FaArrowRight className="mr-2" />
-                    <span>View Details</span>
+                    <span>Click here to view</span>
                   </div>
                 </div>
               </div>
@@ -79,9 +79,11 @@ const PropertyCard = ({ property }) => {
             </div>
           )}
         </Link>
-        {/* <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
-          £{price?.toLocaleString()}
-        </div> */}
+        {typeof price === 'number' && (
+          <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
+            £{price.toLocaleString()}
+          </div>
+        )}
         {getStatusBadge()}
       </div>
 

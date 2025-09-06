@@ -179,6 +179,19 @@ const PropertyFilter = ({ filters, handleInputChange, propertyTypes, propertySta
                     <option value="beds-low">Bedrooms: Low to High</option>
                   </select>
                 </div>
+
+                <div className="flex items-end">
+                  <label className="inline-flex items-center gap-2 text-sm font-medium text-neutral-700">
+                    <input
+                      type="checkbox"
+                      name="includeSold"
+                      checked={!!filters.includeSold}
+                      onChange={handleInputChange}
+                      className="h-4 w-4 text-primary-600 border-neutral-300 rounded focus:ring-primary-500"
+                    />
+                    <span>Include sold properties</span>
+                  </label>
+                </div>
               </div>
             </div>
           </motion.div>
