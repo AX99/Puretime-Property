@@ -11,7 +11,7 @@ import { FORM_TYPES } from '../context/modalContext'
 // Property Card component for displaying property listings
 const PropertyCard = ({ property }) => {
   const { openPreview } = usePropertyPreview()
-  const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug, price } = property
+  const { title, location, bedrooms, bathrooms, area, description, amenities, mainImage, status, slug } = property
   const imageData = mainImage?.asset?.gatsbyImageData
 
   // Format location string from location object
@@ -79,11 +79,11 @@ const PropertyCard = ({ property }) => {
             </div>
           )}
         </Link>
-        {typeof price === 'number' && (
+        {/* {typeof price === 'number' && (
           <div className="absolute top-0 right-0 bg-primary-600 text-white px-4 py-2 rounded-bl-lg font-semibold">
             £{price.toLocaleString()}
           </div>
-        )}
+        )} */}
         {getStatusBadge()}
       </div>
 

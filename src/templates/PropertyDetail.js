@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { graphql, Link } from 'gatsby'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FaBed, FaBath, FaRuler, FaMapMarkerAlt, FaCalendarAlt, FaTag, FaArrowLeft, FaHome, FaRegBuilding, FaRegMoneyBillAlt, FaMapMarked } from 'react-icons/fa'
 import Seo from '../components/seo'
 import PropertyImageCarousel from '../components/PropertyImageCarousel'
@@ -40,6 +40,27 @@ const staggerChildren = {
 
 const PropertyDetailTemplate = ({ data }) => {
   const property = data.sanityProperty
+
+  // Mobile sticky enquiry visibility based on main enquiry card visibility
+  const enquiryRef = useRef(null)
+  const [showStickyCTA, setShowStickyCTA] = useState(false)
+
+  useEffect(() => {
+    const currentStatus = property?.status
+    if (currentStatus === 'sold') {
+      setShowStickyCTA(false)
+      return
+    }
+    const target = enquiryRef.current
+    if (!target) return
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0]
+      // Hide sticky CTA when the main enquiry card is at least partially visible
+      setShowStickyCTA(!entry.isIntersecting)
+    }, { threshold: 0.1 })
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [property])
 
   if (!property) {
     return (
@@ -128,6 +149,7 @@ const PropertyDetailTemplate = ({ data }) => {
   }
 
   const statusDetails = getStatusDetails()
+
 
   return (
     <>
@@ -320,7 +342,7 @@ const PropertyDetailTemplate = ({ data }) => {
               className="lg:col-span-1"
             >
               {/* Enquiry Form Card */}
-              {status !== "sold" && <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 top-8">
+              {status !== "sold" && <div ref={enquiryRef} className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 top-8">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Interested in this property?</h2>
                   <p className="text-neutral-600 mb-6">
@@ -333,7 +355,7 @@ const PropertyDetailTemplate = ({ data }) => {
                   >
                     <ContactButton
                       formType={FORM_TYPES.PROPERTY_ENQUIRY}
-                      buttonText="Enquire"
+                      buttonText="Enquire for Price"
                       buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
                       data={{
                         property: `${title} (${slug?.current || property._id})`
@@ -477,6 +499,35 @@ const PropertyDetailTemplate = ({ data }) => {
           </div>
         </div>
       </section>
+
+      {/* Spacer to ensure content isn't hidden behind mobile fixed CTA */}
+      {status !== 'sold' && showStickyCTA && (
+        <div className="h-20 lg:hidden"></div>
+      )}
+
+      {/* Mobile Fixed Enquiry CTA */}
+      <AnimatePresence>
+        {status !== 'sold' && showStickyCTA && (
+          <motion.div 
+            className="fixed bottom-0 inset-x-0 z-40 lg:hidden"
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+          >
+            <div className="bg-white border-t border-neutral-200 px-4 py-3 shadow-[0_-4px_10px_rgba(0,0,0,0.06)]">
+              <ContactButton
+                formType={FORM_TYPES.PROPERTY_ENQUIRY}
+                buttonText="Enquire for Price"
+                buttonClass="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-md transition-colors"
+                data={{
+                  property: `${title} (${slug?.current || property._id})`
+                }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Call to Action */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 py-16">
