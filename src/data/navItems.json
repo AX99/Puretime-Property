@@ -26,12 +26,21 @@
         "name": "For Buyers & Investors",
         "href": "/services/for-buyers-investors", 
         "description": "Property finance and investment solutions"
+      },
+      {
+        "name": "For Landlords",
+        "href": "/services/for-landlords",
+        "description": "Stress-free property management services"
       }
     ]
   },
   {
     "name": "Properties",
     "href": "/properties"
+  },
+  {
+    "name": "Blog",
+    "href": "/blog"
   },
   {
     "name": "FAQ",
