@@ -219,11 +219,11 @@ const ServicesPage = () => {
               >
                 Get Your Free Cash Offer
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-homeowners" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Homeowners Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
@@ -352,11 +352,11 @@ const ServicesPage = () => {
               >
                 Speak to a Specialist
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-buyers-investors" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Buyers & Investors Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
@@ -464,11 +464,11 @@ const ServicesPage = () => {
               >
                 Get a Property Management Quote
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-landlords" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Landlords Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
