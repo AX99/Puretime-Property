@@ -219,11 +219,11 @@ const ServicesPage = () => {
               >
                 Get Your Free Cash Offer
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-homeowners" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Homeowners Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
@@ -352,18 +352,18 @@ const ServicesPage = () => {
               >
                 Speak to a Specialist
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-buyers-investors" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Buyers & Investors Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
       </section>
       
       {/* Property Management Services */}
-      {/* <section className="py-16 md:py-24 bg-gradient-to-bl from-white to-neutral-75 to-neutral-100 relative">
+      <section className="py-16 md:py-24 bg-gradient-to-bl from-white to-neutral-75 to-neutral-100 relative">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial="hidden"
@@ -388,9 +388,9 @@ const ServicesPage = () => {
               </motion.p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8"> */}
+            <div className="grid md:grid-cols-3 gap-8">
               {/* Full Property Management */}
-              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+              <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -408,10 +408,10 @@ const ServicesPage = () => {
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </button>
-              </motion.div> */}
+              </motion.div>
               
               {/* Compliance Management */}
-              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+              <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -429,10 +429,10 @@ const ServicesPage = () => {
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </button>
-              </motion.div> */}
+              </motion.div>
               
               {/* Financial Reporting */}
-              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+              <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -451,10 +451,10 @@ const ServicesPage = () => {
                   </svg>
                 </button>
               </motion.div>
-            </div> */}
+            </div>
             
             {/* CTA Buttons */}
-            {/* <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
               <motion.button 
                 variants={fadeIn}
                 whileHover={{ scale: 1.05 }}
@@ -464,15 +464,15 @@ const ServicesPage = () => {
               >
                 Get a Property Management Quote
               </motion.button>
-              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              {/* <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/services/for-landlords" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Landlords Service
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
-      </section> */}
+      </section>
     </>
   )
 }

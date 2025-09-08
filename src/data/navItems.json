@@ -9,25 +9,7 @@
   },
   {
     "name": "Services",
-    "href": "/services",
-    "hasDropdown": true,
-    "dropdownItems": [
-      {
-        "name": "All Services",
-        "href": "/services",
-        "description": "View all our property services"
-      },
-      {
-        "name": "For Homeowners",
-        "href": "/services/for-homeowners",
-        "description": "Fast property sales and cash offers"
-      },
-      {
-        "name": "For Buyers & Investors",
-        "href": "/services/for-buyers-investors", 
-        "description": "Property finance and investment solutions"
-      }
-    ]
+    "href": "/services"
   },
   {
     "name": "Properties",
