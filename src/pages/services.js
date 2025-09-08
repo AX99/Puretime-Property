@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Seo from '../components/seo'
 import { StaticImage } from 'gatsby-plugin-image'
+import { Link } from 'gatsby'
 import { useModal } from '../context/modalContext'
 import { FORM_TYPES } from '../context/modalContext'
 
@@ -74,7 +75,7 @@ const ServicesPage = () => {
         </div>
       </section>
       
-      {/* Seller Services */}
+      {/* Seller Services (Homeowners) */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-white to-neutral-100">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -141,92 +142,87 @@ const ServicesPage = () => {
                 </p>
               </motion.div>
             </div>
-            
-            {/* CTA Button */}
-            <div className="flex justify-center mt-16">
+
+            {/* Our Simple Process (moved into Homeowners section) */}
+            <div className="mt-16">
+              <div className="text-center mb-12">
+                <motion.h2 
+                  variants={fadeIn} 
+                  className="font-display text-display-md md:text-display-lg font-semibold text-neutral-900 mb-4"
+                >
+                  Our Simple <span className="italic text-primary-600">Process</span>
+                </motion.h2>
+                <motion.div variants={fadeIn} className="w-20 h-1 bg-primary-600 mx-auto mb-6"></motion.div>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-lg text-neutral-700 max-w-3xl mx-auto"
+                >
+                  Selling your property with us is straightforward and stress-free. Just follow these four simple steps.
+                </motion.p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Step 1 */}
+                <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
+                    1
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3">Initial Consultation</h3>
+                  <p className="text-neutral-700 leading-relaxed">
+                    Contact us to discuss your property and situation. We'll explain our process and answer any questions you have.
+                  </p>
+                </motion.div>
+                
+                {/* Step 2 */}
+                <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
+                    2
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3">Property Valuation</h3>
+                  <p className="text-neutral-700 leading-relaxed">
+                    We'll conduct a thorough market analysis and provide you with a fair, no-obligation cash offer within 24 hours.
+                  </p>
+                </motion.div>
+                
+                {/* Step 3 */}
+                <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
+                    3
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3">Formal Offer & Legal Process</h3>
+                  <p className="text-neutral-700 leading-relaxed">
+                    Once you accept our offer, we handle all the legal paperwork and coordinate with solicitors to ensure a smooth transaction.
+                  </p>
+                </motion.div>
+                
+                {/* Step 4 */}
+                <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
+                    4
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3">Completion & Payment</h3>
+                  <p className="text-neutral-700 leading-relaxed">
+                    We complete the purchase on your preferred date, and you receive the funds directly to your account.
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
               <motion.button
                 variants={fadeIn}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_SELLER)}
-                className="primary-btn"
+                className="primary-btn inline-flex items-center justify-center w-full sm:w-auto"
               >
                 Get Your Free Cash Offer
               </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Process Section */}
-      <section className="py-16 md:py-24 bg-white relative">
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerChildren}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="text-center mb-16">
-              <motion.h2 
-                variants={fadeIn} 
-                className="font-display text-display-md md:text-display-lg font-semibold text-neutral-900 mb-4"
-              >
-                Our Simple <span className="italic text-primary-600">Process</span>
-            </motion.h2>
-              <motion.div variants={fadeIn} className="w-20 h-1 bg-primary-600 mx-auto mb-6"></motion.div>
-              <motion.p 
-                variants={fadeIn}
-                className="text-lg text-neutral-700 max-w-3xl mx-auto"
-              >
-                Selling your property with us is straightforward and stress-free. Just follow these four simple steps.
-              </motion.p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Step 1 */}
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
-                  1
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Initial Consultation</h3>
-                <p className="text-neutral-700 leading-relaxed">
-                  Contact us to discuss your property and situation. We'll explain our process and answer any questions you have.
-                </p>
-              </motion.div>
-              
-              {/* Step 2 */}
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
-                  2
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Property Valuation</h3>
-                <p className="text-neutral-700 leading-relaxed">
-                  We'll conduct a thorough market analysis and provide you with a fair, no-obligation cash offer within 24 hours.
-                </p>
-              </motion.div>
-              
-              {/* Step 3 */}
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
-                  3
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Formal Offer & Legal Process</h3>
-                <p className="text-neutral-700 leading-relaxed">
-                  Once you accept our offer, we handle all the legal paperwork and coordinate with solicitors to ensure a smooth transaction.
-                </p>
-              </motion.div>
-              
-              {/* Step 4 */}
-              <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-lg transition-all duration-300 flex flex-col items-center md:items-start text-center md:text-left">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold text-xl mb-4">
-                  4
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Completion & Payment</h3>
-                <p className="text-neutral-700 leading-relaxed">
-                  We complete the purchase on your preferred date, and you receive the funds directly to your account.
-                </p>
+              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                <Link to="/services/for-homeowners" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
+                  View Homeowners Service
+                </Link>
               </motion.div>
             </div>
           </motion.div>
@@ -345,21 +341,138 @@ const ServicesPage = () => {
               </motion.div>
             </div>
             
-            {/* CTA Button */}
-            <div className="flex justify-center mt-16">
-            <motion.button 
-              variants={fadeIn}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
+              <motion.button 
+                variants={fadeIn}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => handleButtonClick(FORM_TYPES.BROKER_REFERRAL)}
-                className="primary-btn"
+                className="primary-btn inline-flex items-center justify-center w-full sm:w-auto"
               >
                 Speak to a Specialist
-            </motion.button>
+              </motion.button>
+              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                <Link to="/services/for-buyers-investors" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
+                  View Buyers & Investors Service
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>
       </section>
+      
+      {/* Property Management Services */}
+      {/* <section className="py-16 md:py-24 bg-gradient-to-bl from-white to-neutral-75 to-neutral-100 relative">
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="text-center mb-16">
+              <motion.h2 
+                variants={fadeIn} 
+                className="font-display text-display-md md:text-display-lg font-semibold text-neutral-900 mb-4"
+              >
+                For <span className="italic text-primary-600">Landlords</span>
+              </motion.h2>
+              <motion.div variants={fadeIn} className="w-20 h-1 bg-primary-600 mx-auto mb-6"></motion.div>
+              <motion.p 
+                variants={fadeIn}
+                className="text-lg text-neutral-700 max-w-3xl mx-auto"
+              >
+                Comprehensive property management services designed to maximise your rental yields whilst ensuring full regulatory compliance and peace of mind.
+              </motion.p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8"> */}
+              {/* Full Property Management */}
+              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
+                  <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-neutral-900">Full Property Management</h3>
+                </div>
+                <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
+                  Complete hands-off property management including tenant sourcing, rent collection, maintenance coordination, and ongoing property care for maximum rental yields.
+                </p>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_MANAGEMENT)}>
+                  Enquire about management services
+                  <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </motion.div> */}
+              
+              {/* Compliance Management */}
+              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
+                  <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-neutral-900">Compliance Management</h3>
+                </div>
+                <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
+                  Stay ahead of changing regulations with our comprehensive compliance service including EPC certificates, safety inspections, HMO licensing, and legal documentation.
+                </p>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_MANAGEMENT)}>
+                  Enquire about compliance services
+                  <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </motion.div> */}
+              
+              {/* Financial Reporting */}
+              {/* <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
+                  <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-neutral-900">Financial Reporting</h3>
+                </div>
+                <p className="text-neutral-700 leading-relaxed mb-6 flex-grow text-center md:text-left">
+                  Transparent financial management with detailed monthly statements, annual reports, and tax-ready documentation to keep your property investment on track.
+                </p>
+                <button className="mx-auto md:ml-0 bg-primary-600 hover:bg-primary-700 text-white font-semibold flex items-center transition-colors rounded-full px-6 py-3 shadow" onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_MANAGEMENT)}>
+                  Enquire about financial reporting
+                  <svg className="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </motion.div>
+            </div> */}
+            
+            {/* CTA Buttons */}
+            {/* <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
+              <motion.button 
+                variants={fadeIn}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleButtonClick(FORM_TYPES.PROPERTY_MANAGEMENT)}
+                className="primary-btn inline-flex items-center justify-center w-full sm:w-auto"
+              >
+                Get a Property Management Quote
+              </motion.button>
+              <motion.div variants={fadeIn} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                <Link to="/services/for-landlords" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
+                  View Landlords Service
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section> */}
     </>
   )
 }

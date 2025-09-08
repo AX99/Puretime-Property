@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "gatsby";
 import { useDrawer } from "../context/drawerContext";
 import Logo from "../images/logos/logo.svg";
@@ -6,6 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Drawer = ({ menu }) => {
   const { toggleDrawer } = useDrawer();
+  const [expandedItem, setExpandedItem] = useState(null);
+
+  const handleItemToggle = (itemName) => {
+    setExpandedItem(expandedItem === itemName ? null : itemName);
+  };
 
   return (
     <AnimatePresence>
@@ -72,14 +77,64 @@ const Drawer = ({ menu }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * index, duration: 0.3 }}
                 >
-                  <Link
-                    to={item.href}
-                    className="flex py-3 px-4 text-body-lg font-medium text-neutral-700 hover:text-primary-600 hover:bg-neutral-50 rounded-md transition-colors"
-                    activeClassName="text-primary-600 bg-neutral-50"
-                    onClick={toggleDrawer}
-                  >
-                    {item.name}
-                  </Link>
+                  {item.hasDropdown ? (
+                    <div>
+                      <button
+                        onClick={() => handleItemToggle(item.name)}
+                        className="flex items-center justify-between w-full py-3 px-4 text-body-lg font-medium text-neutral-700 hover:text-primary-600 hover:bg-neutral-50 rounded-md transition-colors"
+                      >
+                        <span>{item.name}</span>
+                        <svg 
+                          className={`h-4 w-4 transition-transform duration-200 ${
+                            expandedItem === item.name ? 'rotate-180' : ''
+                          }`} 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      
+                      <AnimatePresence>
+                        {expandedItem === item.name && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="ml-4 mt-2 space-y-1"
+                          >
+                            {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
+                              <Link
+                                key={dropdownItem.name}
+                                to={dropdownItem.href}
+                                className="block py-2 px-4 text-body-md font-medium text-neutral-600 hover:text-primary-600 hover:bg-neutral-50 rounded-md transition-colors"
+                                activeClassName="text-primary-600 bg-neutral-50"
+                                onClick={toggleDrawer}
+                              >
+                                <div className="font-semibold">{dropdownItem.name}</div>
+                                {dropdownItem.description && (
+                                  <div className="text-body-sm text-neutral-500 mt-1">
+                                    {dropdownItem.description}
+                                  </div>
+                                )}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className="flex py-3 px-4 text-body-lg font-medium text-neutral-700 hover:text-primary-600 hover:bg-neutral-50 rounded-md transition-colors"
+                      activeClassName="text-primary-600 bg-neutral-50"
+                      onClick={toggleDrawer}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
             </ul>

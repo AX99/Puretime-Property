@@ -2,7 +2,6 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { motion } from 'framer-motion'
 import { useModal, FORM_TYPES } from '../context/modalContext'
-import CTABanner from './CTABanner'
 import navItems from '../data/navItems.json'
 
 // Animation variants
@@ -50,7 +49,7 @@ const Footer = () => {
   const { toggleModal } = useModal()
   return (
     <>
-      <section className="pt-16 md:py-16 bg-neutral-50">
+      {/* <section className="pt-16 md:py-16 bg-neutral-50">
         <div className="container mx-auto">
           <CTABanner 
             heading="Ready to sell your property fast?"
@@ -60,7 +59,7 @@ const Footer = () => {
             formType={FORM_TYPES.PROPERTY_SELLER}
           />
         </div>
-      </section>
+      </section> */}
       
       <footer className="bg-white pt-16 pb-0">
         <div className="container mx-auto">

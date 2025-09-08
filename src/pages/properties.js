@@ -44,14 +44,15 @@ const PropertiesPage = ({ data }) => {
     location: '',
     propertyType: '',
     status: '',
-    sortBy: 'newest'
+    sortBy: 'newest',
+    includeSold: true
   };
   
   const [filters, setFilters] = useState(initialFilters);
   
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFilters(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     setCurrentPage(1); // Reset to first page when filters change
   };
   
@@ -78,11 +79,16 @@ const PropertiesPage = ({ data }) => {
   
   // Check if any filters are active
   const hasActiveFilters = Object.entries(filters).some(([key, value]) => 
-    key !== 'sortBy' && value !== ''
+    key !== 'sortBy' && key !== 'includeSold' && value !== ''
   );
   
   // Filter properties based on user selections
   const filteredProperties = allProperties.filter(property => {
+    // Exclude sold properties if includeSold is unchecked
+    if (filters.includeSold === false && property.status === 'sold') {
+      return false;
+    }
+
     // Filter by minimum bedrooms
     if (filters.minBedrooms && (property.bedrooms < parseInt(filters.minBedrooms) || !property.bedrooms)) {
       return false;
@@ -118,9 +124,9 @@ const PropertiesPage = ({ data }) => {
   const sortedProperties = [...filteredProperties].sort((a, b) => {
     switch(filters.sortBy) {
       case 'newest':
-        return new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0);
+        return new Date(b.publishedAt || b._createdAt || 0) - new Date(a.publishedAt || a._createdAt || 0);
       case 'oldest':
-        return new Date(a.publishedAt || 0) - new Date(b.publishedAt || 0);
+        return new Date(a.publishedAt || a._createdAt || 0) - new Date(b.publishedAt || b._createdAt || 0);
       case 'price-low':
         return (a.price || 0) - (b.price || 0);
       case 'price-high':
@@ -158,7 +164,7 @@ const PropertiesPage = ({ data }) => {
       />
       
       <PageHero 
-        title="Our <span class='italic text-primary-600'>Properties</span>"
+        titleJSX={<>Our <span className="italic text-primary-600">Properties</span></>}
         subtitle="Browse our selection of available and past properties. Filter by your preferences to find your perfect home."
         eyebrowText="PROPERTIES"
         heroImage={heroImage}
@@ -333,6 +339,7 @@ export const query = graphql`
         publishedAt
         tenure
         councilTaxBand  
+        _createdAt
 
       }
     }
