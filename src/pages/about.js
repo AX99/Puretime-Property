@@ -9,6 +9,7 @@ import PageHero from '../components/PageHero'
 import SectionHeader from '../components/SectionHeader'
 import ValueCard from '../components/ValueCard'
 import ImageGallery from '../components/ImageGallery'
+import MembershipsSection from '../components/membershipsSection'
 
 // Animation variants
 const fadeIn = {
@@ -220,6 +221,35 @@ const AboutPage = ({ data }) => {
                 description="We understand that selling your home can be emotional. We approach every client with empathy, respect, and a genuine desire to help."
               />
             </div>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Memberships Section */}
+      <section className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerChildren}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <motion.div variants={fadeIn} className="mb-8">
+              <p className="text-body-sm font-semibold tracking-widest text-primary-600 mb-4">
+                PROFESSIONAL MEMBERSHIPS
+              </p>
+              <h2 className="text-2xl md:text-3xl font-display font-semibold text-neutral-900 mb-6">
+                Regulated and <span className="italic text-primary-600">Accredited</span>
+              </h2>
+              <p className="text-body-lg text-neutral-700 leading-relaxed">
+                We maintain professional memberships and accreditations to ensure we operate to the highest standards of service and regulatory compliance.
+              </p>
+            </motion.div>
+            
+            <motion.div variants={fadeIn}>
+              <MembershipsSection />
+            </motion.div>
           </motion.div>
         </div>
       </section>
