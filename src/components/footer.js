@@ -3,12 +3,13 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { motion } from 'framer-motion'
 import { useModal, FORM_TYPES } from '../context/modalContext'
 import navItems from '../data/navItems.json'
+import Memberships from './memberships'
 
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6 }
   }
@@ -60,10 +61,10 @@ const Footer = () => {
           />
         </div>
       </section> */}
-      
+
       <footer className="bg-white pt-16 pb-0">
         <div className="container mx-auto">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -73,9 +74,9 @@ const Footer = () => {
             <div className="md:mb-16 mb-10">
               <hr className="text-neutral-300"></hr>
             </div>
-            
+
             <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-10 gap-12">
-              <motion.div 
+              <motion.div
                 variants={fadeIn}
                 className="lg:col-span-6 md:pr-8"
               >
@@ -92,7 +93,7 @@ const Footer = () => {
                   Get In Contact →
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
                 </button>
-                
+
                 {/* Desktop Navigation Links */}
                 <div className="mt-8 hidden lg:block">
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2">
@@ -127,9 +128,9 @@ const Footer = () => {
                   </div>
                 </div>
               </motion.div>
-              
+
               {/* Mobile Navigation Links - placed outside the grid */}
-              
+
               {data.allFooterJson.nodes[0].contact.map((detail, i) => (
                 <motion.div
                   variants={fadeIn}
@@ -151,7 +152,7 @@ const Footer = () => {
                       {detail.Phone}
                     </a>
                   </div>
-                  
+
                   <div className="flex flex-col gap-2">
                     <p className="text-body-md font-medium text-neutral-900">
                       Email us at:
@@ -169,7 +170,7 @@ const Footer = () => {
                       </span>
                     </a>
                   </div>
-                  
+
                   <div className="flex flex-col gap-2">
                     <p className="text-body-md font-medium text-neutral-900">
                       Find us at:
@@ -192,39 +193,55 @@ const Footer = () => {
                 </motion.div>
               ))}
             </div>
-            
-                          {/* Mobile Navigation Links - after the main content grid */}
-              <motion.div
-                variants={fadeIn}
-                className="lg:hidden mt-12 mb-10"
-              >
-                <h4 className="text-display-xs font-display font-semibold text-neutral-900 mb-5">Site Navigation</h4>
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex flex-col space-y-3">
-                    {navItems.map((item, index) => (
-                      <a 
-                        key={index}
-                        href={item.href} 
-                        className="relative inline-block group text-primary-600 hover:text-primary-700 transition-colors w-fit"
-                      >
-                        {item.name}
-                        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
-                      </a>
-                    ))}
-                  </div>
+
+            {/* Mobile Navigation Links - after the main content grid */}
+            <motion.div
+              variants={fadeIn}
+              className="lg:hidden mt-12 mb-10"
+            >
+              <h4 className="text-display-xs font-display font-semibold text-neutral-900 mb-5">Site Navigation</h4>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="flex flex-col space-y-3">
+                  {navItems.map((item, index) => (
+                    <a
+                      key={index}
+                      href={item.href}
+                      className="relative inline-block group text-primary-600 hover:text-primary-700 transition-colors w-fit"
+                    >
+                      {item.name}
+                      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black origin-left duration-300 transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+                    </a>
+                  ))}
                 </div>
-              </motion.div>
-              
-              <div className="md:mt-16 my-10">
-              <hr className="text-neutral-300"></hr>
-            </div>
+              </div>
+            </motion.div>
             
+            {/* Memberships Section */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              className="mt-8 md:mt-12 mb-8 md:mb-16"
+            >
+              <hr className="text-neutral-300 mb-8"></hr>
+              <div className="text-left lg:text-center">
+                {/* <p className="text-body-sm font-semibold tracking-widest text-neutral-600 mb-4 uppercase">
+                  Professional Memberships
+                </p> */}
+                <div className="flex items-start lg:items-center justify-start lg:justify-center gap-8 lg:gap-12">
+                  <Memberships />
+                </div>
+              </div>
+              <hr className="text-neutral-300 mt-8"></hr>
+            </motion.div>
+
             <div className="flex lg:flex-row flex-col gap-8 lg:items-center justify-between mb-10">
               <div className="text-body-md font-normal text-neutral-700 order-2 lg:order-1">
                 © {new Date().getFullYear()} Puretime Property Purchasing Ltd (Company No. 15621068).
                 Registered in England and Wales.
               </div>
-              
+
               <div className="flex lg:flex-row flex-col lg:items-center md:gap-6 gap-4 order-1 lg:order-2">
                 <div className="flex flex-row items-center">
                   <p className="text-body-sm font-semibold tracking-widest text-primary-600 pr-4">
@@ -253,7 +270,8 @@ const Footer = () => {
             </div>
           </motion.div>
         </div>
-        
+
+
         <div className="bg-primary-600 text-white">
           <div className="container mx-auto py-4 px-4 text-center md:text-right">
             <span className="inline-block relative cursor-pointer group mx-3">
