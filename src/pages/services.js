@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Seo from '../components/seo'
 import { StaticImage } from 'gatsby-plugin-image'
-import { Link } from 'gatsby'
+// import { Link } from 'gatsby'
 import { useModal } from '../context/modalContext'
 import { FORM_TYPES } from '../context/modalContext'
 
@@ -362,7 +362,7 @@ const ServicesPage = () => {
         </div>
       </section>
       
-      {/* Property Management Services */}
+      {/* Property Management Services - Commented out temporarily
       <section className="py-16 md:py-24 bg-gradient-to-bl from-white to-neutral-75 to-neutral-100 relative">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
@@ -389,7 +389,7 @@ const ServicesPage = () => {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {/* Full Property Management */}
+              {/* Full Property Management /}
               <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
@@ -410,7 +410,7 @@ const ServicesPage = () => {
                 </button>
               </motion.div>
               
-              {/* Compliance Management */}
+              {/* Compliance Management /}
               <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
@@ -431,7 +431,7 @@ const ServicesPage = () => {
                 </button>
               </motion.div>
               
-              {/* Financial Reporting */}
+              {/* Financial Reporting /}
               <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="flex flex-col items-center text-center md:items-start md:text-left mb-6">
                   <div className="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
@@ -453,7 +453,7 @@ const ServicesPage = () => {
               </motion.div>
             </div>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons /}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
               <motion.button 
                 variants={fadeIn}
@@ -468,11 +468,12 @@ const ServicesPage = () => {
                 <Link to="/services/for-landlords" className="secondary-btn inline-flex items-center justify-center w-full sm:w-auto">
                   View Landlords Service
                 </Link>
-              </motion.div> */}
+              </motion.div> /}
             </div>
           </motion.div>
         </div>
       </section>
+      */}
     </>
   )
 }

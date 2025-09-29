@@ -62,9 +62,9 @@ const AboutPage = ({ data }) => {
     toggleModal({ type: FORM_TYPES.BROKER_REFERRAL });
   };
   
-  const handleManagementForm = () => {
-    toggleModal({ type: FORM_TYPES.PROPERTY_MANAGEMENT });
-  };
+  // const handleManagementForm = () => {
+  //   toggleModal({ type: FORM_TYPES.PROPERTY_MANAGEMENT });
+  // };
   
   // Process the images from GraphQL query
   const heroImage = getImage(data.heroImage);
@@ -171,9 +171,12 @@ const AboutPage = ({ data }) => {
               <p className="text-body-lg text-neutral-700 leading-relaxed">
                 Our team combines decades of experience in the UK property market with a genuine desire to help homeowners in need of quick, hassle-free property sales. Whether you're facing financial constraints, relocating for work, dealing with inheritance issues, or simply want to avoid the stress of traditional selling processes, we're here to help.
               </p>
+              {/* Property management content commented out temporarily */}
+              {/*
               <p className="text-body-lg text-neutral-700 leading-relaxed">
                 Beyond our core property purchasing services, we've expanded to offer comprehensive property management solutions for landlords seeking stress-free rental management. From tenant sourcing and rent collection to compliance management and financial reporting, we provide complete support for property investors looking to maximise their returns whilst ensuring regulatory compliance.
               </p>
+              */}
               <p className="text-body-lg text-neutral-700 leading-relaxed">
                 What sets us apart is our commitment to transparency and fair dealing. We believe in making clear, competitive offers without hidden fees or last-minute price reductions. Our process is designed to give you certainty and peace of mind from the very beginning.
               </p>
@@ -283,7 +286,8 @@ const AboutPage = ({ data }) => {
         </div>
       </section>
       
-      {/* Property Management CTA */}
+      {/* Property Management CTA - Commented out temporarily */}
+      {/*
       <section className="bg-gradient-to-br from-neutral-50 to-white py-16">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -311,6 +315,7 @@ const AboutPage = ({ data }) => {
           </motion.div>
         </div>
       </section>
+      */}
     </>
   )
 }
